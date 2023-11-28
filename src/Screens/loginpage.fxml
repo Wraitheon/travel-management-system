@@ -13,7 +13,7 @@
                 <StackPane alignment="CENTER">
                     <ImageView fitHeight="100.0" fitWidth="100.0">
                         <image>
-                            <Image url="logo.jpg" />
+                            <Image url="@/Assets/logo.jpg" />
                         </image>
                     </ImageView>
                     <Label text="Odyssey Hub" style="-fx-font-size: 35; -fx-text-fill: white;" />
@@ -28,7 +28,7 @@
             <!-- Right Side (Mountains Image) -->
             <ImageView fitHeight="400.0" fitWidth="300.0" pickOnBounds="true" preserveRatio="true">
                 <image>
-                    <Image url="@mountains.jpg" />
+                    <Image url="@/Assets/mountains.jpg" />
                 </image>
             </ImageView>
         </HBox>
