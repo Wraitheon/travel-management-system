@@ -6,5 +6,6 @@ CREATE TABLE Users (
     usertype VARCHAR(50),
     cnic VARCHAR(15),
     phone_number VARCHAR(15),
+    password VARCHAR(255),
     CONSTRAINT chk_email CHECK (email LIKE '%_@__%.__%') -- Check for a basic email format
 );

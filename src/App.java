@@ -37,7 +37,7 @@ public class App extends Application {
     // Insert dummy user data
     private static void insertDummyUser() {
         // Replace the JDBC_URL, JDBC_USER, and JDBC_PASSWORD with your actual database connection details
-        dbhandler.insertUser("dummy@example.com", "Dummy User", 30, "1992-05-20", "Admin", "987654321012345", "987-654-3210");
+        dbhandler.insertUser("dummy@example.com", "Dummy User", 30, "1992-05-20", "Admin", "987654321012345", "987-654-3210", "meow");
         System.out.println("Dummy user inserted!");
     }
 }
