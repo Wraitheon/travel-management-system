@@ -1,3 +1,4 @@
+import Controllers.NavigationLink;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -10,14 +11,13 @@ public class App extends Application {
     public void start(Stage primaryStage) throws Exception {
         try {
             // Load the FXML file
-            Parent root = FXMLLoader.load(getClass().getResource("Screens/signuppage.fxml"));
+            Parent root = FXMLLoader.load(getClass().getResource(NavigationLink.agencyDashboard));
     
             // Create the scene
             Scene scene = new Scene(root, 600, 400);
-            scene.getStylesheets().add(getClass().getResource("Screens/styles.css").toExternalForm());
     
             // Set the scene to the stage
-            primaryStage.setTitle("OdysseyHub");
+            primaryStage.setTitle("Travel/Tourism Management System Login");
             primaryStage.setScene(scene);
             primaryStage.show();
         } catch (Exception e) {

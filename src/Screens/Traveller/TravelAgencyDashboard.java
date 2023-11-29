@@ -1,4 +1,4 @@
-package Screens.TravelAgency;
+package Screens.Traveller;
 
 public class TravelAgencyDashboard {
     
