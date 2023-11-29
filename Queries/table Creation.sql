@@ -22,10 +22,8 @@ CREATE TABLE Trip (
     destination_id INT,
     trip_date DATE NOT NULL,
     prices DECIMAL(10, 2) NOT NULL,
-    user_email VARCHAR(255) NOT NULL,
     number_of_days INT,
     FOREIGN KEY (destination_id) REFERENCES Destinations(destination_id),
-    FOREIGN KEY (user_email) REFERENCES Users(email)
 );
 
 CREATE TABLE Review (
@@ -54,11 +52,11 @@ CREATE TABLE Booking (
 CREATE TABLE Itinerary (
     itinerary_id INT PRIMARY KEY AUTO_INCREMENT,
     trip_id INT,
-    activity_name VARCHAR(255) NOT NULL,
-    activity_date DATE NOT NULL,
-    activity_description TEXT,
+    
     FOREIGN KEY (trip_id) REFERENCES Trip(trip_id)
 );
+
+
 
 CREATE TABLE Payment (
     payment_id INT PRIMARY KEY AUTO_INCREMENT,
@@ -77,12 +75,96 @@ CREATE TABLE TravelRecommendation (
     FOREIGN KEY (destination_id) REFERENCES Destinations(destination_id)
 );
 
+
+
 CREATE TABLE Restaurants (
     restaurant_id INT PRIMARY KEY AUTO_INCREMENT,
     destination_id INT,
     restaurant_name VARCHAR(255) NOT NULL,
+    cost DECIMAL(10, 2),
     FOREIGN KEY (destination_id) REFERENCES Destinations(destination_id)
 );
+
+CREATE TABLE ItineraryRestaurants (
+    restaurant_id INT,
+    itinerary_id INT,
+    scheduledTime DateTime,
+    FOREIGN KEY (restaurant_id) REFERENCES Restaurants(restaurant_id),
+    FOREIGN KEY (itinerary_id) REFERENCES Itinerary(itinerary_id)
+)
+
+
+
+CREATE TABLE Accommodation (
+    accommodation_id INT PRIMARY KEY AUTO_INCREMENT,
+    destination_id INT,
+    location VARCHAR(255) NOT NULL,
+    motel_name VARCHAR(255) NOT NULL,
+
+    cost DECIMAL(10, 2),
+
+    FOREIGN KEY (trip_id) REFERENCES Trip(trip_id)
+    FOREIGN KEY (destination_id) REFERENCES Destinations(destination_id)
+);
+
+CREATE TABLE ItineraryAccomadation (
+
+    itinerary_id INT,
+    accommodation_id INT,
+    check_in_date DATE NOT NULL,
+    check_out_date DATE NOT NULL,
+    FOREIGN KEY (accommodation_id) REFERENCES Accommodation(accommodation_id),
+
+    FOREIGN KEY (itinerary_id) REFERENCES Itinerary(itinerary_id)
+    
+)
+
+
+
+CREATE TABLE Activities (
+    activity_id INT PRIMARY KEY AUTO_INCREMENT,
+    trip_id INT,
+    activity_name VARCHAR(255) NOT NULL,
+    activity_date DATE NOT NULL,
+    activity_description TEXT,
+    cost DECIMAL(10, 2),
+
+    FOREIGN KEY (trip_id) REFERENCES Trip(trip_id)
+);
+
+
+
+CREATE TABLE Transportation (
+    transportation_id INT PRIMARY KEY AUTO_INCREMENT,
+    mode_of_transport VARCHAR(50) NOT NULL, -- e.g., 'Air', 'Coaster', 'Car'
+    
+);
+
+
+CREATE TABLE ItineraryTransportation (
+
+    transportation_id INT NOT NULL,
+    itinerary_id INT NOT NULL,
+    departure_date DATE NOT NULL,
+    arrival_date DATE NOT NULL,
+    FOREIGN KEY (transportation_id) REFERENCES Transportation(transportation_id),
+
+    FOREIGN KEY (itinerary_id) REFERENCES Itinerary(itinerary_id)
+    
+)
+
+Create TABLE TransportationCost (
+    transportation_id INT,
+    destination_id INT, 
+    cost DECIMAL(10, 2),
+    FOREIGN KEY (transportation_id) REFERENCES Transportation(transportation_id)
+    FOREIGN KEY (destination_id) REFERENCES Destinations(destination_id)
+)
+
+
+
+
+
 
 CREATE TABLE Landmarks (
     landmark_id INT PRIMARY KEY AUTO_INCREMENT,
@@ -100,40 +182,16 @@ CREATE TABLE LoyaltyProgram (
     last_activity_date DATE,
     FOREIGN KEY (user_email) REFERENCES Users(email)
 );
+--  add category of luxury for items;
 
-CREATE TABLE Transportation (
-    transportation_id INT PRIMARY KEY AUTO_INCREMENT,
-    trip_id INT,
-    mode_of_transport VARCHAR(50) NOT NULL, -- e.g., 'Air', 'Coaster', 'Car'
-    departure_date DATE NOT NULL,
-    arrival_date DATE NOT NULL,
-    FOREIGN KEY (trip_id) REFERENCES Trip(trip_id)
-);
 
-CREATE TABLE Activities (
-    activity_id INT PRIMARY KEY AUTO_INCREMENT,
-    trip_id INT,
-    activity_name VARCHAR(255) NOT NULL,
-    activity_date DATE NOT NULL,
-    activity_description TEXT,
-    FOREIGN KEY (trip_id) REFERENCES Trip(trip_id)
-);
 
-CREATE TABLE Accommodation (
-    accommodation_id INT PRIMARY KEY AUTO_INCREMENT,
-    trip_id INT,
-    location VARCHAR(255) NOT NULL,
-    motel_name VARCHAR(255) NOT NULL,
-    check_in_date DATE NOT NULL,
-    check_out_date DATE NOT NULL,
-    FOREIGN KEY (trip_id) REFERENCES Trip(trip_id)
-);
+
 
 
 CREATE TABLE Budget (
     budget_id INT PRIMARY KEY AUTO_INCREMENT,
     user_email VARCHAR(255) NOT NULL,
-    trip_id INT,
     accommodation_cost DECIMAL(10, 2),
     transportation_cost DECIMAL(10, 2),
     activities_cost DECIMAL(10, 2),
