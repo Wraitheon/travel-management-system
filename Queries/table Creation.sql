@@ -1,3 +1,5 @@
+select * from users
+
 CREATE TABLE Users (
     email VARCHAR(255) PRIMARY KEY,
     name VARCHAR(100) NOT NULL,
@@ -142,29 +144,27 @@ CREATE TABLE Budget (
     FOREIGN KEY (trip_id) REFERENCES Trip(trip_id)
 );
 
-CREATE TABLE Groups (
+CREATE TABLE GroupTable (
     group_id INT PRIMARY KEY AUTO_INCREMENT,
     group_name VARCHAR(255) NOT NULL,
-    creator_user_id INT,
-    FOREIGN KEY (creator_user_id) REFERENCES Users(user_id)
+    creator_user_email VARCHAR(255),
+    FOREIGN KEY (creator_user_email) REFERENCES Users(email)
 );
 
 CREATE TABLE GroupMembers (
     group_id INT,
-    member_user_id INT,
-    PRIMARY KEY (group_id, member_user_id),
-    FOREIGN KEY (group_id) REFERENCES Groups(group_id),
-    FOREIGN KEY (member_user_id) REFERENCES Users(user_id)
+    member_user_email VARCHAR(255),
+    PRIMARY KEY (group_id, member_user_email),
+    FOREIGN KEY (group_id) REFERENCES GroupTable(group_id),
+    FOREIGN KEY (member_user_email) REFERENCES Users(email)
 );
 
 CREATE TABLE Messages (
     message_id INT PRIMARY KEY AUTO_INCREMENT,
     group_id INT,
-    sender_user_id INT,
+    sender_user_email varchar(255),
     message_text TEXT,
     timestamp TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    FOREIGN KEY (group_id) REFERENCES Groups(group_id),
-    FOREIGN KEY (sender_user_id) REFERENCES Users(user_id)
+    FOREIGN KEY (group_id) REFERENCES GroupTable(group_id),
+    FOREIGN KEY (sender_user_email) REFERENCES Users(email)
 );
-
-
