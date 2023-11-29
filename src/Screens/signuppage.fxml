@@ -4,20 +4,17 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.geometry.Insets?>
 
-<VBox alignment="CENTER" spacing="10" style="-fx-background-color: #f0f0f0;" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.SignUpController">
+<VBox alignment="CENTER" spacing="10" style="-fx-background-color: #f0f0f0;" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controllers.SignupController">
     <Label text="Sign Up" style="-fx-font-size: 20; -fx-font-weight: bold;" />
 
     <TextField fx:id="emailField" promptText="Email" />
     <TextField fx:id="nameField" promptText="Name" />
     <TextField fx:id="ageField" promptText="Age" />
-    <TextField fx:id="dobField" promptText="Date of Birth" />
+    <DatePicker fx:id="dobDatePicker" />
     <TextField fx:id="userTypeField" promptText="User Type" />
     <TextField fx:id="cnicField" promptText="CNIC" />
     <TextField fx:id="phoneField" promptText="Phone Number" />
     <PasswordField fx:id="passwordField" promptText="Password" />
 
-    <Button text="Sign Up"  onAction="handleSignupButtonAction"/>
-
-    <Hyperlink text="Already have an account? Click here to log in." />
+    <Button text="Sign Up" onAction="#handleSignupButtonAction"/>
 </VBox>
-

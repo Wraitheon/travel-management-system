@@ -2,16 +2,15 @@ package Controllers;
 
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
 import javafx.scene.control.*;
 import javafx.scene.layout.VBox;
 
 import java.io.IOException;
-import java.sql.Date;
+import java.time.LocalDate;
+import javafx.util.StringConverter;
 
 import Models.UserService;
 import Models.dbhandler;
-
 
 public class SignupController {
 
@@ -28,7 +27,7 @@ public class SignupController {
     private TextField ageField;
 
     @FXML
-    private TextField dobField;
+    private DatePicker dobDatePicker;
 
     @FXML
     private TextField userTypeField;
@@ -48,40 +47,31 @@ public class SignupController {
     @FXML
     private Hyperlink loginLink;
 
-    private final UserService userService = new UserService();
-
     @FXML
     private void initialize() {
-        // Load the FXML file
-        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("signup.fxml"));
+        dobDatePicker.setConverter(new StringConverter<>() {
+            @Override
+            public String toString(LocalDate date) {
+                return (date != null) ? date.toString() : "";
+            }
 
-        // Set the controller for the FXML file
-        fxmlLoader.setController(this);
-
-        try {
-            // Load the FXML file
-            signupBox = fxmlLoader.load();
-
-            // Set the CSS file for styling
-            signupBox.getStylesheets().add(getClass().getResource("src\\Screens\\styles.css").toExternalForm());
-
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+            @Override
+            public LocalDate fromString(String string) {
+                return (string != null && !string.isEmpty()) ? LocalDate.parse(string) : null;
+            }
+        });
     }
 
     @FXML
-    private void handleSignupButtonAction( ActionEvent event ) {
+    private void handleSignupButtonAction(ActionEvent event) {
         String email = emailField.getText();
         String name = nameField.getText();
         int age = Integer.parseInt(ageField.getText());
-        String dateOfBirth = dobField.getText();
+        String dateOfBirth = dobDatePicker.getValue().toString();
         String userType = userTypeField.getText();
         String cnic = cnicField.getText();
         String phoneNumber = phoneField.getText();
         String password = passwordField.getText();
-
-        //User newUser = new User(email, name, age, dateOfBirth, userType, cnic, phoneNumber, password);
 
         dbhandler dbH = new dbhandler();
 
