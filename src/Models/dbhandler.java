@@ -1,5 +1,8 @@
+package Models;
 import java.math.BigDecimal;
 import java.sql.*;
+
+
 
 
 public class dbhandler {
@@ -21,7 +24,7 @@ public class dbhandler {
         }
     }
     
-    public static void insertUser(String email, String name, int age, String dateOfBirth, String userType, String cnic, String phoneNumber, String password) {
+    public void insertUser(String email, String name, int age, String dateOfBirth, String userType, String cnic, String phoneNumber, String password) {
         final String INSERT_QUERY = "INSERT INTO Users (email, name, age, date_of_birth, usertype, cnic, phone_number, password) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
         
         // Check if the user already exists
