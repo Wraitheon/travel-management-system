@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.geometry.Insets?>
+
+<VBox alignment="CENTER" spacing="10" style="-fx-background-color: #f0f0f0;">
+    <Label text="Sign Up" style="-fx-font-size: 20; -fx-font-weight: bold;" />
+
+    <TextField fx:id="emailField" promptText="Email" />
+    <TextField fx:id="nameField" promptText="Name" />
+    <TextField fx:id="ageField" promptText="Age" />
+    <TextField fx:id="dobField" promptText="Date of Birth" />
+    <TextField fx:id="userTypeField" promptText="User Type" />
+    <TextField fx:id="cnicField" promptText="CNIC" />
+    <TextField fx:id="phoneField" promptText="Phone Number" />
+    <PasswordField fx:id="passwordField" promptText="Password" />
+
+    <Button text="Sign Up" />
+
+    <Hyperlink text="Already have an account? Click here to log in." />
+</VBox>

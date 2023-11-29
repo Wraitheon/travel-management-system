@@ -10,7 +10,7 @@ public class App extends Application {
     public void start(Stage primaryStage) throws Exception {
         try {
             // Load the FXML file
-            Parent root = FXMLLoader.load(getClass().getResource("Screens/loginpage.fxml"));
+            Parent root = FXMLLoader.load(getClass().getResource("Screens/signuppage.fxml"));
     
             // Create the scene
             Scene scene = new Scene(root, 600, 400);

@@ -39,3 +39,20 @@
 #signup-link:hover {
     -fx-text-fill: blue;
 }
+
+VBox {
+    -fx-padding: 20;
+}
+
+TextField, PasswordField, Button {
+    -fx-padding: 10;
+    -fx-pref-width: 250;
+}
+
+Hyperlink {
+    -fx-text-fill: blue;
+}
+
+Hyperlink:hover {
+    -fx-text-fill: darkblue;
+}
