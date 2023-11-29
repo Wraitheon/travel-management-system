@@ -14,9 +14,10 @@ public class App extends Application {
     
             // Create the scene
             Scene scene = new Scene(root, 600, 400);
+            scene.getStylesheets().add(getClass().getResource("Screens/styles.css").toExternalForm());
     
             // Set the scene to the stage
-            primaryStage.setTitle("Travel/Tourism Management System Login");
+            primaryStage.setTitle("OdysseyHub");
             primaryStage.setScene(scene);
             primaryStage.show();
         } catch (Exception e) {

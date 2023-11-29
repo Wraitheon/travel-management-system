@@ -7,26 +7,27 @@
 
 <BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1">
     <center>
-        <HBox alignment="CENTER_LEFT" spacing="10">
+        <HBox alignment="CENTER_LEFT" spacing="10" id="left-container">
             <!-- Left Side (Company Logo, Name, Username, Password, Login Button) -->
-            <VBox spacing="10" style="-fx-background-color: #000000;">
-                <StackPane alignment="CENTER">
-                    <ImageView fitHeight="100.0" fitWidth="100.0">
+            <VBox spacing="10" id="left-container">
+                <StackPane alignment="CENTER" id="logo-pane">
+                    <ImageView fitHeight="100.0" fitWidth="100.0" id="logo">
                         <image>
                             <Image url="@/Assets/logo.jpg" />
                         </image>
                     </ImageView>
-                    <Label text="Odyssey Hub" style="-fx-font-size: 35; -fx-text-fill: white;" />
                 </StackPane>
-                <VBox spacing="10">
-                    <TextField promptText="Username" style="-fx-border-radius: 50;" />
-                    <PasswordField promptText="Password" style="-fx-border-radius: 50;" />
+                <Label text="Odyssey Hub" id="app-name" />
+                <VBox spacing="10" id="login-container" alignment="CENTER">
+                    <TextField promptText="Username" id="username" />
+                    <PasswordField promptText="Password" id="password" />
+                    <Button text="Login" id="login-button" />
+                    <Hyperlink text="Don't have an account? Click here to sign up." id="signup-link" />
                 </VBox>
-                <Button text="Login" style="-fx-border-radius: 15;" />
             </VBox>
 
             <!-- Right Side (Mountains Image) -->
-            <ImageView fitHeight="400.0" fitWidth="300.0" pickOnBounds="true" preserveRatio="true">
+            <ImageView fitHeight="700.0" fitWidth="300.0" pickOnBounds="true" preserveRatio="true">
                 <image>
                     <Image url="@/Assets/mountains.jpg" />
                 </image>
