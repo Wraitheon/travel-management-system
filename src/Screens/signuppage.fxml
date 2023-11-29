@@ -4,7 +4,7 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.geometry.Insets?>
 
-<VBox alignment="CENTER" spacing="10" style="-fx-background-color: #f0f0f0;" xmlns:fx="http://javafx.com/fxml/1">
+<VBox alignment="CENTER" spacing="10" style="-fx-background-color: #f0f0f0;" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.SignUpController">
     <Label text="Sign Up" style="-fx-font-size: 20; -fx-font-weight: bold;" />
 
     <TextField fx:id="emailField" promptText="Email" />
@@ -16,7 +16,8 @@
     <TextField fx:id="phoneField" promptText="Phone Number" />
     <PasswordField fx:id="passwordField" promptText="Password" />
 
-    <Button text="Sign Up" />
+    <Button text="Sign Up"  onAction="handleSignupButtonAction"/>
 
     <Hyperlink text="Already have an account? Click here to log in." />
 </VBox>
+

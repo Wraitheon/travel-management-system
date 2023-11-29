@@ -1,5 +1,6 @@
-package Models;
+package Controllers;
 
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.control.*;
@@ -7,6 +8,10 @@ import javafx.scene.layout.VBox;
 
 import java.io.IOException;
 import java.sql.Date;
+
+import Models.UserService;
+import Models.dbhandler;
+
 
 public class SignupController {
 
@@ -66,7 +71,7 @@ public class SignupController {
     }
 
     @FXML
-    private void handleSignupButtonAction() {
+    private void handleSignupButtonAction( ActionEvent event ) {
         String email = emailField.getText();
         String name = nameField.getText();
         int age = Integer.parseInt(ageField.getText());
@@ -76,15 +81,11 @@ public class SignupController {
         String phoneNumber = phoneField.getText();
         String password = passwordField.getText();
 
-        User newUser = new User(email, name, age, dateOfBirth, userType, cnic, phoneNumber, password);
+        //User newUser = new User(email, name, age, dateOfBirth, userType, cnic, phoneNumber, password);
 
-        if (userService.createUser(newUser)) {
-            System.out.println("User registered successfully.");
-            // Optionally, you can navigate to a new scene or perform other actions after successful registration
-        } else {
-            System.out.println("User registration failed. Email may already be in use.");
-            // Display an error message or take appropriate action based on your application's requirements
-        }
+        dbhandler dbH = new dbhandler();
+
+        dbH.insertUser(email, name, age, dateOfBirth, userType, cnic, phoneNumber, password);
     }
 
     @FXML
