@@ -18,6 +18,10 @@ public class ItineraryItem {
     }
     //getter setter
 
+    public void addToDb(int itineraryID){
+    
+    }
+
     @Override
     public String toString() {
         return "ItineraryItem [dateTime=" + dateTime + "]";

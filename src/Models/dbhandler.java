@@ -2,6 +2,7 @@ package Models;
 import java.math.BigDecimal;
 import java.sql.*;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -9,6 +10,279 @@ import java.util.List;
 
 
 public class dbhandler {
+
+    public void insertItineraryAccommodation(int itineraryId, int accommodationId, LocalDateTime checkInDateTime) {
+        try (Connection connection = DriverManager.getConnection(constants.url, constants.user, constants.password)) {
+            String sql = "INSERT INTO ItineraryAccommodation (itinerary_id, accommodation_id, check_in_date) VALUES (?, ?, ?)";
+            try (PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
+                preparedStatement.setInt(1, itineraryId);
+                preparedStatement.setInt(2, accommodationId);
+                preparedStatement.setTimestamp(3, Timestamp.valueOf(checkInDateTime));
+                preparedStatement.executeUpdate();
+            }
+        } catch (SQLException e) {
+            e.printStackTrace(); // Handle the exception appropriately
+        }
+    }
+    
+    
+
+    public void insertItineraryTransportation(int transportationId, int itineraryId, LocalDateTime departureDateTime) {
+
+        System.out.println(transportationId);
+        try (Connection connection = DriverManager.getConnection(constants.url, constants.user, constants.password)) {
+            String sql = "INSERT INTO ItineraryTransportation (transportation_id, itinerary_id, departure_date) VALUES (?, ?, ?)";
+            try (PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
+                preparedStatement.setInt(1, transportationId);
+                preparedStatement.setInt(2, itineraryId);
+                preparedStatement.setTimestamp(3, Timestamp.valueOf(departureDateTime));
+                preparedStatement.executeUpdate();
+            }
+        } catch (SQLException e) {
+            e.printStackTrace(); // Handle the exception appropriately
+        }
+    }
+    
+    
+
+    public void insertItineraryRestaurant(int restaurantId, int itineraryId, LocalDateTime scheduledTime) {
+    try (Connection connection = DriverManager.getConnection(constants.url, constants.user, constants.password)) {
+        String sql = "INSERT INTO ItineraryRestaurants (restaurant_id, itinerary_id, scheduledTime) VALUES (?, ?, ?)";
+        try (PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
+            preparedStatement.setInt(1, restaurantId);
+            preparedStatement.setInt(2, itineraryId);
+            preparedStatement.setTimestamp(3, Timestamp.valueOf(scheduledTime));
+            preparedStatement.executeUpdate();
+        }
+    } catch (SQLException e) {
+        e.printStackTrace(); // Handle the exception appropriately
+    }
+}
+
+
+    public int countItinerary() {
+        int count = 0;
+    
+        try (Connection connection = DriverManager.getConnection(constants.url, constants.user, constants.password)) {
+            String sql = "SELECT COUNT(*) FROM Itinerary";
+            try (PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
+                ResultSet resultSet = preparedStatement.executeQuery();
+                if (resultSet.next()) {
+                    count = resultSet.getInt(1);
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace(); // Handle the exception appropriately
+        }
+    
+        return count;
+    }
+    
+
+    public int addItinerary(int tripId) {
+        int generatedItineraryId = -1; // Default value if the insertion fails
+    
+        try (Connection connection = DriverManager.getConnection(constants.url, constants.user, constants.password)) {
+            String sql = "INSERT INTO Itinerary (trip_id) VALUES (?)";
+            try (PreparedStatement preparedStatement = connection.prepareStatement(sql, PreparedStatement.RETURN_GENERATED_KEYS)) {
+                preparedStatement.setInt(1, tripId);
+                preparedStatement.executeUpdate();
+    
+                // Retrieve the auto-generated keys (itinerary_id)
+                try (ResultSet generatedKeys = preparedStatement.getGeneratedKeys()) {
+                    if (generatedKeys.next()) {
+                        generatedItineraryId = generatedKeys.getInt(1);
+                    }
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace(); // Handle the exception appropriately
+        }
+    
+        return generatedItineraryId;
+    }
+    
+    
+
+    public int totalTripCount() {
+        int tripCount = 0;
+    
+        try (Connection connection = DriverManager.getConnection(constants.url, constants.user, constants.password)) {
+            String sql = "SELECT COUNT(*) FROM Trip";
+            try (PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
+                ResultSet resultSet = preparedStatement.executeQuery();
+                if (resultSet.next()) {
+                    tripCount = resultSet.getInt(1);
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace(); // Handle the exception appropriately
+        }
+    
+        return tripCount;
+    }
+    
+    public int addTrip(String userEmail, int destinationId, LocalDate tripDate, double prices, int numberOfDays) {
+        int generatedTripId = -1; // Default value if the insertion fails
+
+        try (Connection connection = DriverManager.getConnection(constants.url, constants.user, constants.password)) {
+            String sql = "INSERT INTO Trip (user_email, destination_id, trip_date, prices, number_of_days) VALUES (?, ?, ?, ?, ?)";
+            try (PreparedStatement preparedStatement = connection.prepareStatement(sql, PreparedStatement.RETURN_GENERATED_KEYS)) {
+                preparedStatement.setString(1, userEmail);
+                preparedStatement.setInt(2, destinationId);
+                preparedStatement.setDate(3, Date.valueOf(tripDate));
+                preparedStatement.setDouble(4, prices);
+                preparedStatement.setInt(5, numberOfDays);
+
+                int affectedRows = preparedStatement.executeUpdate();
+
+                if (affectedRows > 0) {
+                    // Retrieve the auto-generated keys (trip_id)
+                    try (ResultSet generatedKeys = preparedStatement.getGeneratedKeys()) {
+                        if (generatedKeys.next()) {
+                            generatedTripId = generatedKeys.getInt(1);
+                        }
+                    }
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace(); // Handle the exception appropriately
+        }
+
+        return generatedTripId;
+    }
+    
+
+    public void addActivity(int tripId, String activityName, LocalDateTime activityDateTime, String activityDescription, double cost) {
+        try (Connection connection = DriverManager.getConnection(constants.url, constants.user, constants.password)) {
+            String sql = "INSERT INTO Activities (trip_id, activity_name, activity_date, activity_description, cost) VALUES (?, ?, ?, ?, ?)";
+            try (PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
+                preparedStatement.setInt(1, tripId);
+                preparedStatement.setString(2, activityName);
+                preparedStatement.setTimestamp(3, Timestamp.valueOf(activityDateTime));
+                preparedStatement.setString(4, activityDescription);
+                preparedStatement.setDouble(5, cost);
+
+                preparedStatement.executeUpdate();
+            }
+        } catch (SQLException e) {
+            e.printStackTrace(); // Handle the exception appropriately
+        }
+    }
+
+    public int countActivities() {
+        int count = 0;
+    
+        try (Connection connection = DriverManager.getConnection(constants.url, constants.user, constants.password)) {
+            String sql = "SELECT COUNT(*) FROM Activities";
+            try (PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
+                ResultSet resultSet = preparedStatement.executeQuery();
+                if (resultSet.next()) {
+                    count = resultSet.getInt(1);
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace(); // Handle the exception appropriately
+        }
+    
+        return count;
+    }
+
+    public int countAccommodations() {
+        try {
+            // Establish a connection
+            Connection connection = DriverManager.getConnection(constants.url, constants.user, constants.password);
+    
+            // Create a statement
+            Statement statement = connection.createStatement();
+    
+            // Define the SQL query
+            String sql = "SELECT COUNT(*) FROM Accommodation";
+    
+            // Execute the query and get the result set
+            ResultSet resultSet = statement.executeQuery(sql);
+    
+            // Process the result set
+            if (resultSet.next()) {
+                int rowCount = resultSet.getInt(1);
+                return rowCount;
+            }
+    
+            // Close resources
+            resultSet.close();
+            statement.close();
+            connection.close();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return 0;
+    }
+
+    public int countRestaurants(){
+        try {
+            // Establish a connection
+            Connection connection = DriverManager.getConnection(constants.url, constants.user, constants.password);
+
+            // Create a statement
+            Statement statement = connection.createStatement();
+
+            // Define the SQL query
+            String sql = "SELECT COUNT(*) FROM restaurants";
+
+            // Execute the query and get the result set
+            ResultSet resultSet = statement.executeQuery(sql);
+
+            // Process the result set
+            if (resultSet.next()) {
+                int rowCount = resultSet.getInt(1);
+                return rowCount;
+            }
+
+            // Close resources
+            resultSet.close();
+            statement.close();
+            connection.close();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return 0;
+    }
+
+    public void addRestaurant(int destinationId, String restaurantName, double cost) {
+        String sql = "INSERT INTO Restaurants (destination_id, restaurant_name, cost) VALUES (?, ?, ?)";
+
+        try (
+            Connection connection = DriverManager.getConnection(constants.url, constants.user, constants.password);
+            PreparedStatement preparedStatement = connection.prepareStatement(sql)
+        ) {
+            preparedStatement.setInt(1, destinationId);
+            preparedStatement.setString(2, restaurantName);
+            preparedStatement.setDouble(3, cost);
+
+            preparedStatement.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace(); // Handle the exception appropriately
+        }
+    }
+
+    public void addAccommodation(int destinationId, String location, String motelName, double cost) {
+        String query = "INSERT INTO Accommodation (destination_id, location, motel_name, cost) VALUES (?, ?, ?, ?)";
+
+        try (Connection connection = DriverManager.getConnection(constants.url, constants.user, constants.password);
+             PreparedStatement preparedStatement = connection.prepareStatement(query)) {
+
+            preparedStatement.setInt(1, destinationId);
+            preparedStatement.setString(2, location);
+            preparedStatement.setString(3, motelName);
+            preparedStatement.setDouble(4, cost);
+
+            preparedStatement.executeUpdate();
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+            // Handle the exception as needed (e.g., log or display an error message)
+        }
+    }
 
     public List<Restaurants> getRestaurantsForDestination(int destinationId) {
         List<Restaurants> restaurants = new ArrayList<>();

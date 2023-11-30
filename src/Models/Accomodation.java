@@ -2,6 +2,7 @@ package Models;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 
 public class Accomodation extends ItineraryItem{
     private int id;
@@ -47,9 +48,23 @@ public class Accomodation extends ItineraryItem{
 
     @Override
     public String toString() {
-        return "Accomodation [dateTime=" + getDateTime() + "location=" + location + ", name=" + name  + ", cost=" + cost + "]";
-    }
 
+         if (getDateTime() != null) {
+            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd MMM yyyy hh:mm a");
+
+            // Format the LocalDateTime using the formatter
+            String formattedDateTime = getDateTime().format(formatter);
+
+            return name + ", " + location + " on " +  formattedDateTime;
+        } else {
+            return name + ", " + location;
+        }
+    }
+    public void addToDb(int itineraryID){
+        dbhandler db = new dbhandler();
+
+        db.insertItineraryAccommodation(itineraryID, id, getDateTime());
+    }
     
    
 

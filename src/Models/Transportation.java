@@ -1,18 +1,16 @@
 package Models;
 
-import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 
 public class Transportation extends ItineraryItem{
    
     private int id;
     private String mode; 
-    private double cost;
   
-    public Transportation(int id, String mode, double cost, LocalDateTime  dateTime) {
+    public Transportation(int id, String mode, LocalDateTime  dateTime) {
         super(dateTime);
         this.mode = mode;
-        this.cost = cost;
         this.id = id;
     }
     public String getMode() {
@@ -24,15 +22,25 @@ public class Transportation extends ItineraryItem{
     public void setMode(String mode) {
         this.mode = mode;
     }
-    public double getCost() {
-        return cost;
-    }
-    public void setCost(double cost) {
-        this.cost = cost;
-    }
+ 
     @Override
     public String toString() {
-        return "Transportation [dateTime=" + getDateTime() + ", mode=" + mode + ", cost=" + cost + "]";
+         if (getDateTime() != null) {
+            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd MMM yyyy hh:mm a");
+
+            // Format the LocalDateTime using the formatter
+            String formattedDateTime = getDateTime().format(formatter);
+
+            return "Travel by " + mode + ", at " +  formattedDateTime;
+        } 
+        return "Travel by " + "mode";
+
+    }
+
+    public void addToDb(int itineraryID){
+        dbhandler db = new dbhandler();
+
+        db.insertItineraryTransportation(id, itineraryID, getDateTime());
     }
 
     // create getter setter

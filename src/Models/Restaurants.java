@@ -47,6 +47,12 @@ public class Restaurants extends ItineraryItem {
             return name;
         }
     }
+
+    public void addToDb(int itineraryID){
+        dbhandler db = new dbhandler();
+
+        db.insertItineraryRestaurant(restaurant_id, itineraryID, getDateTime());
+    }
     
 
     //getter setters

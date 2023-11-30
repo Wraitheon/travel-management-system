@@ -38,7 +38,84 @@ public class Itinerary {
     private void sort(){
         Collections.sort(itineraryItems, Comparator.comparing(ItineraryItem::getDateTime));
     }
+    public Itinerary(List<ItineraryItem> itineraryItems) {
+        this.itineraryItems = itineraryItems;
+    }
     
+
+    public void addToDB(int trip_ID){
+        dbhandler db = new dbhandler();
+
+
+        int itineraryID  = db.addItinerary(trip_ID);
+
+        
+        
+        for(var item : itineraryItems) {
+            if (item instanceof Activity){
+                item.addToDb(trip_ID);
+
+            } else {
+                item.addToDb(itineraryID);
+
+            }
+        }
+        
+
+    }
+
+    private List<Restaurants> getRestaurants(){
+        List<Restaurants> res = new ArrayList<>();
+
+        for (var itineraryItem : itineraryItems) {
+
+            if (itineraryItem instanceof Restaurants){
+                res.add((Restaurants)itineraryItem);
+            }
+        }
+
+
+        return res;
+    }
+
+    private List<Transportation> getTransportsList(){
+        List<Transportation> list = new ArrayList<>();
+
+        for (var itineraryItem : itineraryItems) {
+
+            if (itineraryItem instanceof Transportation){
+                list.add((Transportation)itineraryItem);
+            }
+        }
+
+
+        return list;
+    }
+
+    private List<Accomodation> getAccommodations(){
+        List<Accomodation> list = new ArrayList<>();
+
+        for (var itineraryItem : itineraryItems) {
+
+            if (itineraryItem instanceof Accomodation){
+                list.add((Accomodation)itineraryItem);
+            }
+        }
+
+        return list;
+    }
+    private List<Activity> getActivities(){
+        List<Activity> list = new ArrayList<>();
+
+        for (var itineraryItem : itineraryItems) {
+
+            if (itineraryItem instanceof Activity){
+                list.add((Activity)itineraryItem);
+            }
+        }
+
+        return list;
+    }
     //getter setter
   
     

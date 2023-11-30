@@ -47,7 +47,7 @@ public class LoginController {
         if (isValidCredentials && !"".equals(navLink)) {
             // Navigate to another page
 
-            
+            EmailController.email = enteredEmail;
             
             FXMLLoader loader = new FXMLLoader(getClass().getResource(navLink));
             Parent anotherPage = loader.load();

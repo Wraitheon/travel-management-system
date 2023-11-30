@@ -29,9 +29,9 @@ CREATE TABLE Trip (
     destination_id INT,
     trip_date DATE NOT NULL,
     prices DECIMAL(10, 2) NOT NULL,
-    number_of_days INT
+    number_of_days INT,
     FOREIGN KEY (user_email) REFERENCES Users(email),
-    FOREIGN KEY (destination_id) REFERENCES Destinations(destination_id),
+    FOREIGN KEY (destination_id) REFERENCES Destinations(destination_id)
 );
 
 CREATE TABLE Review (
@@ -84,6 +84,18 @@ CREATE TABLE TravelRecommendation (
 );
 
 
+select count(*) from restaurants
+select * from restaurants
+
+select * from trip;
+select * from ItineraryRestaurants;
+
+select * from itinerary;
+
+select * from ItineraryAccommodation;
+select * from activities;
+
+select * from ItineraryTransportation
 
 CREATE TABLE Restaurants (
     restaurant_id INT PRIMARY KEY AUTO_INCREMENT,
@@ -120,12 +132,12 @@ CREATE TABLE Accommodation (
     FOREIGN KEY (destination_id) REFERENCES Destinations(destination_id)
 );
 
-CREATE TABLE ItineraryAccomadation (
+CREATE TABLE ItineraryAccommodation (
 
     itinerary_id INT,
     accommodation_id INT,
-    check_in_date DATE NOT NULL,
-    check_out_date DATE NOT NULL,
+    check_in_date DATETime NOT NULL,
+    
     FOREIGN KEY (accommodation_id) REFERENCES Accommodation(accommodation_id),
 
     FOREIGN KEY (itinerary_id) REFERENCES Itinerary(itinerary_id)
@@ -134,16 +146,20 @@ CREATE TABLE ItineraryAccomadation (
 
 
 
+
+
 CREATE TABLE Activities (
     activity_id INT PRIMARY KEY AUTO_INCREMENT,
     trip_id INT,
     activity_name VARCHAR(255) NOT NULL,
-    activity_date DATE NOT NULL,
+    activity_date DATETIME NOT NULL,
     activity_description TEXT,
     cost DECIMAL(10, 2),
 
     FOREIGN KEY (trip_id) REFERENCES Trip(trip_id)
 );
+
+select * from trip
 
 
 
@@ -164,8 +180,8 @@ CREATE TABLE ItineraryTransportation (
 
     transportation_id INT NOT NULL,
     itinerary_id INT NOT NULL,
-    departure_date DATE NOT NULL,
-    arrival_date DATE NOT NULL,
+    departure_date DATETIME NOT NULL,
+   
     FOREIGN KEY (transportation_id) REFERENCES Transportation(transportation_id),
 
     FOREIGN KEY (itinerary_id) REFERENCES Itinerary(itinerary_id)
@@ -176,7 +192,7 @@ Create TABLE TransportationCost (
     transportation_id INT,
     destination_id INT, 
     cost DECIMAL(10, 2),
-    FOREIGN KEY (transportation_id) REFERENCES Transportation(transportation_id)
+    FOREIGN KEY (transportation_id) REFERENCES Transportation(transportation_id),
     FOREIGN KEY (destination_id) REFERENCES Destinations(destination_id)
 )
 

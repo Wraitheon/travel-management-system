@@ -6,8 +6,12 @@
 <?import javafx.collections.FXCollections?>
 <?import javafx.scene.control.cell.PropertyValueFactory?>
 <?import javafx.scene.control.cell.TextFieldListCell?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.fxml.FXMLLoader?>
 
-<VBox alignment="CENTER" stylesheets="@stylesTA.css" fx:id="root" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controllers.AddTripController" >
+
+        <VBox alignment="CENTER" stylesheets="@stylesTA.css" fx:id="root" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controllers.AddTripController" >
 
     
 
@@ -20,16 +24,21 @@
         <TextField fx:id="costTextField" promptText="Enter Cost" />
     </HBox>
 
-    <HBox spacing="10" alignment="CENTER">
+    <HBox spacing="10.0" alignment="CENTER">
         <Label text="Number of Days:" />
         <TextField fx:id="daysTextField" promptText="Enter Number of Days" styleClass="text-field-with-line" />
     </HBox>
 
-    <HBox spacing="10" alignment="CENTER">
+    <GridPane hgap="100.0" alignment="CENTER">
+    <!-- Delete Button -->
+    <Button text="Delete" onAction="#handleDeleteItem" GridPane.columnIndex="6" />
+
+    <!-- DatePicker -->
+    <HBox spacing="10.0" alignment="CENTER">
         <Label text="Date of Trip:" />
         <DatePicker fx:id="datePicker" promptText="Select Date" />
     </HBox>
-
+</GridPane>
    
 
     <ListView fx:id="itineraryListView" />
@@ -61,24 +70,71 @@
 
     </TitledPane>
     <TitledPane text="Add Accomodation" expanded="false">
-        <VBox spacing="5">
-           
-            
+        <VBox spacing="5" alignment="CENTER">
+                
+            <ComboBox fx:id="accommoComboBox" promptText="Add New Accommodation Below Or Select" onAction="#handleAccommodationChange" />
+            <HBox spacing="10" alignment="CENTER">
+                <Label fx:id="l5" text="Location" />
+                <TextField fx:id="accommodationLocation" promptText="Enter Location" styleClass="text-field-with-line" />
+            </HBox>
+            <HBox spacing="10" alignment="CENTER">
+                <Label fx:id="l3" text="Motel Name" />
+                <TextField fx:id="accommodationName" promptText="Enter Name" styleClass="text-field-with-line" />
+            </HBox>
+            <HBox spacing="10" alignment="CENTER">
+                <Label fx:id="l4" text="Cost per Night" />
+                <TextField fx:id="accommodationCost" promptText="Enter Cost" styleClass="text-field-with-line" />
+            </HBox>
+            <HBox spacing="10" alignment="CENTER">
+                <Label text="Date and Time for Stay:" />
+                <DatePicker fx:id="accommodationDatePicker" promptText="Select Date" />
+                <Spinner fx:id="accommodationHourSpinner" min="0" max="23" initialValue="12" />
+                <Spinner fx:id="accommodationMinuteSpinner" min="0" max="59" initialValue="0" />
+            </HBox>
+            <Button text="Add Accommodation" onAction="#handleAddAccommodation" />
+
+
         </VBox>
     </TitledPane>
     <TitledPane text="Add Transport" expanded="false">
-        <VBox spacing="5">
-           
+        <VBox spacing="5" alignment="CENTER">
+            <ComboBox fx:id="transportationComboBox" promptText="Select transportation" onAction="#handleAccommodationChange" />
+            <HBox spacing="10" alignment="CENTER">
+                <Label text="Date and Time for Stay:" />
+                <DatePicker fx:id="transportationDatePicker" promptText="Select Date" />
+                <Spinner fx:id="transportationHourSpinner" min="0" max="23" initialValue="12" />
+                <Spinner fx:id="transportationMinuteSpinner" min="0" max="59" initialValue="0" />
+            </HBox>
+            <Button text="Add Transport" onAction="#handleAddTransportation" />
             
         </VBox>
     </TitledPane>
     <TitledPane text="Add Activity" expanded="false">
-        <VBox spacing="5">
-           
+        <VBox spacing="5" alignment="CENTER">
+           <HBox spacing="10" alignment="CENTER">
+                <Label fx:id="activityNameLabel" text="Activity Name" />
+                <TextField fx:id="activityNameTextField" promptText="Enter Activity Name" styleClass="text-field-with-line" />
+            </HBox>
+            <HBox spacing="10" alignment="CENTER">
+                <Label fx:id="activityDescriptionLabel" text="Activity Description" />
+                <TextField fx:id="activityDescriptionTextField" promptText="Enter Activity Description" styleClass="text-field-with-line" />
+            </HBox>
+            <HBox spacing="10" alignment="CENTER">
+                <Label fx:id="activityCostLabel" text="Activity Cost" />
+                <TextField fx:id="activityCostTextField" promptText="Enter Activity Cost" styleClass="text-field-with-line" />
+            </HBox>
+            <HBox spacing="10" alignment="CENTER">
+                <Label text="Date and Time for Activity:" />
+                <DatePicker fx:id="activityDatePicker" promptText="Select Date" />
+                <Spinner fx:id="activityHourSpinner" min="0" max="23" initialValue="12" />
+                <Spinner fx:id="activityMinuteSpinner" min="0" max="59" initialValue="0" />
+            </HBox>
+            <Button text="Add Activity" onAction="#handleAddActivity" />
+
             
         </VBox>
     </TitledPane>
-
+      <Button text="Add Trip" onAction="#handleAddTripToDB" />
 
      <VBox alignment="BOTTOM_CENTER" id="button-container">
         <HBox spacing="2">
@@ -100,3 +156,11 @@
    
 
 </VBox>
+
+<!-- <HBox xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" >
+    <Button text="Home"/>
+    <Button text="Your Trips"  />
+    <Button text="Add Trips" />
+    <Button text="Bookings"/>
+    <Button text="About"  />
+</HBox> -->

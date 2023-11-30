@@ -121,5 +121,35 @@ ListView {
 .text-field-with-line .prompt-text {
     -fx-font-size: 12px;
 }
+#itineraryListView {
+    -fx-background-color: rgb(181, 207, 240); /* Set the background color */
+}
+
+/* Customize the appearance of the items in the ListView */
+#itineraryListView .list-cell {
+    -fx-padding: 5 10; /* Set padding for each cell */
+    -fx-border-color: rgb(115, 223, 223); /* Set border color */
+    -fx-border-width: 0 0 1 0; /* Set bottom border only */
+    -fx-background-color: rgb(170, 205, 209); /* Set background color for each cell */
+    
+    /* Center-align and make the text bold */
+    -fx-alignment: center; 
+    -fx-font-weight: bold;
+}
+
+/* Style selected cells */
+#itineraryListView .list-cell:selected {
+    -fx-background-color: #a6d8a8; /* Set background color for selected cells */
+}
+
+/* Style the focus indicator (the blue border around the selected cell) */
+#itineraryListView .list-view:focused .list-cell:focused {
+    -fx-background-color: transparent; /* Remove background color for focused cells */
+    -fx-background-insets: 0; /* Remove background insets for focused cells */
+    -fx-background-radius: 0; /* Remove background radius for focused cells */
+    -fx-border-width: 0 0 1 0; /* Set bottom border only for focused cells */
+    -fx-border-color: #0078d4; /* Set border color for focused cells */
+}
+
 
 

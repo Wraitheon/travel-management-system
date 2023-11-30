@@ -5,6 +5,10 @@ import java.io.IOException;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 
@@ -14,6 +18,7 @@ import Models.Destination;
 import Models.Restaurants;
 import Models.Accomodation;
 import Models.Transportation;
+import Models.Trip;
 import Models.Activity;
 import Models.Itinerary;
 import Models.ItineraryItem;
@@ -61,8 +66,12 @@ public class AddTripController {
     @FXML
     private ComboBox<Accomodation> accommoComboBox;
 
-    @FXML
-    private ComboBox<Activity> actComboBox;
+    @FXML 
+    private TextField costTextField;
+
+    @FXML 
+    private TextField daysTextField;
+
 
     @FXML
     private ListView<ItineraryItem> itineraryListView;
@@ -72,14 +81,17 @@ public class AddTripController {
 
 
     private  List<Destination> destinations;
-    private int destination_id;
+    private int destination_id = 0;
 
     private List<Restaurants> restaurants;
     private List<Accomodation> accomodations;
-    private List<Activity> activities;
-    private List<Transportation> transportations;
+    
+    private List<String> transportations = Arrays.asList("Air", "Coaster", "Bus", "Car", "Jeep");
+    
+    @FXML
+    private ComboBox<String> transportationComboBox;
+    
 
-    private List<ItineraryItem> items;
     dbhandler db = new dbhandler();
 
    
@@ -87,6 +99,7 @@ public class AddTripController {
     
         
         destinations = db.getDestinations();
+        transportationComboBox.setItems(FXCollections.observableArrayList(transportations));
         destinationComboBox.setItems(FXCollections.observableArrayList(destinations));
     }
 
@@ -95,14 +108,209 @@ public class AddTripController {
 
 
         destination_id = destinationComboBox.getValue().getDestination_ID();
+        itineraryItems = FXCollections.observableArrayList();
+        refreshListView();
+        fetchData();
+    }
+
+    private void fetchData(){
         restaurants = db.getRestaurantsForDestination(destination_id);
         resComboBox.setItems(FXCollections.observableArrayList(restaurants));
 
-        // accomodations = db.getAccommodationsForDestination(destination_id);
+        accomodations = db.getAccommodationsForDestination(destination_id);
+        accommoComboBox.setItems(FXCollections.observableArrayList(accomodations));
     }
 
+    //-------------------------------Activity-------------------------------------
 
+    @FXML
+    private TextField activityNameTextField;
+    @FXML
+    private TextField activityDescriptionTextField;
+    @FXML
+    private TextField activityCostTextField;
+    @FXML
+    private DatePicker activityDatePicker;
+    @FXML
+    private Spinner<Integer> activityHourSpinner;
+    @FXML
+    private Spinner<Integer> activityMinuteSpinner;
 
+    @FXML
+    private void handleAddActivity(ActionEvent event) {
+        if (activityDatePicker.getValue() == null || datePicker.getValue() == null || activityDatePicker.getValue().isBefore(datePicker.getValue())) {
+            showAlert("Date not Selected", "Kindly add relevant date");
+            return;
+        }
+         if (destination_id == 0) {
+            showAlert("Error", "Destination is missing");
+            return;
+        }
+         if ("".equals(activityNameTextField.getText()) || activityCostTextField.getText().equals("")) {
+            showAlert("Error", "Information is missing");
+            return;
+        }
+    
+        LocalDate selectedDate = activityDatePicker.getValue();
+        LocalDateTime selectedDateTime = LocalDateTime.of(selectedDate, LocalTime.of(activityHourSpinner.getValue(), activityMinuteSpinner.getValue()));
+
+        dbhandler db = new dbhandler();
+        String activityCostText = activityCostTextField.getText();
+        double cost = Double.parseDouble(activityCostText);
+
+        ItineraryItem newItem = new Activity(db.countActivities() + 1, activityNameTextField.getText(),
+                activityDescriptionTextField.getText(), cost, selectedDateTime);
+        newItem.setDateTime(selectedDateTime);
+
+        itineraryItems.add(newItem);
+
+        activityNameTextField.setText("");
+        activityDescriptionTextField.setText("");
+        activityCostTextField.setText("");
+        fetchData();
+        
+    
+        activityDatePicker.setValue(LocalDate.now());
+    
+        refreshListView();
+    
+    }
+
+    //===============================Transport--------------------------------------
+
+    @FXML
+    private DatePicker transportationDatePicker;
+
+    @FXML
+    private Spinner<Integer> transportationHourSpinner;
+
+    @FXML
+    private Spinner<Integer> transportationMinuteSpinner;
+
+    @FXML
+    private void handleAddTransportation(ActionEvent event){
+        if (destination_id == 0){
+                showAlert("Error", "Destination is missing");
+                return;
+            }
+         if (transportationDatePicker.getValue() == null || datePicker.getValue() ==null || transportationDatePicker.getValue().isBefore(datePicker.getValue())) {
+            showAlert("Date not Selected", "Kindly add relevant date");
+            return;
+        }
+
+                LocalDate selectedDate = transportationDatePicker.getValue();
+        LocalDateTime selectedDateTime = LocalDateTime.of(selectedDate, LocalTime.of(transportationHourSpinner.getValue(), transportationMinuteSpinner.getValue()));
+
+        ItineraryItem newItem = new Transportation(transportations.indexOf(transportationComboBox.getValue()) + 1, transportationComboBox.getValue(), null);
+
+            newItem.setDateTime(selectedDateTime);
+            System.out.println(newItem.getDateTime());
+
+            itineraryItems.add(newItem);
+
+            refreshListView();
+
+    }
+
+    //---------------------------------Accommodation---------------------------------------------------
+
+    @FXML
+    private Label l3;
+
+    @FXML
+    private Label l4;
+
+    @FXML
+    private Label l5;
+
+    @FXML
+    private DatePicker accommodationDatePicker;
+
+    @FXML
+    private TextField accommodationName;
+    @FXML
+    private TextField accommodationLocation;
+
+    @FXML
+    private TextField accommodationCost;
+
+    @FXML
+    private Spinner<Integer> accommodationHourSpinner;
+
+    @FXML
+    private Spinner<Integer> accommodationMinuteSpinner;
+
+    @FXML
+    private void handleAccommodationChange(ActionEvent event) {
+        if (accommoComboBox.getValue() != null) {
+            l3.setVisible(false);
+            l4.setVisible(false);
+            l5.setVisible(false);
+
+            accommodationName.setVisible(false);
+            accommodationCost.setVisible(false);
+            accommodationLocation.setVisible(false);
+        } else {
+            l3.setVisible(true);
+            l4.setVisible(true);
+            l5.setVisible(true);
+
+            accommodationName.setVisible(true);
+            accommodationCost.setVisible(true);
+            accommodationLocation.setVisible(true);
+
+        }
+    }
+
+    @FXML
+    private void handleAddAccommodation(ActionEvent event) {
+        if (accommodationDatePicker.getValue() == null || datePicker.getValue() ==null || accommodationDatePicker.getValue().isBefore(datePicker.getValue())) {
+            showAlert("Date not Selected", "Kindly add relevant date");
+            return;
+        }
+
+        LocalDate selectedDate = accommodationDatePicker.getValue();
+        LocalDateTime selectedDateTime = LocalDateTime.of(selectedDate, LocalTime.of(accommodationHourSpinner.getValue(), accommodationMinuteSpinner.getValue()));
+
+        if (accommoComboBox.getValue() != null) {
+            System.out.println(accommoComboBox.getValue());
+
+            ItineraryItem newItem = new Accomodation(accommoComboBox.getValue().getId(), accommoComboBox.getValue().getLocation(), accommoComboBox.getValue().getName(), accommoComboBox.getValue().getCost(), null);
+
+            newItem.setDateTime(selectedDateTime);
+            System.out.println(newItem.getDateTime());
+
+            itineraryItems.add(newItem);
+        } else {
+            if (destination_id == 0){
+                showAlert("Error", "Destination is missing");
+                return;
+            }
+            if ("".equals(accommodationName.getText()) || accommodationCost.getText().equals("")) {
+                showAlert("Error", "Information is missing");
+                return;
+            }
+
+            dbhandler db = new dbhandler();
+            String accommodationCostText = accommodationCost.getText();
+            double cost = Double.parseDouble(accommodationCostText);
+
+            ItineraryItem newItem = new Accomodation(db.countAccommodations() + 1, "",accommodationName.getText(), cost,  selectedDateTime);
+            newItem.setDateTime(selectedDateTime);
+
+            db.addAccommodation(destination_id, accommodationLocation.getText(), accommodationName.getText(), cost);
+            itineraryItems.add(newItem);
+
+            accommodationName.setText("");
+            accommodationCost.setText("");
+            accommodationLocation.setText("");
+            fetchData();
+        }
+
+        accommodationDatePicker.setValue(LocalDate.now());
+
+        refreshListView();
+    }
    
 
     //--------------------------------Restaurant-----------------------------------------------------------
@@ -148,39 +356,77 @@ public class AddTripController {
      @FXML
     private void handleAddRestaurant(ActionEvent event) {
 
-                if (resdatePicker.getValue() == null || resdatePicker.getValue().isBefore(datePicker.getValue())) {
+                if (resdatePicker.getValue() == null || datePicker.getValue() ==null|| resdatePicker.getValue().isBefore(datePicker.getValue())) {
                     showAlert("Date not Selected", "Kindly add relevant date");
                     return;
                 }
+                 LocalDate selectedDate = resdatePicker.getValue();
+                LocalDateTime selectedDateTime = LocalDateTime.of(selectedDate, LocalTime.of(hourSpinner.getValue(), minuteSpinner.getValue()));
 
                 if (resComboBox.getValue() != null){
-                                    System.out.println(resComboBox.getValue());
+                    System.out.println(resComboBox.getValue());
 
-                                    ItineraryItem newItem = resComboBox.getValue();
-                                    LocalDate selectedDate = resdatePicker.getValue();
-                                    LocalDateTime selectedDateTime = LocalDateTime.of(selectedDate, LocalTime.of(hourSpinner.getValue(), minuteSpinner.getValue())
-);
+                    ItineraryItem newItem = new Restaurants(resComboBox.getValue().getRestaurant_id(), null, resComboBox.getValue().getName(), resComboBox.getValue().getCost());
 
-                                    newItem.setDateTime(selectedDateTime);
-                                    System.out.println(newItem.getDateTime());
+
+                    newItem.setDateTime(selectedDateTime);
+                    System.out.println(newItem.getDateTime());
 
                     itineraryItems.add(newItem);
                 } else {
+                    if (destination_id == 0){
+                        showAlert("Error", "Destination is missing");
+                        return;
+                    }
+                    if ("".equals( resName.getText()) || resCost.getText().equals("")){
+                        showAlert("Error", "Information is missing");
 
+                        return;
+                    }
 
+                    dbhandler db = new dbhandler();
+                    String resCostText = resCost.getText();
+                    double cost = Double.parseDouble(resCostText);
+                    
+                    ItineraryItem newItem = new Restaurants(db.countRestaurants()+1, selectedDateTime, resName.getText(), cost);
+                     newItem.setDateTime(selectedDateTime);
 
+                     
+
+                     db.addRestaurant(destination_id, resName.getText(), cost);
+                     itineraryItems.add(newItem);
+
+                     resName.setText("");
+                     resCost.setText("");
+                     fetchData();
                 }
+                resdatePicker.setValue(LocalDate.now());
 
             refreshListView();
         // Handle "Your Trips" button action
     }
 
     //--------------------------------------------------------------------------------------------------
+    @FXML
+    private void handleDeleteItem(ActionEvent event) {
+        // Get the selected index
+        int selectedIndex = itineraryListView.getSelectionModel().getSelectedIndex();
+        System.out.println(selectedIndex);
+        // Check if an item is selected
+        if (selectedIndex >= 0) {
+            // Remove the selected item
+            itineraryItems.remove(selectedIndex);
+        } else {
+            // No item selected, show an alert or perform other actions
+            System.out.println("No item selected.");
+        }
+        refreshListView();
+    }
 
     private void refreshListView() {
         // Set the items of the ListView again to trigger an update
                 // System.out.println("sjhdvb");
-
+        Collections.sort(itineraryItems, Comparator.comparing(ItineraryItem::getDateTime));
         itineraryListView.setItems(FXCollections.observableArrayList(itineraryItems));
     }
 
@@ -191,6 +437,42 @@ public class AddTripController {
         alert.setContentText(content);
         alert.showAndWait();
     }
+    // ----------------------ADD TRip To DB --------------------------------
+
+    @FXML
+    private void handleAddTripToDB(ActionEvent event){
+        if (datePicker.getValue() == null || "".equals(costTextField.getText()) || "".equals(daysTextField.getText())) {
+            showAlert("Error", "Information is missing");
+
+            return;
+        }
+        if (destination_id == 0){
+                        showAlert("Error", "Destination is missing");
+                        return;
+        }
+        System.out.println(EmailController.email);
+        List<ItineraryItem> items = new ArrayList<>(itineraryItems);
+
+        Itinerary newItinerary = new Itinerary(items);
+
+        
+
+        String costText = costTextField.getText();
+        double cost = Double.parseDouble(costText);
+
+        String daysText = daysTextField.getText();
+        int days = (int) Double.parseDouble(daysText);
+
+        Trip newTrip = new Trip(cost, datePicker.getValue(), days, newItinerary);
+
+        newTrip.insertModelToDb(destination_id);
+
+        showAlert("SuccessFul", "YourTrip has been added SuccessFully");
+
+        NavigateHome(event);
+
+
+    }
 
 
     //------------------------------------------------------------------------------------------------------
@@ -199,9 +481,8 @@ public class AddTripController {
     private void handleYourTrips(ActionEvent event) {
         // Handle "Your Trips" button action
     }
-    @FXML
-    private void handleHome(ActionEvent event) {
-        // Handle "Add Trips" button action
+
+    void NavigateHome(ActionEvent event){
         FXMLLoader loader = new FXMLLoader(getClass().getResource(NavigationLink.agencyDashboard));
         try {
             Parent addTripParent = loader.load();
@@ -211,7 +492,7 @@ public class AddTripController {
             agencyDashBoardController.initData(userEmail);
 
             stage = (Stage)((Node)event.getSource()).getScene().getWindow();
-            Scene scene = new Scene(addTripParent, 600, 400);
+            Scene scene = new Scene(addTripParent);
             stage.setScene(scene);
             stage.show();
 
@@ -219,7 +500,12 @@ public class AddTripController {
             // TODO Auto-generated catch block
             e.printStackTrace();
         }
-
+    }
+    @FXML
+    private void handleHome(ActionEvent event) {
+        // Handle "Add Trips" button action
+        
+        NavigateHome(event);
         
     }
     @FXML
@@ -234,7 +520,7 @@ public class AddTripController {
             addTripController.initData(userEmail);
 
             stage = (Stage)((Node)event.getSource()).getScene().getWindow();
-            Scene scene = new Scene(addTripParent, 600, 400);
+            Scene scene = new Scene(addTripParent);
             stage.setScene(scene);
             stage.show();
 
