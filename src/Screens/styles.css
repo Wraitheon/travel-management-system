@@ -56,3 +56,19 @@ Hyperlink {
 Hyperlink:hover {
     -fx-text-fill: darkblue;
 }
+
+
+#root {
+    -fx-background-color: #f0f0f0;
+}
+
+#label-title {
+    -fx-font-size: 24;
+    -fx-font-weight: bold;
+}
+
+#button-large {
+    -fx-font-size: 18;
+    -fx-min-width: 120;
+    -fx-min-height: 60;
+}

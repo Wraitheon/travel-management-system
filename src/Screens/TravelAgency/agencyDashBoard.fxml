@@ -5,44 +5,28 @@
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.cell.PropertyValueFactory?>
 
-<VBox alignment="CENTER" spacing="10" style="-fx-background-color: #f0f0f0;" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controllers.AgencyDashBoardController">
+<VBox alignment="CENTER" spacing="10" stylesheets="@stylesTA.css" fx:id="root" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controllers.AgencyDashBoardController">
 
-    <Label text="Travel Agency Dashboard" style="-fx-font-size: 20; -fx-font-weight: bold;" />
+   <VBox spacing="20" alignment="CENTER" id="root">
+        <Label text="Travel Agency Dashboard" id="label-title" />
 
-    <!-- Create Trip Section -->
-    <TitledPane text="Create Trip">
-        <VBox spacing="5">
-            <TextField fx:id="tripNameField" promptText="Trip Name" />
-            <TextField fx:id="destinationField" promptText="Destination" />
-            <TextField fx:id="departureDateField" promptText="Departure Date" />
-            <Button text="Create Trip" onAction="#handleCreateTrip" />
-        </VBox>
-    </TitledPane>
+        <!-- Your existing content -->
 
-    <!-- Check Bookings Section -->
-    <TitledPane text="Check Bookings">
-        <VBox spacing="5">
-            <TableView fx:id="bookingsTable">
-                <columns>
-                    <TableColumn text="Trip Name" prefWidth="150">
-                        <cellValueFactory>
-                            <PropertyValueFactory property="tripName" />
-                        </cellValueFactory>
-                    </TableColumn>
-                    <TableColumn text="Customer Name" prefWidth="150">
-                        <cellValueFactory>
-                            <PropertyValueFactory property="customerName" />
-                        </cellValueFactory>
-                    </TableColumn>
-                    <TableColumn text="Booking Date" prefWidth="150">
-                        <cellValueFactory>
-                            <PropertyValueFactory property="bookingDate" />
-                        </cellValueFactory>
-                    </TableColumn>
-                </columns>
-            </TableView>
-            <Button text="Load Bookings" onAction="#handleLoadBookings" />
-        </VBox>
-    </TitledPane>
+    </VBox>
+    <VBox alignment="BOTTOM_CENTER" id="button-container">
+        <HBox spacing="2">
+            <!-- Your Trips Button -->
+            <Button text="Your Trips" onAction="#handleYourTrips" id="button-large" />
 
+            <!-- Add Trips Button -->
+            <Button text="Add Trips" onAction="#handleAddTrips" id="button-large" />
+
+            <!-- Bookings Button -->
+            <Button text="Bookings" onAction="#handleBookings" id="button-large" />
+
+            <!-- About Button -->
+            <Button text="About" onAction="#handleAbout" id="button-large" />
+        </HBox>
+    </VBox>
+    
 </VBox>

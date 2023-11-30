@@ -19,10 +19,12 @@ CREATE TABLE Destinations (
 
 CREATE TABLE Trip (
     trip_id INT PRIMARY KEY AUTO_INCREMENT,
+    user_email VARCHAR(255),
     destination_id INT,
     trip_date DATE NOT NULL,
     prices DECIMAL(10, 2) NOT NULL,
-    number_of_days INT,
+    number_of_days INT
+    FOREIGN KEY (user_email) REFERENCES Users(email),
     FOREIGN KEY (destination_id) REFERENCES Destinations(destination_id),
 );
 
