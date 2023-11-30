@@ -11,13 +11,13 @@ public class App extends Application {
     public void start(Stage primaryStage) throws Exception {
         try {
             // Load the FXML file
-            Parent root = FXMLLoader.load(getClass().getResource(NavigationLink.agencyDashboard));
+            Parent root = FXMLLoader.load(getClass().getResource(NavigationLink.login));
     
             // Create the scene
             Scene scene = new Scene(root, 600, 400);
     
             // Set the scene to the stage
-            primaryStage.setTitle("Travel/Tourism Management System Login");
+            primaryStage.setTitle("Travel/Tourism Management System");
             primaryStage.setScene(scene);
             primaryStage.show();
         } catch (Exception e) {
