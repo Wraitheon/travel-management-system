@@ -12,15 +12,15 @@ public class App extends Application {
     public void start(Stage primaryStage) throws Exception {
         try {
             // Load the FXML file
-            FXMLLoader loader = new FXMLLoader(getClass().getResource(NavigationLink.agencyDashboard));
+            FXMLLoader loader = new FXMLLoader(getClass().getResource(NavigationLink.login));
     
             // Create the scene
             Parent root = loader.load();
             Scene scene = new Scene(root);
             
-            AgencyDashBoardController agencyController = loader.getController();
+            // AgencyDashBoardController agencyController = loader.getController();
 
-            agencyController.initData("meow@nu.edu.pk");
+            // agencyController.initData("meow@nu.edu.pk");
             // Set the scene to the stage
             primaryStage.setTitle("Travel/Tourism Management System");
             primaryStage.setScene(scene);

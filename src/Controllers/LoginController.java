@@ -2,6 +2,7 @@ package Controllers;
 
 import java.io.IOException;
 
+import Models.dbhandler;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
@@ -37,15 +38,18 @@ public class LoginController {
         String enteredEmail = email.getText();
         String enteredPassword = password.getText();
 
-        // Replace the following line with your database query logic
+        // // Replace the following line with your database query logic
         boolean isValidCredentials = checkCredentialsFromDatabase(enteredEmail, enteredPassword);
-
         if (isValidCredentials) {
             // Navigate to another page
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/Screens/anotherpage.fxml"));
+
+            String navLink = getDashBoardLink(enteredEmail);
+                                System.out.println(navLink);
+
+            FXMLLoader loader = new FXMLLoader(getClass().getResource(navLink));
             Parent anotherPage = loader.load();
-            Stage stage = (Stage) loginButton.getScene().getWindow();
-            Scene scene = new Scene(anotherPage);
+            stage = (Stage)((Node)event.getSource()).getScene().getWindow();
+            scene = new Scene(anotherPage, 600, 400);
             stage.setScene(scene);
             stage.show();
         } else {
@@ -53,11 +57,26 @@ public class LoginController {
             showAlert("Login Failed", "Incorrect email or password. Please try again.");
         }
     }
+    private String getDashBoardLink(String email){
+        dbhandler db = new dbhandler();
+         String userType = db.getUserType(email);
+        if ("Travel Agency".equals(userType)) {
+            return NavigationLink.agencyDashboard;
+        } else if ("Tour Guide".equals(userType)) {
+            return NavigationLink.agencyDashboard;
+        } else if ("Tourist".equals(userType)) {
+            return NavigationLink.agencyDashboard;
+        }
+        
+        return "";
 
+    }
     private boolean checkCredentialsFromDatabase(String email, String password) {
         // Replace this with your actual database query logic
         // Return true if there is a match, false otherwise
-        return true;
+        dbhandler db = new dbhandler();
+
+        return db.authenticateUser(email, password);
     }
 
     private void showAlert(String title, String content) {
@@ -73,7 +92,7 @@ public class LoginController {
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/Screens/signuppage.fxml"));	
 		root = loader.load();
 		stage = (Stage)((Node)event.getSource()).getScene().getWindow();
-		scene = new Scene(root);
+		scene = new Scene(root, 600, 400);
 		stage.setScene(scene);
 		stage.show();
     }

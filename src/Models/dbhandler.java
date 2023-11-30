@@ -6,6 +6,45 @@ import java.sql.*;
 
 
 public class dbhandler {
+
+    public String getUserType(String userEmail) {
+        String query = "SELECT usertype FROM Users WHERE email = ?";
+        
+        try (Connection connection = DriverManager.getConnection(constants.url, constants.user, constants.password);
+             PreparedStatement preparedStatement = connection.prepareStatement(query)) {
+            preparedStatement.setString(1, userEmail);
+
+            try (ResultSet resultSet = preparedStatement.executeQuery()) {
+                if (resultSet.next()) {
+                    String result = resultSet.getString("usertype");
+                    return result;
+                } else {
+                    return null; // User not found
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace(); // Handle the exception according to your needs
+            return null; // Assume retrieval failed on error
+        }
+    }
+    
+    public boolean authenticateUser(String email, String password) {
+        String query = "SELECT * FROM users WHERE email = ? AND password = ?";
+        
+        try (Connection connection = DriverManager.getConnection(constants.url, constants.user, constants.password);
+             PreparedStatement preparedStatement = connection.prepareStatement(query)) {
+
+            preparedStatement.setString(1, email);
+            preparedStatement.setString(2, password);
+
+            try (ResultSet resultSet = preparedStatement.executeQuery()) {
+                return resultSet.next(); // true if there is at least one result (email and password match)
+            }
+        } catch (SQLException e) {
+            e.printStackTrace(); // Handle the exception according to your needs
+            return false; // Assume authentication failed on error
+        }
+    }
     
     public static boolean doesUserExist(String email) {
         final String SELECT_QUERY = "SELECT * FROM Users WHERE email = ?";

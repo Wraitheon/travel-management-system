@@ -3,6 +3,7 @@ package Controllers;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
@@ -18,6 +19,8 @@ import Models.dbhandler;
 public class AgencyDashBoardController {
 
     private String userEmail;
+    private Stage stage;
+    
 
     // @FXML
     // private Label titleLabel;
@@ -52,11 +55,10 @@ public class AgencyDashBoardController {
 
             addTripController.initData(userEmail);
 
-            Stage window = (Stage) gotToAddTrip.getScene().getWindow();
-
-            // // Set the second view as the scene
-            // window.setScene(scene);
-            // window.show();
+            stage = (Stage)((Node)event.getSource()).getScene().getWindow();
+            scene = new Scene(addTripParent, 600, 400);
+            stage.setScene(scene);
+            stage.show();
 
         } catch (IOException e) {
             // TODO Auto-generated catch block

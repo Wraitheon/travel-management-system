@@ -1,0 +1,95 @@
+/* styles.css */
+
+#left-container {
+    -fx-background-color: #000000;
+}
+
+#logo-pane {
+    -fx-alignment: center;
+    -fx-padding: 10;
+}
+
+#logo {
+    -fx-fit-height: 100.0;
+    -fx-fit-width: 100.0;
+}
+
+#app-name {
+    -fx-font-size: 35;
+    -fx-text-fill: white;
+}
+
+#login-container {
+    -fx-spacing: 10;
+}
+
+#username, #password {
+    -fx-prompt-text-fill: #808080;
+    -fx-background-radius: 50;
+}
+
+#login-button {
+    -fx-background-radius: 15;
+}
+
+#signup-link {
+    -fx-text-fill: white;
+}
+
+#signup-link:hover {
+    -fx-text-fill: blue;
+}
+
+VBox {
+    -fx-padding: 20;
+}
+
+TextField, PasswordField, Button {
+    -fx-padding: 10;
+    -fx-pref-width: 250;
+}
+
+Hyperlink {
+    -fx-text-fill: blue;
+}
+
+Hyperlink:hover {
+    -fx-text-fill: darkblue;
+}
+
+
+#root {
+    -fx-background-color: #f0f0f0;
+}
+
+#label-title {
+    -fx-font-size: 24;
+    -fx-font-weight: bold;
+}
+
+#button-large {
+    -fx-font-size: 18;
+    -fx-min-width: 120;
+    -fx-min-height: 60;
+}
+
+/* stylesTA.css */
+
+.main-container {
+    -fx-background-color: #f0f0f0;
+}
+
+Label {
+    -fx-font-size: 20;
+    -fx-font-weight: bold;
+}
+
+HBox, VBox {
+    -fx-spacing: 5;
+}
+
+ListView {
+    -fx-control-inner-background: white;
+    -fx-control-inner-background-alt: white;
+}
+

@@ -19,9 +19,9 @@
                 </StackPane>
                 <Label text="Odyssey Hub" id="app-name" />
                 <VBox spacing="10" id="login-container" alignment="CENTER">
-                    <TextField promptText="Email" id="email" />
-                    <PasswordField promptText="Password" id="password" />
-                    <Button text="Login" id="login-button" />
+                    <TextField fx:id="email" promptText="Email"  />
+                    <PasswordField fx:id="password" promptText="Password"  />
+                    <Button text="Login" id="login-button" onAction="#handleLoginButtonAction" />
                     <Hyperlink text="Don't have an account? Click here to sign up." id="signup-link" onAction="#handleSignupLinkAction"/>
                 </VBox>
             </VBox>
