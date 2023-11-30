@@ -14,7 +14,7 @@
     <Label text="Trip Planner" style="-fx-font-size: 20; -fx-font-weight: bold;" />
 
     <!-- Destination Dropdown -->
-    <!-- <HBox spacing="5">
+    <HBox spacing="5">
         <Label text="Select Destination:" />
         <ComboBox fx:id="destinationComboBox">
             <items>
@@ -25,37 +25,37 @@
                 </FXCollections>
             </items>
         </ComboBox>
-    </HBox> -->
+    </HBox>
 
     <!-- Trip Date -->
-    <!-- <HBox spacing="5">
+    <HBox spacing="5">
         <Label text="Select Trip Date:" />
         <DatePicker fx:id="tripDatePicker" />
-    </HBox> -->
+    </HBox>
 
     <!-- Number of Days -->
-    <!-- <HBox spacing="5">
+    <HBox spacing="5">
         <Label text="Number of Days:" />
         <TextField fx:id="numDaysTextField" onKeyTyped="#handleDigitInput" />
-    </HBox> -->
+    </HBox>
 
     <!-- Price per Head -->
-    <!-- <HBox spacing="5">
+    <HBox spacing="5">
         <Label text="Price per Head:" />
         <TextField fx:id="priceTextField" />
-    </HBox> -->
+    </HBox>
 
     <!-- Itinerary Items -->
-    <!-- <VBox spacing="5">
+    <VBox spacing="5">
         <Label text="Itinerary Items:" />
         <ListView fx:id="itineraryListView" editable="true">
             <cellFactory>
                 <TextFieldListCell />
             </cellFactory>
         </ListView>
-    </VBox> -->
+    </VBox>
 
     <!-- Add Itinerary Item Button -->
-    <!-- <Button text="Add Itinerary Item" onAction="#handleAddItineraryItem" /> -->
+    <Button text="Add Itinerary Item" onAction="#handleAddItineraryItem" />
 
 </VBox>

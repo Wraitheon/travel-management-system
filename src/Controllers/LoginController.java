@@ -37,15 +37,18 @@ public class LoginController {
     private void handleLoginButtonAction(ActionEvent event) throws IOException {
         String enteredEmail = email.getText();
         String enteredPassword = password.getText();
+                                        System.out.println(enteredEmail);
+
 
         // // Replace the following line with your database query logic
         boolean isValidCredentials = checkCredentialsFromDatabase(enteredEmail, enteredPassword);
-        if (isValidCredentials) {
+        String navLink = getDashBoardLink(enteredEmail);
+                                System.out.println(navLink);
+        if (isValidCredentials && !"".equals(navLink)) {
             // Navigate to another page
 
-            String navLink = getDashBoardLink(enteredEmail);
-                                System.out.println(navLink);
-
+            
+            
             FXMLLoader loader = new FXMLLoader(getClass().getResource(navLink));
             Parent anotherPage = loader.load();
             stage = (Stage)((Node)event.getSource()).getScene().getWindow();
@@ -60,6 +63,8 @@ public class LoginController {
     private String getDashBoardLink(String email){
         dbhandler db = new dbhandler();
          String userType = db.getUserType(email);
+                                         System.out.println(userType);
+
         if ("Travel Agency".equals(userType)) {
             return NavigationLink.agencyDashboard;
         } else if ("Tour Guide".equals(userType)) {

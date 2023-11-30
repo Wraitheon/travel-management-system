@@ -46,17 +46,16 @@ public class AgencyDashBoardController {
     @FXML
     private void handleAddTrips(ActionEvent event) {
         // Handle "Add Trips" button action
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("/Screens/TravelAgency/addtrip.fxml"));
+        FXMLLoader loader = new FXMLLoader(getClass().getResource(NavigationLink.addTrip));
         try {
             Parent addTripParent = loader.load();
-            Scene scene = new Scene(addTripParent);
            
             AddTripController addTripController = loader.getController();
 
             addTripController.initData(userEmail);
 
             stage = (Stage)((Node)event.getSource()).getScene().getWindow();
-            scene = new Scene(addTripParent, 600, 400);
+            Scene scene = new Scene(addTripParent, 600, 400);
             stage.setScene(scene);
             stage.show();
 
