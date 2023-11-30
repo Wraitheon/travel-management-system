@@ -33,6 +33,17 @@ public class Destination {
         this.trips = trips;
         this.landmarks = landmarks;
     }
+    public Destination(int destination_ID, String name) {
+        this.destination_ID = destination_ID;
+        this.name = name;
+    }
+    @Override
+    public String toString() {
+         return name + " (ID: " + destination_ID + ")";
+    }
+    public int getDestination_ID() {
+        return destination_ID;
+    }
   
 
     //getter setters

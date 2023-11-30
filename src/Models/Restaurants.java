@@ -1,19 +1,24 @@
 package Models;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 
-public class Restaurants {
+public class Restaurants extends ItineraryItem {
+    private int restaurant_id;
+   
     private String name;
-    private LocalDate scheduledTime;
     private double cost;
-    public Restaurants(String name, LocalDate scheduledTime, double cost) {
+    
+    
+    public Restaurants(int restaurant_id, LocalDateTime  dateTime, String name, double cost) {
+        super(dateTime);
+        this.restaurant_id = restaurant_id;
         this.name = name;
-        this.scheduledTime = scheduledTime;
         this.cost = cost;
     }
-    public Restaurants(String name, double cost) {
-        this.name = name;
-        this.cost = cost;
+     public int getRestaurant_id() {
+        return restaurant_id;
     }
     public String getName() {
         return name;
@@ -21,12 +26,7 @@ public class Restaurants {
     public void setName(String name) {
         this.name = name;
     }
-    public LocalDate getScheduledTime() {
-        return scheduledTime;
-    }
-    public void setScheduledTime(LocalDate scheduledTime) {
-        this.scheduledTime = scheduledTime;
-    }
+    
     public double getCost() {
         return cost;
     }
@@ -35,8 +35,19 @@ public class Restaurants {
     }
     @Override
     public String toString() {
-        return "Restaurants [name=" + name + ", scheduledTime=" + scheduledTime + ", cost=" + cost + "]";
+        
+        if (getDateTime() != null) {
+            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd MMM yyyy hh:mm a");
+
+            // Format the LocalDateTime using the formatter
+            String formattedDateTime = getDateTime().format(formatter);
+
+            return name + " at " +  formattedDateTime;
+        } else {
+            return name;
+        }
     }
+    
 
     //getter setters
 

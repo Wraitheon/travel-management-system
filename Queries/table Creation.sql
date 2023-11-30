@@ -17,6 +17,12 @@ CREATE TABLE Destinations (
     destination_name VARCHAR(255) NOT NULL
 );
 
+INSERT INTO Destinations (destination_name) VALUES
+    ('Hunza'),
+    ('Gilgit'),
+    ('Naran');
+
+
 CREATE TABLE Trip (
     trip_id INT PRIMARY KEY AUTO_INCREMENT,
     user_email VARCHAR(255),
@@ -87,13 +93,19 @@ CREATE TABLE Restaurants (
     FOREIGN KEY (destination_id) REFERENCES Destinations(destination_id)
 );
 
+INSERT INTO Restaurants (destination_id, restaurant_name, cost)
+VALUES
+    (3, 'Punjab Tikka', 50.00),
+    (3, 'Fairy Tikka', 40.50),
+    (3, 'Moon restaurant', 75.25);
+
 CREATE TABLE ItineraryRestaurants (
     restaurant_id INT,
     itinerary_id INT,
     scheduledTime DateTime,
     FOREIGN KEY (restaurant_id) REFERENCES Restaurants(restaurant_id),
     FOREIGN KEY (itinerary_id) REFERENCES Itinerary(itinerary_id)
-)
+);
 
 
 
@@ -105,7 +117,6 @@ CREATE TABLE Accommodation (
 
     cost DECIMAL(10, 2),
 
-    FOREIGN KEY (trip_id) REFERENCES Trip(trip_id)
     FOREIGN KEY (destination_id) REFERENCES Destinations(destination_id)
 );
 
@@ -138,9 +149,15 @@ CREATE TABLE Activities (
 
 CREATE TABLE Transportation (
     transportation_id INT PRIMARY KEY AUTO_INCREMENT,
-    mode_of_transport VARCHAR(50) NOT NULL, -- e.g., 'Air', 'Coaster', 'Car'
+    mode_of_transport VARCHAR(50) NOT NULL -- e.g., 'Air', 'Coaster', 'Car'
     
 );
+
+INSERT INTO Transportation (mode_of_transport) VALUES ('Air');
+INSERT INTO Transportation (mode_of_transport) VALUES ('Coaster');
+INSERT INTO Transportation (mode_of_transport) VALUES ('Bus');
+INSERT INTO Transportation (mode_of_transport) VALUES ('Car');
+INSERT INTO Transportation (mode_of_transport) VALUES ('Jeep');
 
 
 CREATE TABLE ItineraryTransportation (

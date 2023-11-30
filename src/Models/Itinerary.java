@@ -1,22 +1,21 @@
 package Models;
 
+import java.util.*;
 import java.util.List;
 
 public class Itinerary {
- 
+    private List<ItineraryItem> itineraryItems;
     private int iti_ID;
-    private List<Restaurants> restaurants;
-    private List<Accomodation> accomodations;
-    private List<Activity> activities;
-    private List<Transportation> transportations;
-    
-    public Itinerary(int iti_ID, List<Restaurants> restaurants, List<Accomodation> accomodations,
-            List<Activity> activities, List<Transportation> transportations) {
+    public Itinerary(List<ItineraryItem> itineraryItems, int iti_ID) {
+        this.itineraryItems = itineraryItems;
         this.iti_ID = iti_ID;
-        this.restaurants = restaurants;
-        this.accomodations = accomodations;
-        this.activities = activities;
-        this.transportations = transportations;
+    }
+    public List<ItineraryItem> getItineraryItems() {
+        sort();
+        return itineraryItems;
+    }
+    public void setItineraryItems(List<ItineraryItem> itineraryItems) {
+        this.itineraryItems = itineraryItems;
     }
     public int getIti_ID() {
         return iti_ID;
@@ -24,32 +23,27 @@ public class Itinerary {
     public void setIti_ID(int iti_ID) {
         this.iti_ID = iti_ID;
     }
-    public List<Restaurants> getRestaurants() {
-        return restaurants;
+    public void addRestaurants(Restaurants res){
+        itineraryItems.add(res);
     }
-    public void setRestaurants(List<Restaurants> restaurants) {
-        this.restaurants = restaurants;
+    public void addAccom(Accomodation accom){
+        itineraryItems.add(accom);
     }
-    public List<Accomodation> getAccomodations() {
-        return accomodations;
+    public void addActivity(Activity act){
+        itineraryItems.add(act);
     }
-    public void setAccomodations(List<Accomodation> accomodations) {
-        this.accomodations = accomodations;
+    public void addTransport(Transportation trans){
+        itineraryItems.add(trans);
     }
-    public List<Activity> getActivities() {
-        return activities;
-    }
-    public void setActivities(List<Activity> activities) {
-        this.activities = activities;
-    }
-    public List<Transportation> getTransportations() {
-        return transportations;
-    }
-    public void setTransportations(List<Transportation> transportations) {
-        this.transportations = transportations;
+    private void sort(){
+        Collections.sort(itineraryItems, Comparator.comparing(ItineraryItem::getDateTime));
     }
     
-    //getter setters
+    //getter setter
+  
+    
+   
+
 
 
 

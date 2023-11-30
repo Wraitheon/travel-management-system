@@ -11,51 +11,92 @@
 
     
 
-    <Label text="Trip Planner" style="-fx-font-size: 20; -fx-font-weight: bold;" />
+    <Label text="Add Trip" style="-fx-font-size: 20; -fx-font-weight: bold;" />
 
-    <!-- Destination Dropdown -->
-    <HBox spacing="5">
-        <Label text="Select Destination:" />
-        <ComboBox fx:id="destinationComboBox">
-            <items>
-                <FXCollections fx:factory="observableArrayList">
-                    <String fx:value="Destination 1" />
-                    <String fx:value="Destination 2" />
-                    <String fx:value="Destination 3" />
-                </FXCollections>
-            </items>
-        </ComboBox>
+    <ComboBox fx:id="destinationComboBox" promptText="Select Destination" onAction="#handleDestinationChange"/>
+
+    <HBox spacing="10" alignment="CENTER">
+        <Label text="Cost:" />
+        <TextField fx:id="costTextField" promptText="Enter Cost" />
     </HBox>
 
-    <!-- Trip Date -->
-    <HBox spacing="5">
-        <Label text="Select Trip Date:" />
-        <DatePicker fx:id="tripDatePicker" />
-    </HBox>
-
-    <!-- Number of Days -->
-    <HBox spacing="5">
+    <HBox spacing="10" alignment="CENTER">
         <Label text="Number of Days:" />
-        <TextField fx:id="numDaysTextField" onKeyTyped="#handleDigitInput" />
+        <TextField fx:id="daysTextField" promptText="Enter Number of Days" styleClass="text-field-with-line" />
     </HBox>
 
-    <!-- Price per Head -->
-    <HBox spacing="5">
-        <Label text="Price per Head:" />
-        <TextField fx:id="priceTextField" />
+    <HBox spacing="10" alignment="CENTER">
+        <Label text="Date of Trip:" />
+        <DatePicker fx:id="datePicker" promptText="Select Date" />
     </HBox>
 
-    <!-- Itinerary Items -->
-    <VBox spacing="5">
-        <Label text="Itinerary Items:" />
-        <ListView fx:id="itineraryListView" editable="true">
-            <cellFactory>
-                <TextFieldListCell />
-            </cellFactory>
-        </ListView>
+   
+
+    <ListView fx:id="itineraryListView" />
+
+    <TitledPane text="Add Restaurant" expanded="false">
+        <VBox spacing="5"  alignment="CENTER">
+
+            <ComboBox fx:id="resComboBox" promptText="Add New Restaurant Below Or Select" onAction="#handleResChange" />
+            <HBox spacing="10" alignment="CENTER">
+                <Label fx:id = "l1"  text="Restaurant Name" />
+                <TextField fx:id="resName" promptText="Enter Name" styleClass="text-field-with-line" />
+            </HBox>
+            <HBox spacing="10" alignment="CENTER">
+                <Label fx:id = "l2" text="Cost per Meal" />
+                <TextField fx:id="resCost" promptText="Enter Cost" styleClass="text-field-with-line" />
+            </HBox>
+
+            <HBox spacing="10" alignment="CENTER">
+                <Label  text="Date and Time for Meal:" />
+                <DatePicker fx:id="resdatePicker" promptText="Select Date" />
+                <Spinner fx:id="hourSpinner" min="0" max="23" initialValue="12" />
+                <Spinner fx:id="minuteSpinner" min="0" max="59" initialValue="0" /> 
+            </HBox>
+
+            <Button text="Add Restaurant" onAction="#handleAddRestaurant" />
+
+        </VBox>
+
+
+    </TitledPane>
+    <TitledPane text="Add Accomodation" expanded="false">
+        <VBox spacing="5">
+           
+            
+        </VBox>
+    </TitledPane>
+    <TitledPane text="Add Transport" expanded="false">
+        <VBox spacing="5">
+           
+            
+        </VBox>
+    </TitledPane>
+    <TitledPane text="Add Activity" expanded="false">
+        <VBox spacing="5">
+           
+            
+        </VBox>
+    </TitledPane>
+
+
+     <VBox alignment="BOTTOM_CENTER" id="button-container">
+        <HBox spacing="2">
+            <!-- Your Trips Button -->
+            <Button text="Home" onAction="#handleHome" id="button-large" />
+
+            <Button text="Your Trips" onAction="#handleYourTrips" id="button-large" />
+
+            <!-- Add Trips Button -->
+            <Button text="Add Trips" onAction="#handleAddTrips" id="button-large" />
+
+            <!-- Bookings Button -->
+            <Button text="Bookings" onAction="#handleBookings" id="button-large" />
+
+            <!-- About Button -->
+            <Button text="About" onAction="#handleAbout" id="button-large" />
+        </HBox>
     </VBox>
-
-    <!-- Add Itinerary Item Button -->
-    <Button text="Add Itinerary Item" onAction="#handleAddItineraryItem" />
+   
 
 </VBox>

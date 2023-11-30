@@ -1,51 +1,25 @@
 package Controllers;
 
+import java.io.IOException;
+
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.*;
-import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
-import java.io.IOException;
-import java.time.LocalDate;
-import javafx.util.StringConverter;
-
-import Models.UserService;
-import Models.dbhandler;
-public class AgencyDashBoardController {
-
-    private String userEmail;
+public class dashBoardController {
     private Stage stage;
 
-    
-
-    // @FXML
-    // private Label titleLabel;
-
-    public void initData(String email) {
-        userEmail = email;
-    }
-
-    // @FXML
-    // public void initialize() {
-    //     titleLabel.setText("Hello from JavaFX Controller!");
-    // }
-
-    @FXML
-    private Button gotToAddTrip;
-
-
-    @FXML
+     @FXML
     private void handleYourTrips(ActionEvent event) {
         // Handle "Your Trips" button action
     }
 
     @FXML
-    private void handleAddTrips(ActionEvent event) {
+    private void handleAddTrips(ActionEvent event, String userEmail) {
         // Handle "Add Trips" button action
         FXMLLoader loader = new FXMLLoader(getClass().getResource(NavigationLink.addTrip));
         try {
@@ -56,7 +30,7 @@ public class AgencyDashBoardController {
             addTripController.initData(userEmail);
 
             stage = (Stage)((Node)event.getSource()).getScene().getWindow();
-            Scene scene = new Scene(addTripParent);
+            Scene scene = new Scene(addTripParent, 600, 400);
             stage.setScene(scene);
             stage.show();
 
@@ -69,7 +43,7 @@ public class AgencyDashBoardController {
     }
 
      @FXML
-    private void handleHome(ActionEvent event) {
+    private void handleHome(ActionEvent event, String userEmail) {
         // Handle "Add Trips" button action
         FXMLLoader loader = new FXMLLoader(getClass().getResource(NavigationLink.agencyDashboard));
         try {
@@ -101,10 +75,4 @@ public class AgencyDashBoardController {
     private void handleAbout(ActionEvent event) {
         // Handle "About" button action
     }
-
-    
-    
-
-       
-
 }

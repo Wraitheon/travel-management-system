@@ -1,11 +1,122 @@
 package Models;
 import java.math.BigDecimal;
 import java.sql.*;
+import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
 
 
 
 
 public class dbhandler {
+
+    public List<Restaurants> getRestaurantsForDestination(int destinationId) {
+        List<Restaurants> restaurants = new ArrayList<>();
+    
+        try (Connection connection = DriverManager.getConnection(constants.url, constants.user, constants.password)) {
+            String sql = "SELECT restaurant_id, restaurant_name, cost FROM Restaurants WHERE destination_id = ?";
+            try (PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
+                preparedStatement.setInt(1, destinationId);
+                ResultSet resultSet = preparedStatement.executeQuery();
+                while (resultSet.next()) {
+                    int restaurantId = resultSet.getInt("restaurant_id");
+                    String restaurantName = resultSet.getString("restaurant_name");
+                    double cost = resultSet.getDouble("cost");
+    
+                    // Assuming you have a constructor in the Restaurant class
+                    Restaurants restaurant = new Restaurants(restaurantId, null, restaurantName, cost);
+    
+                    restaurants.add(restaurant);
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace(); // Handle the exception appropriately
+        }
+    
+        return restaurants;
+    }
+    
+    
+
+    public List<Accomodation> getAccommodationsForDestination(int destinationId) {
+        List<Accomodation> accommodations = new ArrayList<>();
+
+        try (Connection connection = DriverManager.getConnection(constants.url, constants.user, constants.password)) {
+            String sql = "SELECT accommodation_id, location, motel_name, cost FROM Accommodation WHERE destination_id = ?";
+            try (PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
+                preparedStatement.setInt(1, destinationId);
+                ResultSet resultSet = preparedStatement.executeQuery();
+                while (resultSet.next()) {
+                    int id = resultSet.getInt("accommodation_id");
+                    String location = resultSet.getString("location");
+                    String motelName = resultSet.getString("motel_name");
+                    double cost = resultSet.getDouble("cost");
+
+                    // Assuming you have a constructor in the Accommodation class
+                    Accomodation accommodation = new Accomodation(id, location, motelName, cost, null);
+
+                    accommodations.add(accommodation);
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace(); // Handle the exception appropriately
+        }
+
+        return accommodations;
+    }
+
+    
+
+    public List<Activity> getActivities() {
+        List<Activity> activities = new ArrayList<>();
+    
+        try (Connection connection = DriverManager.getConnection(constants.url, constants.user, constants.password)) {
+            String sql = "SELECT * cost FROM Activities";
+            try (PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
+                
+                ResultSet resultSet = preparedStatement.executeQuery();
+                while (resultSet.next()) {
+                    int id = resultSet.getInt("activity_id");
+                    String activityName = resultSet.getString("activity_name");
+                    String activityDescription = resultSet.getString("activity_description");
+                    double cost = resultSet.getDouble("cost");
+    
+                    // Assuming you have a constructor in the Activity class
+                    Activity activity = new Activity(id, activityName, activityDescription, cost, null);
+    
+                    activities.add(activity);
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace(); // Handle the exception appropriately
+        }
+    
+        return activities;
+    }
+    
+    
+
+    public List<Destination> getDestinations() {
+        List<Destination> destinations = new ArrayList<>();
+    
+        try (Connection connection = DriverManager.getConnection(constants.url, constants.user, constants.password);
+             Statement statement = connection.createStatement()) {
+    
+            ResultSet resultSet = statement.executeQuery("SELECT destination_id, destination_name FROM Destinations");
+    
+            while (resultSet.next()) {
+                int id = resultSet.getInt("destination_id");
+                String name = resultSet.getString("destination_name");
+                destinations.add(new Destination(id, name));
+            }
+    
+        } catch (SQLException e) {
+            e.printStackTrace(); // Handle the exception according to your needs
+        }
+    
+        return destinations;
+    }
+
 
     public String getUserType(String userEmail) {
         String query = "SELECT usertype FROM Users WHERE email = ?";

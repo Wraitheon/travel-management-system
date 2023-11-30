@@ -93,3 +93,33 @@ ListView {
     -fx-control-inner-background-alt: white;
 }
 
+.text-field-with-line {
+    -fx-background-color: transparent;
+    -fx-background-insets: 0, 0, 1, 0;
+    -fx-background-radius: 0, 0, 0, 0;
+    -fx-padding: 0.333333em 0.666667em 0.416667em 0.666667em; /* 4 8 5 8 */
+
+    -fx-text-fill: -fx-text-base-color;
+    -fx-font-size: 12px;
+
+    -fx-border-color: -fx-text-box-border;
+    -fx-border-width: 0 0 1 0;
+    -fx-border-insets: 0 0 1 0;
+    -fx-border-radius: 0 0 0 0;
+}
+
+.text-field-with-line:focused {
+    -fx-border-color: blue;
+    -fx-border-insets: 0, 0;
+    -fx-border-radius: 0, 0;
+}
+
+.text-field-with-line:disabled {
+    -fx-opacity: 1.0;
+}
+
+.text-field-with-line .prompt-text {
+    -fx-font-size: 12px;
+}
+
+

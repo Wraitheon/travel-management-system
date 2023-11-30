@@ -1,28 +1,28 @@
 package Models;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 
-public class Accomodation {
+public class Accomodation extends ItineraryItem{
+    private int id;
+   
+
     private String location;
     private String name;
-    private LocalDate check_in;
-    private LocalDate check_out;
+
     private double cost;
 
-      public Accomodation(String location, String name, LocalDate check_in, LocalDate check_out, double cost) {
-        this.location = location;
-        this.name = name;
-        this.check_in = check_in;
-        this.check_out = check_out;
-        this.cost = cost;
-    }
-
-    public Accomodation(String location, String name, double cost) {
+ 
+    public Accomodation(int id, String location, String name, double cost, LocalDateTime  dateTime) {
+        super(dateTime);
+        this.id = id;
         this.location = location;
         this.name = name;
         this.cost = cost;
     }
-
+     public int getId() {
+        return id;
+    }
     public String getLocation() {
         return location;
     }
@@ -35,18 +35,7 @@ public class Accomodation {
     public void setName(String name) {
         this.name = name;
     }
-    public LocalDate getCheck_in() {
-        return check_in;
-    }
-    public void setCheck_in(LocalDate check_in) {
-        this.check_in = check_in;
-    }
-    public LocalDate getCheck_out() {
-        return check_out;
-    }
-    public void setCheck_out(LocalDate check_out) {
-        this.check_out = check_out;
-    }
+    
 
     public double getCost() {
         return cost;
@@ -58,8 +47,7 @@ public class Accomodation {
 
     @Override
     public String toString() {
-        return "Accomodation [location=" + location + ", name=" + name + ", check_in=" + check_in + ", check_out="
-                + check_out + ", cost=" + cost + "]";
+        return "Accomodation [dateTime=" + getDateTime() + "location=" + location + ", name=" + name  + ", cost=" + cost + "]";
     }
 
     

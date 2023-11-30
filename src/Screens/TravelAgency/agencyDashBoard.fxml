@@ -16,6 +16,7 @@
     <VBox alignment="BOTTOM_CENTER" id="button-container">
         <HBox spacing="2">
             <!-- Your Trips Button -->
+            <Button text="Home" onAction="#handleHome" id="button-large" />
             <Button text="Your Trips" onAction="#handleYourTrips" id="button-large" />
 
             <!-- Add Trips Button -->

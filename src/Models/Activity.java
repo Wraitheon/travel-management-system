@@ -1,20 +1,26 @@
 package Models;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 
-public class Activity {
+public class Activity extends ItineraryItem {
     private String ActivityName;
-    private LocalDate acitivityDate;
+    private int id;
+    
+
     private String activityDescription;
     private double cost;
 
-    public Activity(String activityName, LocalDate acitivityDate, String activityDescription, double cost) {
+    public Activity(int id,String activityName, String activityDescription, double cost, LocalDateTime  dateTime) {
+        super(dateTime);
         ActivityName = activityName;
-        this.acitivityDate = acitivityDate;
+        this.id = id;
         this.activityDescription = activityDescription;
         this.cost = cost;
     }
-
+    public int getId() {
+        return id;
+    }
     public String getActivityName() {
         return ActivityName;
     }
@@ -23,13 +29,7 @@ public class Activity {
         ActivityName = activityName;
     }
 
-    public LocalDate getAcitivityDate() {
-        return acitivityDate;
-    }
-
-    public void setAcitivityDate(LocalDate acitivityDate) {
-        this.acitivityDate = acitivityDate;
-    }
+   
 
     public String getActivityDescription() {
         return activityDescription;
@@ -45,6 +45,12 @@ public class Activity {
 
     public void setCost(double cost) {
         this.cost = cost;
+    }
+
+    @Override
+    public String toString() {
+        return "Activity [dateTime= " + getDateTime() + "ActivityName=" + ActivityName + ", activityDescription="
+                + activityDescription + ", cost=" + cost + "]";
     }
 
     

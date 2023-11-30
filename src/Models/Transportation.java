@@ -1,45 +1,38 @@
 package Models;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 
-public class Transportation {
-    private String mode;
-    private LocalDate departureDate;
-    private LocalDate arivalDate; 
+public class Transportation extends ItineraryItem{
+   
+    private int id;
+    private String mode; 
     private double cost;
-    public Transportation(String mode, LocalDate departureDate, LocalDate arivalDate, double cost) {
-        this.mode = mode;
-        this.departureDate = departureDate;
-        this.arivalDate = arivalDate;
-        this.cost = cost;
-    }
-    public Transportation(String mode, double cost) {
+  
+    public Transportation(int id, String mode, double cost, LocalDateTime  dateTime) {
+        super(dateTime);
         this.mode = mode;
         this.cost = cost;
+        this.id = id;
     }
     public String getMode() {
         return mode;
     }
+     public int getId() {
+        return id;
+    }
     public void setMode(String mode) {
         this.mode = mode;
-    }
-    public LocalDate getDepartureDate() {
-        return departureDate;
-    }
-    public void setDepartureDate(LocalDate departureDate) {
-        this.departureDate = departureDate;
-    }
-    public LocalDate getArivalDate() {
-        return arivalDate;
-    }
-    public void setArivalDate(LocalDate arivalDate) {
-        this.arivalDate = arivalDate;
     }
     public double getCost() {
         return cost;
     }
     public void setCost(double cost) {
         this.cost = cost;
+    }
+    @Override
+    public String toString() {
+        return "Transportation [dateTime=" + getDateTime() + ", mode=" + mode + ", cost=" + cost + "]";
     }
 
     // create getter setter
