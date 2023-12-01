@@ -39,7 +39,7 @@ CREATE TABLE Review (
     user_email VARCHAR(255) NOT NULL,
     reviewed_user_email VARCHAR(255) NOT NULL,
     rating INT NOT NULL,
-    comment TEXT,
+    comment VARCHAR(255),
     review_date DATE NOT NULL,
     FOREIGN KEY (user_email) REFERENCES Users(email),
     FOREIGN KEY (reviewed_user_email) REFERENCES Users(email)

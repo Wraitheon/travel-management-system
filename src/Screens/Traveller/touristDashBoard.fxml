@@ -15,13 +15,16 @@
     </VBox>
     <VBox alignment="BOTTOM_CENTER" id="button-container">
         <HBox spacing="2">
-            <Button text="Book Trip" id="button-large" />
+            <Button text="Home" onAction="#handleHome" id="button-large" />
 
-            <Button text="Calculate Budget" id="button-large" />
 
-            <Button text="Booking Tour Guide" id="button-large" />
+            <Button text="View Trip" onAction="#handleViewTrips" id="button-large" />
+            
+            <Button text="Calculate Budget" onAction="#handleCalBudget" id="button-large" />
 
-            <Button text="View Itinerary" id="button-large" />
+            <Button text="Booking Tour Guide" onAction="#handleBookTourGuide" id="button-large" />
+
+            <Button text="Booking" onAction="#handleBooking" id="button-large" />
 
             <Button text="Add Review" onAction="#handleReview" id="button-large" />
         </HBox>

@@ -10,7 +10,46 @@ import java.util.List;
 
 
 
+
 public class dbhandler {
+
+    public List<TravelAgency> getTravelAgencies() {
+        List<TravelAgency> travelAgencies = new ArrayList<>();
+
+        try {
+            // Open connection
+           Connection connection = DriverManager.getConnection(constants.url, constants.user, constants.password);
+
+            // SQL query to fetch Travel Agencies
+            String sql = "SELECT * FROM Users WHERE usertype = 'Travel Agency'";
+            
+            try (PreparedStatement statement = connection.prepareStatement(sql)) {
+                // Execute the query
+                ResultSet resultSet = statement.executeQuery();
+
+                // Process the result set
+                while (resultSet.next()) {
+                    String email = resultSet.getString("email");
+                    String name = resultSet.getString("name");
+                    int age = resultSet.getInt("age");
+                    String dateOfBirth = resultSet.getString("date_of_birth");
+                    String userType = resultSet.getString("usertype");
+                    String cnic = resultSet.getString("cnic");
+                    String phoneNumber = resultSet.getString("phone_number");
+                    String password = resultSet.getString("password");
+
+                    // Create TravelAgency object and add to the list
+                    TravelAgency travelAgency = new TravelAgency(email, name, age, dateOfBirth, userType, cnic, phoneNumber, password);
+                    travelAgencies.add(travelAgency);
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace(); // Handle the exception appropriately
+        } 
+
+        return travelAgencies;
+    }
+      
 
     public List<Trip> getTripsByUserEmail(String userEmail) {
         List<Trip> trips = new ArrayList<>();
@@ -644,7 +683,7 @@ public class dbhandler {
     }
 
     // Function to insert a new review into the Review table
-    public static void insertReview(String user_email, String reviewedUserEmail, int rating, String comment, Date reviewDate) {
+    public static void insertReview(String user_email, String reviewedUserEmail, int rating, String comment, LocalDate reviewDate) {
         final String INSERT_QUERY = "INSERT INTO Review (user_email, reviewed_user_email, rating, comment, review_date) VALUES (?, ?, ?, ?, ?)";
 
         // Check if the users exist
@@ -665,7 +704,7 @@ public class dbhandler {
             preparedStatement.setString(2, reviewedUserEmail);
             preparedStatement.setInt(3, rating);
             preparedStatement.setString(4, comment);
-            preparedStatement.setDate(5, reviewDate);
+            preparedStatement.setDate(5, Date.valueOf(reviewDate));
 
             // Execute the update
             preparedStatement.executeUpdate();

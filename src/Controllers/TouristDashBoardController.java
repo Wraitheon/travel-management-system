@@ -29,32 +29,28 @@ public class TouristDashBoardController {
 
     NavBarController NBC = new NavBarController();
     @FXML
-    private void handleYourTrips(ActionEvent event) {
-        // Handle "Your Trips" button action
-        NBC.Navigate(event, NavigationLink.yourTrip);
-    }
-
-    @FXML
-    private void handleAddTrips(ActionEvent event) {
-        // Handle "Add Trips" button action
-       NBC.Navigate(event, NavigationLink.addTrip);
+    private void handleViewTrips(ActionEvent event) {
+        // NBC.Navigate(event, NavigationLink.touristViewTrips);    
     }
 
      @FXML
     private void handleHome(ActionEvent event) {
-        // Handle "Add Trips" button action
-        NBC.Navigate(event, NavigationLink.agencyDashboard);
+        NBC.Navigate(event, NavigationLink.touristDashboard);    
     }
 
     @FXML
-    private void handleBookings(ActionEvent event) {
-        // Handle "Bookings" button action
+    private void handleCalBudget(ActionEvent event) {
+        //NBC.Navigate(event, NavigationLink.touristViewTrips);    
+    }
+     @FXML
+    private void handleBookTourGuide(ActionEvent event) {
+        //NBC.Navigate(event, NavigationLink.touristViewTrips);    
+    }
+     @FXML
+    private void handleBooking(ActionEvent event) {
+        //NBC.Navigate(event, NavigationLink.touristViewTrips);    
     }
 
-    @FXML
-    private void handleAbout(ActionEvent event) {
-        // Handle "About" button action
-    }
 
     @FXML
     private void handleReview(ActionEvent event) {

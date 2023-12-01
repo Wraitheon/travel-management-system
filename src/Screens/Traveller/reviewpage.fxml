@@ -5,18 +5,39 @@
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.text.Font?>
 
-<VBox alignment="CENTER" spacing="10" stylesheets="@stylesTA.css" fx:id="root" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controllers.ReviewController">
-
+<VBox alignment="CENTER" spacing="10" stylesheets="@stylesTourist.css" fx:id="root" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controllers.ReviewController">
     <Label text="Travel Agency Review" style="-fx-font-size: 20; -fx-font-weight: bold;" />
 
-    <!-- Large TextArea for the review -->
-    <TextArea fx:id="reviewTextArea" promptText="Write your review here..." wrapText="true" prefHeight="200" prefWidth="400"/>
+    <!-- ComboBox for selecting a travel agency -->
+    <ComboBox fx:id="travelAgencyComboBox" promptText="Select Travel Agency" />
 
-    <!-- Additional elements can be added based on your requirements -->
+    <!-- Rating Slider -->
+    <HBox spacing="10" alignment="CENTER">
+        <Label text="Rating:" />
+        <Slider fx:id="ratingSlider" min="1" max="10" snapToTicks="true" majorTickUnit="1" minorTickCount="0" showTickLabels="true" showTickMarks="true" prefWidth="280" />
+    </HBox>
+
+    <!-- Smaller TextArea for the review -->
+    <TextArea fx:id="reviewTextArea" promptText="Write your review here..." wrapText="true" prefHeight="100" prefWidth="400"/>
 
     <!-- Button to submit the review -->
     <Button text="Submit Review" onAction="#handleSubmitReview" />
 
     <!-- Navigation buttons or links can be added here -->
+    <VBox alignment="BOTTOM_CENTER" id="button-container">
+        <HBox spacing="2">
+            <Button text="Home" onAction="#handleHome" id="button-large" />
 
+
+            <Button text="View Trip" onAction="#handleViewTrips" id="button-large" />
+            
+            <Button text="Calculate Budget" onAction="#handleCalBudget" id="button-large" />
+
+            <Button text="Booking Tour Guide" onAction="#handleBookTourGuide" id="button-large" />
+
+            <Button text="Booking" onAction="#handleBooking" id="button-large" />
+
+            <Button text="Add Review" onAction="#handleReview" id="button-large" />
+        </HBox>
+    </VBox>
 </VBox>

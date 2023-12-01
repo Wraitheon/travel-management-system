@@ -6,7 +6,7 @@ public class TravelAgency extends User {
     private List<Review> reviews;
 
     public TravelAgency(String email, String name, int age, String dateOfBirth, String userType, String cnic,
-            String phoneNumber, String password, List<Review> reviews) {
+            String phoneNumber, String password) {
         super(email, name, age, dateOfBirth, userType, cnic, phoneNumber, password);
         
         this.reviews = reviews;
