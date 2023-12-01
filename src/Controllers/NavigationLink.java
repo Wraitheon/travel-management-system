@@ -24,6 +24,13 @@ public class NavigationLink {
     public static String touristAbout = "/Screens/Traveller/touristAbout.fxml";
     public static String touristReview = "/Screens/Traveller/reviewpage.fxml";
     public static String touristViewTrips = "/Screens/Traveller/viewTrips.fxml";
+    public static String touristTripDetails = "/Screens/Traveller/tripDetailsTourist.fxml";
+    public static String touristBookTrip = "/Screens/Traveller/bookTrip.fxml";
+
+
+
+
+    
 
 
 }

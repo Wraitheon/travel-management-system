@@ -1,4 +1,5 @@
 Sql/
 javaFX/
 .vscode/
+.VSCodeCounter/
 src/Models/constants.java

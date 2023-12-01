@@ -80,6 +80,7 @@ CREATE TABLE Booking (
     booking_id INT PRIMARY KEY AUTO_INCREMENT,
     trip_id INT,
     user_email VARCHAR(255),
+    discount_amount DECIMAL(10, 2),
     booking_date DATE NOT NULL,
     FOREIGN KEY (trip_id) REFERENCES Trip(trip_id),
     FOREIGN KEY (user_email) REFERENCES Users(email)
@@ -114,7 +115,7 @@ CREATE TABLE TravelRecommendation (
 
 select count(*) from restaurants
 select * from restaurants
-
+select * from review
 select * from users
 select * from trip;
 select * from ItineraryRestaurants;
@@ -236,14 +237,12 @@ CREATE TABLE Landmarks (
     landmark_name VARCHAR(255) NOT NULL,
     FOREIGN KEY (destination_id) REFERENCES Destinations(destination_id)
 );
+INSERT INTO loyaltyProgram(user_email, points)values("meow@nu.edu.com", 31)
 
+drop table LoyaltyProgram;
 CREATE TABLE LoyaltyProgram (
-    loyalty_id INT PRIMARY KEY AUTO_INCREMENT,
     user_email VARCHAR(255) NOT NULL,
     points INT DEFAULT 0,
-    tier VARCHAR(50), -- You can define different loyalty tiers if needed
-    enrollment_date DATE NOT NULL,
-    last_activity_date DATE,
     FOREIGN KEY (user_email) REFERENCES Users(email)
 );
 --  add category of luxury for items;

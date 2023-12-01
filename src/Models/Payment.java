@@ -33,6 +33,10 @@ public class Payment {
     public void setMethod(String method) {
         this.method = method;
     }
+    public void addToDB(int b_ID){
+        dbhandler.insertPayment(b_ID, date, ammount, method);
+
+    }
     
     //getter setters
 }

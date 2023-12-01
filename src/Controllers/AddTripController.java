@@ -37,15 +37,12 @@ import javafx.stage.Stage;
 
 public class AddTripController {
 
-    private String userEmail;
-    private Stage stage;
+
 
     // @FXML
     // private Label titleLabel;
 
-    public void initData(String email) {
-        userEmail = email;
-    }
+
 
     
     
@@ -454,7 +451,7 @@ public class AddTripController {
     @FXML
     private void handleAddTripToDB(ActionEvent event){
 
-        if (datePicker.getValue().isAfter(LocalDate.now())){
+        if (datePicker.getValue().isBefore(LocalDate.now())){
             showAlert("Error", "Trip cannot be in past");
 
             return;
@@ -486,7 +483,7 @@ public class AddTripController {
 
         newTrip.insertModelToDb(destination_id);
 
-        showAlert("SuccessFul", "YourTrip has been added SuccessFully");
+        AlertController.showConfirmation("SuccessFul", "YourTrip has been added SuccessFully");
 
         NBC.Navigate(event, NavigationLink.agencyDashboard);
 

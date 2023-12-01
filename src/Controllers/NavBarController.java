@@ -18,7 +18,7 @@ public class NavBarController {
             Parent addTripParent = loader.load();
 
             stage = (Stage)((Node)event.getSource()).getScene().getWindow();
-            Scene scene = new Scene(addTripParent, 1000, 800);
+            Scene scene = new Scene(addTripParent, 1200, 800);
             stage.setScene(scene);
             stage.show();
 

@@ -6,14 +6,15 @@ import java.time.LocalDate;
 public class Booking {
     private String email;
     private LocalDate date;
+    private double discount;
     private Payment payment;
     private int trip_ID;
 
-    public Booking(int bookingId, int tripId, String userEmail, Date bookingDate) {
-        this.email = userEmail;
-        this.date = bookingDate.toLocalDate(); // Convert Date to LocalDate
-        this.payment = null; // Set the default value for payment
-        this.trip_ID = tripId;
+    public Booking(String email, LocalDate date, int trip_ID, double discount) {
+        this.email = email;
+        this.date = date;
+        this.discount = discount;
+        this.trip_ID = trip_ID;
     }
 
     public String getEmail() {
@@ -38,6 +39,15 @@ public class Booking {
 
     public void setPayment(Payment payment) {
         this.payment = payment;
+    }
+
+    public void makePayment(double amount) {
+        payment = new Payment(amount, LocalDate.now(), "Online");
+    }
+
+    public void addToDB(){
+        int booking_id = dbhandler.insertBooking(trip_ID, email, discount, date);
+        payment.addToDB(booking_id);
     }
 
     public int getTrip_ID() {
