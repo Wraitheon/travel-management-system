@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.text.Font?>
+
+<VBox alignment="CENTER" stylesheets="@stylesTourist.css" fx:id="root" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controllers.BookTripController">
+   
+      <VBox alignment="CENTER" spacing="20">
+         <Label fx:id="tripPriceLabel" stylesheets="@stylesTourist.css" />
+          <HBox alignment="CENTER" spacing="10" stylesheets="@stylesTourist.css">
+
+            <Label text="Enter Amount:" stylesheets="@stylesTourist.css" />
+            <TextField fx:id="amountTextField" stylesheets="@stylesTourist.css" />
+          </HBox>
+          <HBox alignment="CENTER" spacing="10" stylesheets="@stylesTourist.css">
+            <Label text="Loyalty Points:" stylesheets="@stylesTourist.css" />
+            <Label fx:id="loyaltyPointsLabel" stylesheets="@stylesTourist.css" />
+          </HBox>
+         <HBox alignment="CENTER" spacing="10" stylesheets="@stylesTourist.css">
+            <!-- <Label text="Discount Eligibility:" /> -->
+            <Label fx:id="discountEligibilityLabel" />
+            
+         </HBox>
+         <Button fx:id="discountButton" text="Apply Discount" onAction="#handleDiscount" visible="true" />
+          <Button fx:id="Pay" text="Pay" onAction="#handlePay"  visible="true" />
+          <Region prefHeight="20" />
+        <Button text="Back" onAction="#handleBack" />
+
+      </VBox>
+   
+</VBox>
