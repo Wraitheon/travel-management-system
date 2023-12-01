@@ -70,7 +70,7 @@ public class LoginController {
         } else if ("Tour Guide".equals(userType)) {
             return NavigationLink.agencyDashboard;
         } else if ("Tourist".equals(userType)) {
-            return NavigationLink.agencyDashboard;
+            return NavigationLink.touristDashboard;
         }
         
         return "";

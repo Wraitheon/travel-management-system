@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.text.Font?>
+
+<VBox alignment="CENTER" spacing="10" stylesheets="@stylesTA.css" fx:id="root" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controllers.ReviewController">
+
+    <Label text="Travel Agency Review" style="-fx-font-size: 20; -fx-font-weight: bold;" />
+
+    <!-- Large TextArea for the review -->
+    <TextArea fx:id="reviewTextArea" promptText="Write your review here..." wrapText="true" prefHeight="200" prefWidth="400"/>
+
+    <!-- Additional elements can be added based on your requirements -->
+
+    <!-- Button to submit the review -->
+    <Button text="Submit Review" onAction="#handleSubmitReview" />
+
+    <!-- Navigation buttons or links can be added here -->
+
+</VBox>

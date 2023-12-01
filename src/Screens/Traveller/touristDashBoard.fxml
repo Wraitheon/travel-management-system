@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.cell.PropertyValueFactory?>
+
+<VBox alignment="CENTER" spacing="10" stylesheets="@stylesTourist.css" fx:id="root" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controllers.TouristDashBoardController">
+
+   <VBox spacing="20" alignment="CENTER" id="root">
+        <Label text="Tourist Dashboard" id="label-title" />
+
+        <!-- Your existing content -->
+
+    </VBox>
+    <VBox alignment="BOTTOM_CENTER" id="button-container">
+        <HBox spacing="2">
+            <Button text="Book Trip" id="button-large" />
+
+            <Button text="Calculate Budget" id="button-large" />
+
+            <Button text="Booking Tour Guide" id="button-large" />
+
+            <Button text="View Itinerary" id="button-large" />
+
+            <Button text="Add Review" onAction="#handleReview" id="button-large" />
+        </HBox>
+    </VBox>
+    
+</VBox>

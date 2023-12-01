@@ -2,8 +2,13 @@ package Controllers;
 
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Node;
+import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.layout.VBox;
+import javafx.stage.Stage;
+
 
 import java.time.LocalDate;
 import javafx.util.StringConverter;
@@ -12,6 +17,7 @@ import Models.UserService;
 import Models.dbhandler;
 
 public class SignupController {
+    NavBarController NBC = new NavBarController();
 
     @FXML
     private VBox signupBox;
@@ -111,6 +117,8 @@ public class SignupController {
 
         dbhandler dbH = new dbhandler();
         dbH.insertUser(email, name, age, (dateOfBirth != null) ? dateOfBirth.toString() : null, userType, cnic, phoneNumber, password);
+
+        NBC.Navigate(event, NavigationLink.login);
     }
 
     private void showAlert(String title, String content) {
