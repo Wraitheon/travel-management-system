@@ -1,5 +1,7 @@
 package Models;
 
+import java.math.BigDecimal;
+import java.sql.Date;
 import java.time.LocalDate;
 
 public class Payment {
@@ -10,6 +12,8 @@ public class Payment {
         this.ammount = ammount;
         this.date = date;
         this.method = method;
+    }
+    public Payment(int paymentId, int bookingId, Date paymentDate, BigDecimal amount, String paymentMethod) {
     }
     public double getAmmount() {
         return ammount;

@@ -2,24 +2,10 @@ package Controllers;
 
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Node;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
 import javafx.scene.control.*;
-import javafx.scene.layout.VBox;
-import javafx.stage.Stage;
-
-import java.io.IOException;
-import java.time.LocalDate;
-import javafx.util.StringConverter;
-
-import Models.UserService;
-import Models.dbhandler;
 public class AgencyDashBoardController {
 
-    private String userEmail;
-    private Stage stage;
+    
 
     
 
@@ -27,7 +13,6 @@ public class AgencyDashBoardController {
     // private Label titleLabel;
 
     public void initData(String email) {
-        userEmail = email;
     }
 
     // @FXML

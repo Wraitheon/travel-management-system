@@ -1,5 +1,6 @@
 package Models;
 
+import java.sql.Date;
 import java.time.LocalDate;
 
 public class Booking {
@@ -8,11 +9,11 @@ public class Booking {
     private Payment payment;
     private int trip_ID;
 
-    public Booking(String email, LocalDate date, Payment payment, int trip_ID) {
-        this.email = email;
-        this.date = date;
-        this.payment = payment;
-        this.trip_ID = trip_ID;
+    public Booking(int bookingId, int tripId, String userEmail, Date bookingDate) {
+        this.email = userEmail;
+        this.date = bookingDate.toLocalDate(); // Convert Date to LocalDate
+        this.payment = null; // Set the default value for payment
+        this.trip_ID = tripId;
     }
 
     public String getEmail() {

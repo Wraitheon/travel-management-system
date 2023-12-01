@@ -47,7 +47,7 @@ public class TouristDashBoardController {
     }
      @FXML
     private void handleBooking(ActionEvent event) {
-        //NBC.Navigate(event, NavigationLink.touristViewTrips);    
+        NBC.Navigate(event, NavigationLink.touristViewTrips);    
     }
 
 

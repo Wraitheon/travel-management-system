@@ -13,6 +13,59 @@ import java.util.List;
 
 public class dbhandler {
 
+    public List<Booking> getBookings() {
+        List<Booking> bookings = new ArrayList<>();
+
+        String query = "SELECT * FROM Booking";
+
+        try (Connection connection = DriverManager.getConnection(constants.url, constants.user, constants.password);
+             Statement statement = connection.createStatement();
+             ResultSet resultSet = statement.executeQuery(query)) {
+
+            while (resultSet.next()) {
+                int bookingId = resultSet.getInt("booking_id");
+                int tripId = resultSet.getInt("trip_id");
+                String userEmail = resultSet.getString("user_email");
+                Date bookingDate = resultSet.getDate("booking_date");
+
+                Booking booking = new Booking(bookingId, tripId, userEmail, bookingDate);
+                bookings.add(booking);
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace(); // Handle the exception appropriately
+        }
+
+        return bookings;
+    }
+
+    public List<Payment> getPayments() {
+        List<Payment> payments = new ArrayList<>();
+
+        String query = "SELECT * FROM Payment";
+
+        try (Connection connection = DriverManager.getConnection(constants.url, constants.user, constants.password);
+             Statement statement = connection.createStatement();
+             ResultSet resultSet = statement.executeQuery(query)) {
+
+            while (resultSet.next()) {
+                int paymentId = resultSet.getInt("payment_id");
+                int bookingId = resultSet.getInt("booking_id");
+                Date paymentDate = resultSet.getDate("payment_date");
+                BigDecimal amount = resultSet.getBigDecimal("amount");
+                String paymentMethod = resultSet.getString("payment_method");
+
+                Payment payment = new Payment(paymentId, bookingId, paymentDate, amount, paymentMethod);
+                payments.add(payment);
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace(); // Handle the exception appropriately
+        }
+
+        return payments;
+    }
+
     public List<Review> getReviewsForTravelAgency(String travelAgencyEmail) {
         List<Review> reviews = new ArrayList<>();
 

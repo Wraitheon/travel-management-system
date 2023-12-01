@@ -20,7 +20,7 @@ public class NavigationLink {
     public static String touristDashboard = "/Screens/Traveller/touristDashBoard.fxml";
     public static String touristAddTrip = "/Screens/Traveller/touristAddTrip.fxml";
     public static String touristYourTrip = "/Screens/Traveller/touristYourTrip.fxml";
-    public static String touristBookings = "/Screens/Traveller/touristBookings.fxml";
+    public static String touristBookings = "/Screens/Traveller/bookingpage.fxml";
     public static String touristAbout = "/Screens/Traveller/touristAbout.fxml";
     public static String touristReview = "/Screens/Traveller/reviewpage.fxml";
     public static String touristViewTrips = "/Screens/Traveller/viewTrips.fxml";
