@@ -52,7 +52,7 @@ public class LoginController {
             FXMLLoader loader = new FXMLLoader(getClass().getResource(navLink));
             Parent anotherPage = loader.load();
             stage = (Stage)((Node)event.getSource()).getScene().getWindow();
-            scene = new Scene(anotherPage, 600, 400);
+            scene = new Scene(anotherPage, 1000, 800);
             stage.setScene(scene);
             stage.show();
         } else {

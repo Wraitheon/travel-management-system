@@ -11,7 +11,8 @@
 <?import javafx.fxml.FXMLLoader?>
 
 
-        <VBox alignment="CENTER" stylesheets="@stylesTA.css" fx:id="root" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controllers.AddTripController" >
+
+<VBox alignment="CENTER" stylesheets="@stylesTA.css" fx:id="root" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controllers.AddTripController" >
 
     
 

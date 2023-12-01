@@ -24,13 +24,12 @@ public class TouristDashBoardController {
     //     titleLabel.setText("Hello from JavaFX Controller!");
     // }
 
-    @FXML
-    private Button gotToAddTrip;
+    
 
     NavBarController NBC = new NavBarController();
     @FXML
     private void handleViewTrips(ActionEvent event) {
-        // NBC.Navigate(event, NavigationLink.touristViewTrips);    
+        NBC.Navigate(event, NavigationLink.touristViewTrips);    
     }
 
      @FXML

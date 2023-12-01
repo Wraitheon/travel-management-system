@@ -138,8 +138,7 @@ public class AddTripController {
 
     @FXML
     private void handleAddActivity(ActionEvent event) {
-        if (activityDatePicker.getValue() == null || datePicker.getValue() == null || activityDatePicker.getValue().isBefore(datePicker.getValue())) {
-            showAlert("Date not Selected", "Kindly add relevant date");
+        if (checkDate(activityDatePicker.getValue())){
             return;
         }
          if (destination_id == 0) {
@@ -193,8 +192,7 @@ public class AddTripController {
                 showAlert("Error", "Destination is missing");
                 return;
             }
-         if (transportationDatePicker.getValue() == null || datePicker.getValue() ==null || transportationDatePicker.getValue().isBefore(datePicker.getValue())) {
-            showAlert("Date not Selected", "Kindly add relevant date");
+        if (checkDate(transportationDatePicker.getValue())){
             return;
         }
 
@@ -264,8 +262,9 @@ public class AddTripController {
 
     @FXML
     private void handleAddAccommodation(ActionEvent event) {
-        if (accommodationDatePicker.getValue() == null || datePicker.getValue() ==null || accommodationDatePicker.getValue().isBefore(datePicker.getValue())) {
-            showAlert("Date not Selected", "Kindly add relevant date");
+
+
+        if (checkDate(accommodationDatePicker.getValue())){
             return;
         }
 
@@ -355,12 +354,12 @@ public class AddTripController {
 
      @FXML
     private void handleAddRestaurant(ActionEvent event) {
-
-                if (resdatePicker.getValue() == null || datePicker.getValue() ==null|| resdatePicker.getValue().isBefore(datePicker.getValue())) {
-                    showAlert("Date not Selected", "Kindly add relevant date");
+                
+                if (checkDate(resdatePicker.getValue())){
                     return;
                 }
-                 LocalDate selectedDate = resdatePicker.getValue();
+                
+                LocalDate selectedDate = resdatePicker.getValue();
                 LocalDateTime selectedDateTime = LocalDateTime.of(selectedDate, LocalTime.of(hourSpinner.getValue(), minuteSpinner.getValue()));
 
                 if (resComboBox.getValue() != null){
@@ -430,6 +429,24 @@ public class AddTripController {
         itineraryListView.setItems(FXCollections.observableArrayList(itineraryItems));
     }
 
+    private Boolean checkDate(LocalDate date){
+         String daysText = daysTextField.getText();
+        int days = (int) Double.parseDouble(daysText);
+
+        if (date == null || datePicker.getValue() ==null) {
+            showAlert("Date not Selected", "Kindly Enter a date");
+            return true;
+        } else if (date.isAfter(datePicker.getValue().plusDays(days))|| date.isBefore(datePicker.getValue())) {
+            showAlert("Irrelevant Date", "Kindly Enter a date with in Trip dates");
+            return true;
+        }
+
+
+        return false;
+
+
+    }
+
     private void showAlert(String title, String content) {
         Alert alert = new Alert(Alert.AlertType.ERROR);
         alert.setTitle(title);
@@ -441,6 +458,13 @@ public class AddTripController {
 
     @FXML
     private void handleAddTripToDB(ActionEvent event){
+
+        if (datePicker.getValue().isAfter(LocalDate.now())){
+            showAlert("Error", "Trip cannot be in past");
+
+            return;
+        }
+
         if (datePicker.getValue() == null || "".equals(costTextField.getText()) || "".equals(daysTextField.getText())) {
             showAlert("Error", "Information is missing");
 

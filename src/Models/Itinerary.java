@@ -1,7 +1,6 @@
 package Models;
 
 import java.util.*;
-import java.util.List;
 
 public class Itinerary {
     private List<ItineraryItem> itineraryItems;
@@ -117,6 +116,31 @@ public class Itinerary {
         return list;
     }
     //getter setter
+    public Itinerary(int iti_ID) {
+        this.iti_ID = iti_ID;
+        this.itineraryItems = new ArrayList<ItineraryItem>();
+        
+    }
+
+    public void fecthItineraryItems(){
+        dbhandler db = new dbhandler();
+        List<Accomodation> accomodations = db.getAccommodationForItinerary(iti_ID);
+        List<Restaurants> restaurants = db.getRestaurantsForItinerary(iti_ID);
+        List<Transportation> transportations = db.getTransportationForItinerary(iti_ID);
+
+        for(var item : accomodations){
+            itineraryItems.add(item);
+        }
+        for(var item : restaurants){
+            itineraryItems.add(item);
+        }
+        for(var item : transportations){
+            itineraryItems.add(item);
+        }
+
+    }
+
+    
   
     
    

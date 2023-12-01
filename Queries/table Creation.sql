@@ -12,6 +12,34 @@ CREATE TABLE Users (
     CONSTRAINT chk_email CHECK (email LIKE '%_@__%.__%') -- Check for a basic email format
 );
 
+INSERT INTO Users (email, name, age, date_of_birth, usertype, cnic, phone_number, password)
+VALUES ('agency1@example.com', 'Travel Agency 1', 28, '1995-05-15', 'Travel Agency', '111223344556677', '9876543210', '1234');
+
+INSERT INTO Users (email, name, age, date_of_birth, usertype, cnic, phone_number, password)
+VALUES ('agency2@example.com', 'Travel Agency 2', 32, '1990-11-23', 'Travel Agency', '998877665544332', '1234567890', '1234');
+
+INSERT INTO Users (email, name, age, date_of_birth, usertype, cnic, phone_number, password)
+VALUES ('agency3@example.com', 'Travel Agency 3', 26, '1997-08-08', 'Travel Agency', '123456789012345', '8765432109', '1234');
+
+-- Insert trips for 'Hunza'
+INSERT INTO Trip (user_email, destination_id, trip_date, prices, number_of_days)
+VALUES
+    ('agency1@example.com', 1, '2023-05-10', 1500.00, 5),
+    ('agency2@example.com', 1, '2023-06-15', 1800.00, 7);
+
+-- Insert trips for 'Gilgit'
+INSERT INTO Trip (user_email, destination_id, trip_date, prices, number_of_days)
+VALUES
+    ('agency2@example.com', 2, '2023-07-20', 1200.00, 4),
+    ('agency3@example.com', 2, '2023-08-25', 1600.00, 6);
+
+-- Insert trips for 'Naran'
+INSERT INTO Trip (user_email, destination_id, trip_date, prices, number_of_days)
+VALUES
+    ('agency1@example.com', 3, '2023-09-30', 2000.00, 8),
+    ('agency3@example.com', 3, '2023-10-15', 2200.00, 9);
+
+
 CREATE TABLE Destinations (
     destination_id INT PRIMARY KEY AUTO_INCREMENT,
     destination_name VARCHAR(255) NOT NULL
@@ -87,6 +115,7 @@ CREATE TABLE TravelRecommendation (
 select count(*) from restaurants
 select * from restaurants
 
+select * from users
 select * from trip;
 select * from ItineraryRestaurants;
 

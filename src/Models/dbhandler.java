@@ -13,6 +13,36 @@ import java.util.List;
 
 public class dbhandler {
 
+    public List<Review> getReviewsForTravelAgency(String travelAgencyEmail) {
+        List<Review> reviews = new ArrayList<>();
+
+        try {
+            Connection connection = DriverManager.getConnection(constants.url, constants.user, constants.password);
+
+            String sql = "SELECT * FROM Review WHERE reviewed_user_email = ?";
+
+            try (PreparedStatement statement = connection.prepareStatement(sql)) {
+                statement.setString(1, travelAgencyEmail);
+
+                ResultSet resultSet = statement.executeQuery();
+
+                while (resultSet.next()) {
+                    String userEmail = resultSet.getString("user_email");
+                    int rating = resultSet.getInt("rating");
+                    String comment = resultSet.getString("comment");
+                    LocalDate reviewDate = resultSet.getDate("review_date").toLocalDate();
+
+                    Review review = new Review( userEmail, rating, comment, reviewDate);
+                    reviews.add(review);
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } 
+
+        return reviews;
+    }
+
     public List<TravelAgency> getTravelAgencies() {
         List<TravelAgency> travelAgencies = new ArrayList<>();
 
@@ -49,7 +79,185 @@ public class dbhandler {
 
         return travelAgencies;
     }
-      
+
+    public List<Restaurants> getRestaurantsForItinerary(int itineraryId) {
+        String sql = "SELECT r.restaurant_id, r.restaurant_name, r.cost, ir.scheduledTime " +
+                     "FROM Restaurants r " +
+                     "JOIN ItineraryRestaurants ir ON r.restaurant_id = ir.restaurant_id " +
+                     "WHERE ir.itinerary_id = ?";
+        List<Restaurants> restaurantList = new ArrayList<>();
+
+        try (Connection connection = DriverManager.getConnection(constants.url, constants.user, constants.password);
+             PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
+
+            preparedStatement.setInt(1, itineraryId);
+
+            try (ResultSet resultSet = preparedStatement.executeQuery()) {
+                while (resultSet.next()) {
+                    int restaurantId = resultSet.getInt("restaurant_id");
+                    String restaurantName = resultSet.getString("restaurant_name");
+                    double cost = resultSet.getDouble("cost");
+                    LocalDateTime scheduledTime = resultSet.getTimestamp("scheduledTime").toLocalDateTime();
+
+                    Restaurants restaurant = new Restaurants(restaurantId, scheduledTime, restaurantName, cost);
+                    restaurantList.add(restaurant);
+                }
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace(); // Handle the exception appropriately
+        }
+
+        return restaurantList;
+    }
+
+    public List<Accomodation> getAccommodationForItinerary(int itineraryId) {
+        String sql = "SELECT a.accommodation_id, a.location, a.motel_name, a.cost, ia.check_in_date " +
+                     "FROM Accommodation a " +
+                     "JOIN ItineraryAccommodation ia ON a.accommodation_id = ia.accommodation_id " +
+                     "WHERE ia.itinerary_id = ?";
+        List<Accomodation> accommodationList = new ArrayList<>();
+
+        try (Connection connection = DriverManager.getConnection(constants.url, constants.user, constants.password);
+             PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
+
+            preparedStatement.setInt(1, itineraryId);
+
+            try (ResultSet resultSet = preparedStatement.executeQuery()) {
+                while (resultSet.next()) {
+                    int accommodationId = resultSet.getInt("accommodation_id");
+                    String location = resultSet.getString("location");
+                    String motelName = resultSet.getString("motel_name");
+                    double cost = resultSet.getDouble("cost");
+                    LocalDateTime checkInDate = resultSet.getTimestamp("check_in_date").toLocalDateTime();
+
+                    Accomodation accommodation = new Accomodation(accommodationId, location, motelName, cost, checkInDate);
+                    accommodationList.add(accommodation);
+                }
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace(); // Handle the exception appropriately
+        }
+
+        return accommodationList;
+    }
+
+    public List<Transportation> getTransportationForItinerary(int itineraryId) {
+        String sql = "SELECT t.transportation_id, t.mode_of_transport, it.departure_date " +
+                     "FROM Transportation t " +
+                     "JOIN ItineraryTransportation it ON t.transportation_id = it.transportation_id " +
+                     "WHERE it.itinerary_id = ?";
+        List<Transportation> transportationList = new ArrayList<>();
+
+        try (Connection connection = DriverManager.getConnection(constants.url, constants.user, constants.password);
+             PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
+
+            preparedStatement.setInt(1, itineraryId);
+
+            try (ResultSet resultSet = preparedStatement.executeQuery()) {
+                while (resultSet.next()) {
+                    int transportationId = resultSet.getInt("transportation_id");
+                    String modeOfTransport = resultSet.getString("mode_of_transport");
+                    LocalDateTime departureDate = resultSet.getTimestamp("departure_date").toLocalDateTime();
+
+                    Transportation transportation = new Transportation(transportationId, modeOfTransport, departureDate);
+                    transportationList.add(transportation);
+                }
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace(); // Handle the exception appropriately
+        }
+
+        return transportationList;
+    }
+
+
+    public List<Activity> getActivitiesForTrip(int tripId) {
+        String sql = "SELECT a.activity_id, a.activity_name, a.activity_description, a.cost, a.activity_date " +
+                     "FROM Activities a " +
+                     "JOIN Trip t ON a.trip_id = t.trip_id " +
+                     "WHERE t.trip_id = ?";
+        List<Activity> activities = new ArrayList<>();
+
+        try (Connection connection = DriverManager.getConnection(constants.url, constants.user, constants.password);
+             PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
+
+            preparedStatement.setInt(1, tripId);
+
+            try (ResultSet resultSet = preparedStatement.executeQuery()) {
+                while (resultSet.next()) {
+                    int activityId = resultSet.getInt("activity_id");
+                    String activityName = resultSet.getString("activity_name");
+                    String activityDescription = resultSet.getString("activity_description");
+                    double cost = resultSet.getDouble("cost");
+                    LocalDateTime dateTime = resultSet.getTimestamp("activity_date").toLocalDateTime();
+
+                    Activity activity = new Activity(activityId, activityName, activityDescription, cost, dateTime);
+                    activities.add(activity);
+                }
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace(); // Handle the exception appropriately
+        }
+
+        return activities;
+    }
+
+    public int getItineraryIdForTrip(int tripId) {
+        String sql = "SELECT itinerary_id FROM Itinerary WHERE trip_id = ?";
+        int itineraryId = -1; // Default value if not found
+
+        try (Connection connection = DriverManager.getConnection(constants.url, constants.user, constants.password);
+             PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
+
+            preparedStatement.setInt(1, tripId);
+
+            try (ResultSet resultSet = preparedStatement.executeQuery()) {
+                if (resultSet.next()) {
+                    itineraryId = resultSet.getInt("itinerary_id");
+                }
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace(); // Handle the exception appropriately
+        }
+
+        return itineraryId;
+    }
+
+    public List<TripTable> getTripDataForUser(String userEmail) {
+        List<TripTable> tripDataList = new ArrayList<>();
+    
+        String sql = "SELECT t.trip_id AS trip_ID, d.destination_name AS destination, t.prices AS price, t.trip_date AS trip_Date, t.number_of_days AS noOfDays FROM Trip t JOIN Destinations d ON t.destination_id = d.destination_id WHERE t.user_email = ?";
+    
+        try (Connection connection = DriverManager.getConnection(constants.url, constants.user, constants.password);
+             PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
+    
+            preparedStatement.setString(1, userEmail);
+    
+            try (ResultSet resultSet = preparedStatement.executeQuery()) {
+                while (resultSet.next()) {
+                    int trip_ID = resultSet.getInt("trip_ID");
+                    String destination = resultSet.getString("destination");
+                    double price = resultSet.getDouble("price");
+                    LocalDate trip_Date = resultSet.getDate("trip_Date").toLocalDate();
+                    int noOfDays = resultSet.getInt("noOfDays");
+    
+                    TripTable tripTable = new TripTable(trip_ID, destination, price, trip_Date, noOfDays);
+                    tripDataList.add(tripTable);
+                }
+            }
+    
+        } catch (SQLException e) {
+            e.printStackTrace(); // Handle the exception appropriately
+        }
+    
+        return tripDataList;
+    }
+    
 
     public List<Trip> getTripsByUserEmail(String userEmail) {
         List<Trip> trips = new ArrayList<>();

@@ -18,7 +18,7 @@ public class NavBarController {
             Parent addTripParent = loader.load();
 
             stage = (Stage)((Node)event.getSource()).getScene().getWindow();
-            Scene scene = new Scene(addTripParent);
+            Scene scene = new Scene(addTripParent, 1000, 800);
             stage.setScene(scene);
             stage.show();
 
@@ -27,4 +27,24 @@ public class NavBarController {
             e.printStackTrace();
         }
     }
+
+    // public void NavigateWithData(ActionEvent event, String url, var controller, var parameter){
+    //      FXMLLoader loader = new FXMLLoader(getClass().getResource(url));
+    //     try {
+    //         Parent addTripParent = loader.load();
+
+    //         controller = loader.getController();
+
+    //         controller.initData(parameter);
+
+    //         stage = (Stage)((Node)event.getSource()).getScene().getWindow();
+    //         Scene scene = new Scene(addTripParent);
+    //         stage.setScene(scene);
+    //         stage.show();
+
+    //     } catch (IOException e) {
+    //         // TODO Auto-generated catch block
+    //         e.printStackTrace();
+    //     }
+    // }
 }

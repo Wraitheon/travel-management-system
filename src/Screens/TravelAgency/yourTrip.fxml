@@ -5,6 +5,7 @@
 <?import javafx.scene.text.*?>
 <?import javafx.geometry.*?>
 
+
 <BorderPane prefHeight="400.0" prefWidth="600.0"  stylesheets="@stylesTA.css" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controllers.YourTripController">
    <top>
       <VBox alignment="CENTER" spacing="10" BorderPane.alignment="CENTER">

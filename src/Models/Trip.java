@@ -1,6 +1,7 @@
 package Models;
 
 import java.time.LocalDate;
+import java.util.List;
 
 import Controllers.EmailController;
 
@@ -89,6 +90,26 @@ public class Trip {
         this.price = price;
         this.trip_Date = trip_Date;
         this.noOfDays = noOfDays;
+    }
+
+    public void fetchItinerary(){
+        dbhandler db = new dbhandler();
+
+        itinerary = new Itinerary(db.getItineraryIdForTrip(trip_ID));
+        fetchActivities(trip_ID);
+        itinerary.fecthItineraryItems();
+
+    }
+
+    private void fetchActivities(int trip_ID){
+        dbhandler db = new dbhandler();
+
+        List<Activity> list = db.getActivitiesForTrip(trip_ID);
+
+        for(var item : list){
+                    itinerary.addActivity(item);
+        }
+
     }
 
     
