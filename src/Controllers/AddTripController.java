@@ -469,7 +469,7 @@ public class AddTripController {
 
         showAlert("SuccessFul", "YourTrip has been added SuccessFully");
 
-        NavigateHome(event);
+        NBC.Navigate(event, NavigationLink.agencyDashboard);
 
 
     }
@@ -477,57 +477,27 @@ public class AddTripController {
 
     //------------------------------------------------------------------------------------------------------
 
+    NavBarController NBC = new NavBarController();
     @FXML
     private void handleYourTrips(ActionEvent event) {
         // Handle "Your Trips" button action
+        NBC.Navigate(event, NavigationLink.yourTrip);
     }
 
-    void NavigateHome(ActionEvent event){
-        FXMLLoader loader = new FXMLLoader(getClass().getResource(NavigationLink.agencyDashboard));
-        try {
-            Parent addTripParent = loader.load();
-           
-            AgencyDashBoardController agencyDashBoardController = loader.getController();
-
-            agencyDashBoardController.initData(userEmail);
-
-            stage = (Stage)((Node)event.getSource()).getScene().getWindow();
-            Scene scene = new Scene(addTripParent);
-            stage.setScene(scene);
-            stage.show();
-
-        } catch (IOException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
-        }
-    }
-    @FXML
-    private void handleHome(ActionEvent event) {
-        // Handle "Add Trips" button action
-        
-        NavigateHome(event);
-        
-    }
+    
     @FXML
     private void handleAddTrips(ActionEvent event) {
         // Handle "Add Trips" button action
-        FXMLLoader loader = new FXMLLoader(getClass().getResource(NavigationLink.addTrip));
-        try {
-            Parent addTripParent = loader.load();
-           
-            AddTripController addTripController = loader.getController();
+       
+       NBC.Navigate(event, NavigationLink.addTrip);
+        
+    }
 
-            addTripController.initData(userEmail);
-
-            stage = (Stage)((Node)event.getSource()).getScene().getWindow();
-            Scene scene = new Scene(addTripParent);
-            stage.setScene(scene);
-            stage.show();
-
-        } catch (IOException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
-        }
+     @FXML
+    private void handleHome(ActionEvent event) {
+        // Handle "Add Trips" button action
+       
+        NBC.Navigate(event, NavigationLink.agencyDashboard);
 
         
     }

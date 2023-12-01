@@ -3,6 +3,7 @@ import java.math.BigDecimal;
 import java.sql.*;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -10,6 +11,44 @@ import java.util.List;
 
 
 public class dbhandler {
+
+    public List<Trip> getTripsByUserEmail(String userEmail) {
+        List<Trip> trips = new ArrayList<>();
+        String query = "SELECT * FROM Trip WHERE user_email = ?";
+
+        try (Connection connection = DriverManager.getConnection(constants.url, constants.user, constants.password);
+             PreparedStatement preparedStatement = connection.prepareStatement(query)) {
+
+            preparedStatement.setString(1, userEmail);
+
+            try (ResultSet resultSet = preparedStatement.executeQuery()) {
+                while (resultSet.next()) {
+                    
+                    
+                    int tripId = resultSet.getInt("trip_id");
+                    System.out.println(tripId);
+                    int destinationId = resultSet.getInt("destination_id");
+                    String tripDate = resultSet.getString("trip_date");
+                    double prices = resultSet.getDouble("prices");
+                    int numberOfDays = resultSet.getInt("number_of_days");
+
+                    // Define the date format based on your database date format
+                    DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+
+                    // Parse the string to LocalDate
+                    LocalDate localDate = LocalDate.parse(tripDate, formatter);
+
+                    Trip trip = new Trip(tripId, destinationId, prices, localDate, numberOfDays);
+                    trips.add(trip);
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace(); // Handle the exception appropriately
+        }
+
+        return trips;
+    }
+
 
     public void insertItineraryAccommodation(int itineraryId, int accommodationId, LocalDateTime checkInDateTime) {
         try (Connection connection = DriverManager.getConnection(constants.url, constants.user, constants.password)) {

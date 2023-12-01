@@ -38,56 +38,27 @@ public class AgencyDashBoardController {
     @FXML
     private Button gotToAddTrip;
 
-
+    NavBarController NBC = new NavBarController();
     @FXML
     private void handleYourTrips(ActionEvent event) {
         // Handle "Your Trips" button action
+        NBC.Navigate(event, NavigationLink.yourTrip);
     }
 
+    
     @FXML
     private void handleAddTrips(ActionEvent event) {
         // Handle "Add Trips" button action
-        FXMLLoader loader = new FXMLLoader(getClass().getResource(NavigationLink.addTrip));
-        try {
-            Parent addTripParent = loader.load();
-           
-            AddTripController addTripController = loader.getController();
-
-            addTripController.initData(userEmail);
-
-            stage = (Stage)((Node)event.getSource()).getScene().getWindow();
-            Scene scene = new Scene(addTripParent);
-            stage.setScene(scene);
-            stage.show();
-
-        } catch (IOException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
-        }
-
+       
+       NBC.Navigate(event, NavigationLink.addTrip);
         
     }
 
      @FXML
     private void handleHome(ActionEvent event) {
         // Handle "Add Trips" button action
-        FXMLLoader loader = new FXMLLoader(getClass().getResource(NavigationLink.agencyDashboard));
-        try {
-            Parent addTripParent = loader.load();
-           
-            AgencyDashBoardController agencyDashBoardController = loader.getController();
-
-            agencyDashBoardController.initData(userEmail);
-
-            stage = (Stage)((Node)event.getSource()).getScene().getWindow();
-            Scene scene = new Scene(addTripParent, 600, 400);
-            stage.setScene(scene);
-            stage.show();
-
-        } catch (IOException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
-        }
+       
+        NBC.Navigate(event, NavigationLink.agencyDashboard);
 
         
     }

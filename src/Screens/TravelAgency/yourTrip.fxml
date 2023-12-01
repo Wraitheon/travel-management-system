@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
+<?import javafx.geometry.*?>
+
+<BorderPane prefHeight="400.0" prefWidth="600.0"  stylesheets="@stylesTA.css" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controllers.YourTripController">
+   <top>
+      <VBox alignment="CENTER" spacing="10" BorderPane.alignment="CENTER">
+         <children>
+            <Text text="Your Trips">
+               <font>
+                  <Font name="System Bold" size="24.0" />
+               </font>
+            </Text>
+         </children>
+      </VBox>
+   </top>
+   
+   <center>
+      <VBox>
+         <TableView fx:id="tripTableView" prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER">
+            <columns>
+               
+            </columns>
+         </TableView>
+         <VBox alignment="BOTTOM_CENTER" id="button-container">
+         <HBox spacing="2">
+               <!-- Your Trips Button -->
+               <Button text="Home" onAction="#handleHome" id="button-large" />
+
+               <Button text="Your Trips" onAction="#handleYourTrips" id="button-large" />
+
+               <!-- Add Trips Button -->
+               <Button text="Add Trips" onAction="#handleAddTrips" id="button-large" />
+
+               <!-- Bookings Button -->
+               <Button text="Bookings" onAction="#handleBookings" id="button-large" />
+
+               <!-- About Button -->
+               <Button text="About" onAction="#handleAbout" id="button-large" />
+         </HBox>
+      </VBox>
+    </VBox>
+   </center>
+   
+</BorderPane>

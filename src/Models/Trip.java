@@ -6,6 +6,9 @@ import Controllers.EmailController;
 
 public class Trip {
     private int trip_ID;
+    private int destination_id;
+   
+
     private double price;
     private LocalDate trip_Date;
     private int noOfDays;
@@ -13,6 +16,14 @@ public class Trip {
     
     public Itinerary getItinerary() {
         return itinerary;
+    }
+     public int getDestination_id() {
+        return destination_id;
+    }
+
+
+    public void setDestination_id(int destination_id) {
+        this.destination_id = destination_id;
     }
 
 
@@ -69,6 +80,15 @@ public class Trip {
         int trip_id = db.addTrip(EmailController.email, destination_id, trip_Date, price, noOfDays);
 
         itinerary.addToDB(trip_id);
+    }
+
+
+    public Trip(int trip_ID, int destination_id, double price, LocalDate trip_Date, int noOfDays) {
+        this.trip_ID = trip_ID;
+        this.destination_id = destination_id;
+        this.price = price;
+        this.trip_Date = trip_Date;
+        this.noOfDays = noOfDays;
     }
 
     
