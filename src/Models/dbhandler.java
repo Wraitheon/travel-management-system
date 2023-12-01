@@ -176,31 +176,7 @@ public class dbhandler {
         return null; // Return null if the destination is not found
     }
 
-    public List<Booking> getBookings() {
-        List<Booking> bookings = new ArrayList<>();
-
-        String query = "SELECT * FROM Booking";
-
-        try (Connection connection = DriverManager.getConnection(constants.url, constants.user, constants.password);
-             Statement statement = connection.createStatement();
-             ResultSet resultSet = statement.executeQuery(query)) {
-
-            while (resultSet.next()) {
-                int bookingId = resultSet.getInt("booking_id");
-                int tripId = resultSet.getInt("trip_id");
-                String userEmail = resultSet.getString("user_email");
-                Date bookingDate = resultSet.getDate("booking_date");
-
-                Booking booking = new Booking(bookingId, tripId, userEmail, bookingDate);
-                bookings.add(booking);
-            }
-
-        } catch (SQLException e) {
-            e.printStackTrace(); // Handle the exception appropriately
-        }
-
-        return bookings;
-    }
+    
 
     public List<Payment> getPayments() {
         List<Payment> payments = new ArrayList<>();
