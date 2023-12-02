@@ -28,6 +28,14 @@
 
             <Button text="Add Review" onAction="#handleReview" id="button-large" />
         </HBox>
+        <HBox alignment="CENTER" spacing="2">
+            <Button text="Local Recommendation" onAction="#handleLocal" id="button-large" />
+
+            <Button text="Chat" onAction="#handleChat" id="button-large" />
+            
+            <Button text="Guide Booking" onAction="#handleGuideBooking" id="button-large" />
+
+        </HBox>
     </VBox>
     
 </VBox>

@@ -59,7 +59,24 @@ public class TouristDashBoardController implements Initializable{
 
     @FXML
     private void handleReview(ActionEvent event) {
-        NBC.Navigate(event, NavigationLink.touristReview);    }
+        NBC.Navigate(event, NavigationLink.touristReview);    
+    }
+     @FXML
+    private void handleLocal(ActionEvent event) {
+        NBC.Navigate(event, NavigationLink.touristReview);    
+    }
+
+     @FXML
+    private void handleChat(ActionEvent event) {
+        NBC.Navigate(event, NavigationLink.touristReview);    
+    }
+
+     @FXML
+    private void handleGuideBooking(ActionEvent event) {
+        NBC.Navigate(event, NavigationLink.touristReview);    
+    }
+
+
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {

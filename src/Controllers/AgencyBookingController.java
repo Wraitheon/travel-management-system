@@ -73,7 +73,7 @@ public class AgencyBookingController {
     @FXML
     private void initialize() {
 
-        bookingTableList = dbhandler.getBookingTableData(EmailController.email);
+        bookingTableList = dbhandler.getAgencyBookingTableData(EmailController.email);
 
         userNameColumn.setCellValueFactory(new PropertyValueFactory<>("userName"));
         tripDestinationColumn.setCellValueFactory(new PropertyValueFactory<>("tripDestination"));
