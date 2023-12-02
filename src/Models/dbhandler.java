@@ -12,61 +12,197 @@ import java.util.List;
 
 
 public class dbhandler {
-    public static List<Booking> fetchBookingsFromDatabase() {
-        List<Booking> bookings = new ArrayList<>();
 
-        try {
-            // JDBC connection setup (replace with your actual database connection details)
-            Connection connection = DriverManager.getConnection(constants.url, constants.user, constants.password);
-
-            // Your SQL query
-            String sql = "SELECT u.name AS user_name, d.destination_name AS trip_destination, t.prices AS trip_price, " +
-                    "t.number_of_days AS trip_number_of_days, b.booking_date, p.payment_date, p.amount, p.payment_method " +
-                    "FROM Users u JOIN Trip t ON u.email = t.user_email JOIN Destinations d ON t.destination_id = d.destination_id " +
-                    "JOIN Booking b ON t.trip_id = b.trip_id JOIN Payment p ON b.booking_id = p.booking_id";
-
-            // Create a prepared statement
+    public static void insertPayment(int bookingId, LocalDate paymentDate, double amount, String paymentMethod) {
+        try (Connection connection = DriverManager.getConnection(constants.url, constants.user, constants.password)) {
+            String sql = "INSERT INTO Payment (booking_id, payment_date, amount, payment_method) VALUES (?, ?, ?, ?)";
+            
             try (PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
-                // Execute the query
-                ResultSet resultSet = preparedStatement.executeQuery();
+                preparedStatement.setInt(1, bookingId);
+                preparedStatement.setDate(2, java.sql.Date.valueOf(paymentDate));
+                preparedStatement.setDouble(3, amount);
+                preparedStatement.setString(4, paymentMethod);
+                
+                preparedStatement.executeUpdate();
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
 
-                // Process the result set
-                while (resultSet.next()) {
-                    // Extract data from the result set
-                    String userName = resultSet.getString("user_name");
-                    String tripDestination = resultSet.getString("trip_destination");
-                    double tripPrice = resultSet.getDouble("trip_price");
-                    int tripNumberOfDays = resultSet.getInt("trip_number_of_days");
-                    LocalDate bookingDate = resultSet.getDate("booking_date").toLocalDate();
-                    LocalDate paymentDate = resultSet.getDate("payment_date").toLocalDate();
-                    double paymentAmount = resultSet.getDouble("amount");
-                    String paymentMethod = resultSet.getString("payment_method");
+    public static int insertBooking(int tripId, String userEmail, double discountAmount, LocalDate booking_date) {
+        String sql = "INSERT INTO Booking (trip_id, user_email, discount_amount, booking_date) VALUES (?, ?, ?, ?)";
 
-                    // Create instances of your classes and add them to the list
-                    User user = new User();
-                    user.setName(userName);
-                    Destination destination = new Destination(tripDestination);
-                    Trip trip = new Trip(tripNumberOfDays, paymentAmount, paymentDate, tripNumberOfDays);
-                    Payment payment = new Payment(paymentDate, paymentAmount, paymentMethod);
+        try (Connection connection = DriverManager.getConnection(constants.url, constants.user, constants.password)) {
+            PreparedStatement preparedStatement = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
+            preparedStatement.setInt(1, tripId);
+            preparedStatement.setString(2, userEmail);
+            preparedStatement.setDouble(3, discountAmount);            
+            preparedStatement.setDate(4, Date.valueOf(booking_date));
 
-                    Booking booking = new Booking();
-                    booking.setU_user(user);
-                    booking.setD_destination(destination);
-                    booking.setTrip_ID(trip);
-                    booking.setP_payment(payment);
 
-                    // Add the Booking instance to the list
-                    bookings.add(booking);
+            // Execute the insert statement
+            int rowsAffected = preparedStatement.executeUpdate();
 
-                    // Print information about the current booking
-                    System.out.println("Fetched Booking: " + booking);
+            if (rowsAffected == 0) {
+                throw new RuntimeException("Inserting booking failed, no rows affected.");
+            }
+
+            // Retrieve the auto-generated keys
+            try (ResultSet generatedKeys = preparedStatement.getGeneratedKeys()) {
+                if (generatedKeys.next()) {
+                    // Return the generated booking_id
+                    return generatedKeys.getInt(1);
+                } else {
+                    throw new RuntimeException("Inserting booking failed, no ID obtained.");
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            // Handle exceptions appropriately
+            return -1; // Return an error value
+        }
+    }
+
+    public User getUserByEmail(String userEmail) {
+        User user = null;
+
+        System.out.println(userEmail);
+
+        try (
+           Connection connection = DriverManager.getConnection(constants.url, constants.user, constants.password);// Obtain your connection here (e.g., DriverManager.getConnection(...));
+            PreparedStatement preparedStatement = connection.prepareStatement(
+                "SELECT * FROM Users WHERE email = ?"
+            )
+        ) {
+            preparedStatement.setString(1, userEmail);
+
+            try (ResultSet resultSet = preparedStatement.executeQuery()) {
+                if (resultSet.next()) {
+                    // Extract user details from the result set
+                    String email = resultSet.getString("email");
+                    String name = resultSet.getString("name");
+                    int age = resultSet.getInt("age");
+                    String dateOfBirth = resultSet.getString("date_of_birth");
+                    String userType = resultSet.getString("usertype");
+                    String cnic = resultSet.getString("cnic");
+                    String phoneNumber = resultSet.getString("phone_number");
+                    String password = resultSet.getString("password");
+
+                    // Create a User object
+                    user = new Traveller(email, name, age, dateOfBirth, userType, cnic, phoneNumber, password);
+                } else {
+                    System.out.println("User not found.");
                 }
             }
         } catch (SQLException e) {
             e.printStackTrace();
         }
 
-        return bookings;
+        return user;
+    }
+
+    public int getPoints(String userEmail) {
+        int points = 0;
+
+        try (
+            Connection connection = DriverManager.getConnection(constants.url, constants.user, constants.password); // Obtain your connection here (e.g., DriverManager.getConnection(...));
+            PreparedStatement preparedStatement = connection.prepareStatement(
+                "SELECT points FROM LoyaltyProgram WHERE user_email = ?"
+            )
+        ) {
+            preparedStatement.setString(1, userEmail);
+
+            try (ResultSet resultSet = preparedStatement.executeQuery()) {
+                if (resultSet.next()) {
+                    points = resultSet.getInt("points");
+                } else {
+                    System.out.println("User not found.");
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return points;
+    }
+
+    public void updatePoints(String userEmail, int newPoints) {
+            try (
+                Connection connection = DriverManager.getConnection(constants.url, constants.user, constants.password);// Obtain your connection here (e.g., DriverManager.getConnection(...));
+                PreparedStatement preparedStatement = connection.prepareStatement(
+                    "UPDATE LoyaltyProgram SET points = ? WHERE user_email = ?"
+                )
+            ) {
+                preparedStatement.setInt(1, newPoints);
+                preparedStatement.setString(2, userEmail);
+    
+                int rowsAffected = preparedStatement.executeUpdate();
+    
+                if (rowsAffected > 0) {
+                    System.out.println("Points updated successfully!");
+                } else {
+                    System.out.println("User not found or points not updated.");
+                }
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
+
+    public String getDestinationNameForTrip(int tripId) {
+
+        
+
+        try ( Connection connection = DriverManager.getConnection(constants.url, constants.user, constants.password)) {
+
+            PreparedStatement statement = connection.prepareStatement(
+                "SELECT d.destination_name " +
+                "FROM Trip t " +
+                "JOIN Destinations d ON t.destination_id = d.destination_id " +
+                "WHERE t.trip_id = ?");
+    
+            statement.setInt(1, tripId);
+    
+            try (ResultSet resultSet = statement.executeQuery()) {
+                if (resultSet.next()) {
+                    // Retrieve the destination name
+                    return resultSet.getString("destination_name");
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace(); // Handle the exception appropriately
+        }
+    
+        return null; // Return null if the destination is not found
+    }
+
+    
+
+    public List<Payment> getPayments() {
+        List<Payment> payments = new ArrayList<>();
+
+        String query = "SELECT * FROM Payment";
+
+        try (Connection connection = DriverManager.getConnection(constants.url, constants.user, constants.password);
+             Statement statement = connection.createStatement();
+             ResultSet resultSet = statement.executeQuery(query)) {
+
+            while (resultSet.next()) {
+                int paymentId = resultSet.getInt("payment_id");
+                int bookingId = resultSet.getInt("booking_id");
+                Date paymentDate = resultSet.getDate("payment_date");
+                BigDecimal amount = resultSet.getBigDecimal("amount");
+                String paymentMethod = resultSet.getString("payment_method");
+
+                Payment payment = new Payment(paymentId, bookingId, paymentDate, amount, paymentMethod);
+                payments.add(payment);
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace(); // Handle the exception appropriately
+        }
+
+        return payments;
     }
 
     public List<Review> getReviewsForTravelAgency(String travelAgencyEmail) {

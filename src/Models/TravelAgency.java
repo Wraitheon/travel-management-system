@@ -37,6 +37,18 @@ public class TravelAgency extends User {
         this.reviews = reviews;
     }
 
+    public double avgRating(){
+
+        double total = 0;
+
+        for (var review : reviews) {
+            total += review.getRating();
+        }
+
+        return total/reviews.size();
+
+    }
+
     //getter setters
     
 }

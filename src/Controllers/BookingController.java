@@ -64,21 +64,6 @@ public class BookingController {
         paymentDateColumn.setCellValueFactory(new PropertyValueFactory<>("paymentDate"));
         amountColumn.setCellValueFactory(new PropertyValueFactory<>("amount"));
         paymentMethodColumn.setCellValueFactory(new PropertyValueFactory<>("paymentMethod"));
-
-        // Load data
-        loadBookingData();
-        loadPaymentData();
     }
 
-    private void loadBookingData() {
-        dbhandler handler = new dbhandler(); // Create an instance of dbhandler
-        List<Booking> bookings = handler.getBookings(); // Call the method on the instance
-        bookingTableView.getItems().setAll(bookings);
-    }
-
-    private void loadPaymentData() {
-        dbhandler handler = new dbhandler(); // Create an instance of dbhandler
-        List<Payment> payments = handler.getPayments(); // Call the method on the instance
-        paymentTableView.getItems().setAll(payments);
-    }
 }

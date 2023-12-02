@@ -5,15 +5,13 @@ import javafx.fxml.FXML;
 import javafx.scene.control.*;
 public class AgencyDashBoardController {
 
-    
 
     
 
     // @FXML
     // private Label titleLabel;
 
-    public void initData(String email) {
-    }
+   
 
     // @FXML
     // public void initialize() {

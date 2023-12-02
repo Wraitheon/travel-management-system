@@ -73,6 +73,12 @@ public class Trip {
         return trip_ID;
     }
 
+    public  String getDestination(){
+        dbhandler db = new dbhandler();
+
+        return db.getDestinationNameForTrip(trip_ID);
+    }
+
 
     public void insertModelToDb(int destination_id){
 
@@ -109,6 +115,26 @@ public class Trip {
         for(var item : list){
                     itinerary.addActivity(item);
         }
+
+    }
+    private TravelAgency getAgency(){
+        dbhandler db = new dbhandler();
+        List<TravelAgency> agencies = db.getTravelAgencies();
+
+        
+        for(var agency : agencies){
+            for(var trip : agency.getTrips()){
+                if(trip.getTrip_ID() == trip_ID){
+                    return agency;
+                }
+            }
+        } 
+        return null;
+    }
+
+    public double getAgencyRating(){
+        
+        return getAgency().avgRating();
 
     }
 

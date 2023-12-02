@@ -1,23 +1,29 @@
 package Controllers;
 
+import java.net.URL;
+import java.util.ResourceBundle;
+
+import Models.Traveller;
+import Models.User;
+import Models.dbhandler;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.Initializable;
 import javafx.scene.control.*;
 import javafx.stage.Stage;
 
-public class TouristDashBoardController {
+public class TouristDashBoardController implements Initializable{
 
-    private String userEmail;
-    private Stage stage;
+    public static Traveller traveller;
 
     
 
     // @FXML
     // private Label titleLabel;
 
-    public void initData(String email) {
-        userEmail = email;
-    }
+    // public void initData(String email) {
+    //     userEmail = email;
+    // }
 
     // @FXML
     // public void initialize() {
@@ -54,4 +60,16 @@ public class TouristDashBoardController {
     @FXML
     private void handleReview(ActionEvent event) {
         NBC.Navigate(event, NavigationLink.touristReview);    }
+
+    @Override
+    public void initialize(URL location, ResourceBundle resources) {
+         dbhandler db = new dbhandler();
+
+        User user = db.getUserByEmail(EmailController.email);
+
+        if (user instanceof Traveller) {
+            traveller = (Traveller) user;
+            // Now you can use traveller-specific methods or properties
+        }
+    }
 }

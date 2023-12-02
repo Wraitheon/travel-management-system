@@ -1,5 +1,6 @@
 package Controllers;
 
+import java.io.IOException;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
@@ -7,13 +8,20 @@ import java.util.List;
 import Models.AllTripViewTable;
 import Models.Destination;
 import Models.TravelAgency;
+import Models.TripTable;
 import Models.dbhandler;
 import javafx.collections.FXCollections;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Node;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
+import javafx.scene.input.MouseEvent;
+import javafx.stage.Stage;
 
 public class ViewTripController {
 
@@ -55,7 +63,41 @@ public class ViewTripController {
         noOfDaysColumn.setCellValueFactory(cellData -> cellData.getValue().noOfDaysProperty().asObject());
 
         populateTable();
+
+         allTripTableView.setOnMouseClicked(event -> {
+            if (event.getClickCount() == 2) { // Check for a double-click
+                AllTripViewTable selectedTrip = allTripTableView.getSelectionModel().getSelectedItem();
+                if (selectedTrip != null) {
+                    // Perform navigation logic here (e.g., load another FXML)
+                    navigateToTripDetails(event, selectedTrip);
+                }
+            }
+        });
         
+    }
+
+     private void navigateToTripDetails(MouseEvent event, AllTripViewTable selectedTrip) {
+    // Implement your navigation logic here, e.g., load another FXML
+    // You can use FXMLLoader and Parent to load the new scene
+    // Example:
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource(NavigationLink.touristTripDetails));
+            Parent root = loader.load();
+            Stage stage;
+            // Access the controller of the new page
+            TripDetailsTouristController controller = loader.getController();
+            
+            // Pass data to the controller if needed
+            controller.setTripAgencyData(selectedTrip);
+
+            // Create a new scene
+                stage = (Stage)((Node)event.getSource()).getScene().getWindow();
+                Scene scene = new Scene(root, 1000, 800);
+                stage.setScene(scene);
+                stage.show();
+        } catch (IOException e) {
+            e.printStackTrace(); // Handle the exception appropriately
+        }
     }
 
     private void populateTable(){
