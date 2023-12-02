@@ -24,8 +24,8 @@ public class dbhandler {
                 "p.payment_date, " +
                 "p.amount, " +
                 "p.payment_method, " +
-                "p.discount, " +
-                "(t.prices - p.amount - p.discount) AS remaining_amount " +
+                "b.discount_amount, " +
+                "(t.prices - p.amount - b.discount_amount) AS remaining_amount " +
                 "FROM " +
                 "Users u " +
                 "JOIN Trip t ON u.email = t.user_email " +
@@ -47,7 +47,7 @@ public class dbhandler {
                 Date paymentDate = resultSet.getDate("payment_date");
                 BigDecimal amount = resultSet.getBigDecimal("amount");
                 String paymentMethod = resultSet.getString("payment_method");
-                BigDecimal discount = resultSet.getBigDecimal("discount");
+                BigDecimal discount = resultSet.getBigDecimal("discount_amount");
                 BigDecimal remainingPrice = resultSet.getBigDecimal("remaining_amount");
 
                 // Assuming you have a constructor in BookingTable class to initialize the object

@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.cell.PropertyValueFactory?>
+
+<VBox alignment="CENTER" spacing="10" stylesheets="@stylesTA.css" fx:id="root" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controllers.AgencyAboutController">
+
+    <VBox spacing="20" alignment="CENTER" id="root">
+        <Label text="Travel Agency Dashboard" id="label-title" />
+
+        <!-- Agency Information HBox -->
+        <HBox spacing="10">
+            <VBox>
+                <Label text="Agency Name: " />
+                <Label text="Phone Number: " />
+            </VBox>
+            <VBox>
+                <Label fx:id="agencyNameLabel" />
+                <Label fx:id="phoneNumberLabel" />
+            </VBox>
+        </HBox>
+
+        <!-- Ratings HBox -->
+        <HBox>
+            <Label text="Ratings: " />
+            <ProgressBar fx:id="ratingsProgressBar" progress="0.8" prefWidth="200.0" prefHeight="30" />
+            <Label fx:id="rating" />
+        </HBox>
+
+        <!-- Your existing content -->
+
+    </VBox>
+
+    <!-- TableView for User Comments and Ratings -->
+    <TableView fx:id="userCommentsTable" VBox.vgrow="ALWAYS">
+        <columns>
+            
+        </columns>
+    </TableView>
+
+    <VBox alignment="BOTTOM_CENTER" id="button-container">
+        <HBox spacing="2">
+            <!-- Your Trips Button -->
+            <Button text="Home" onAction="#handleHome" id="button-large" />
+            <Button text="Your Trips" onAction="#handleYourTrips" id="button-large" />
+
+            <!-- Add Trips Button -->
+            <Button text="Add Trips" onAction="#handleAddTrips" id="button-large" />
+
+            <!-- Bookings Button -->
+            <Button text="Bookings" onAction="#handleBookings" id="button-large" />
+
+            <!-- About Button -->
+            <Button text="About" onAction="#handleAbout" id="button-large" />
+        </HBox>
+    </VBox>
+</VBox>

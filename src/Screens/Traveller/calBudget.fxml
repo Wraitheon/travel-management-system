@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.collections.FXCollections?>
+
+<AnchorPane xmlns="http://javafx.com/javafx"
+            xmlns:fx="http://javafx.com/fxml"
+            fx:controller="your.package.ControllerClass">
+
+    <HBox alignment="CENTER" spacing="10">
+        <!-- Other UI elements -->
+        
+        <!-- Placeholder for dynamic ComboBox elements -->
+        <VBox fx:id="dynamicComboBoxesContainer" spacing="5"/>
+        <VBox fx:id="dynamicLabelsContainer" spacing="5"/>
+        
+        <!-- Other UI elements -->
+    </HBox>
+</AnchorPane>
