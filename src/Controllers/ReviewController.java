@@ -28,11 +28,11 @@ public class ReviewController {
     @FXML
     private Slider ratingSlider;
 
-    private dbhandler dbHandler = new dbhandler();
+    
     private String currentUserEmail = EmailController.email;
     NavBarController NBC = new NavBarController();
 
-    List<TravelAgency> travelAgencies = dbHandler.getTravelAgencies();
+    List<TravelAgency> travelAgencies = dbhandler.getTravelAgencies();
 
     @FXML
     private void initialize() {

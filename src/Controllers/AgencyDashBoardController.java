@@ -21,9 +21,9 @@ public class AgencyDashBoardController implements Initializable {
     // private Label titleLabel;
      @Override
     public void initialize(URL location, ResourceBundle resources) {
-        dbhandler db = new dbhandler();
+        
 
-        travelAgency = db.getTravelAgencyByEmail(EmailController.email);
+        travelAgency = dbhandler.getTravelAgencyByEmail(EmailController.email);
 
        
     }

@@ -3,6 +3,8 @@ package Models;
 import java.util.ArrayList;
 import java.util.List;
 
+import Controllers.Factory;
+
 public class Traveller extends User{
     LoyaltyProgram loyaltyPoints;
     List<Booking> bookings;
@@ -12,9 +14,9 @@ public class Traveller extends User{
     }
 
    public void fetchLoyaltyProgram() {
-        dbhandler db = new dbhandler();
+       
         
-        loyaltyPoints = new LoyaltyProgram(db.getPoints(getEmail()));
+        loyaltyPoints = Factory.createLoyaltyProgram(dbhandler.getPoints(getEmail()));
    }
 
    public void redeemPoints(int points){

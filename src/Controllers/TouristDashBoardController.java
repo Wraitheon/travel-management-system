@@ -80,9 +80,9 @@ public class TouristDashBoardController implements Initializable{
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-         dbhandler db = new dbhandler();
+        
 
-        User user = db.getUserByEmail(EmailController.email);
+        User user = dbhandler.getUserByEmail(EmailController.email);
 
         if (user instanceof Traveller) {
             traveller = (Traveller) user;

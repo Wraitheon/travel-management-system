@@ -44,14 +44,14 @@ public class Restaurants extends ItineraryItem {
 
             return name + " at " +  formattedDateTime;
         } else {
-            return name;
+            return name + " | " + cost;
         }
     }
 
     public void addToDb(int itineraryID){
-        dbhandler db = new dbhandler();
+        
 
-        db.insertItineraryRestaurant(restaurant_id, itineraryID, getDateTime());
+        dbhandler.insertItineraryRestaurant(restaurant_id, itineraryID, getDateTime());
     }
     
 

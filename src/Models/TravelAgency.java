@@ -21,13 +21,13 @@ public class TravelAgency extends User {
     }
 
     public void fetchTrips(){
-        dbhandler db = new dbhandler();
-         trips = db.getTripsByUserEmail(getEmail());
+        
+         trips = dbhandler.getTripsByUserEmail(getEmail());
     }
 
     public void fetchReviews(){
-        dbhandler db = new dbhandler();
-        reviews = db.getReviewsForTravelAgency(getEmail());
+ 
+        reviews = dbhandler.getReviewsForTravelAgency(getEmail());
 
         
     }

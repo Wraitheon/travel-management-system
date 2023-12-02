@@ -50,9 +50,9 @@ public class ViewTripController {
     private  int  destination_id;
 
     public void initialize() {
-        dbhandler db = new dbhandler();
+       
         
-        destinations = db.getDestinations();
+        destinations = dbhandler.getDestinations();
         destinationComboBox.setItems(FXCollections.observableArrayList(destinations));
 
 
@@ -106,8 +106,8 @@ public class ViewTripController {
     private void populateTable(){
         List<AllTripViewTable> allTrips = new ArrayList<AllTripViewTable>();
 
-        dbhandler db = new dbhandler();
-        List<TravelAgency> agencies = db.getTravelAgencies();
+       
+        List<TravelAgency> agencies = dbhandler.getTravelAgencies();
         for(var agency : agencies){
             for(var trip : agency.getTrips()){
                 if(trip.getDestination_id() == destination_id){

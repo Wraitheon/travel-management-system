@@ -22,7 +22,7 @@
             
             <Button text="Calculate Budget" onAction="#handleCalBudget" id="button-large" />
 
-            <Button text="Booking Tour Guide" onAction="#handleBookTourGuide" id="button-large" />
+            <Button text="Book Tour Guide" onAction="#handleBookTourGuide" id="button-large" />
 
             <Button text="Booking" onAction="#handleBooking" id="button-large" />
 

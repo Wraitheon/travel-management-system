@@ -7,6 +7,104 @@ import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 
+import Controllers.Factory;
+
+
+
+
+
+public class dbhandler {
+
+    private dbhandler() {}
+
+    public static List<GuideBooking> fetchGuideBookings(String guideEmail) {
+        List<GuideBooking> guideBookings = new ArrayList<>();
+
+        try (Connection connection = DriverManager.getConnection(constants.url, constants.user, constants.password)) {
+            String sql = "SELECT * FROM GuideBooking WHERE guideEmail = ?";
+
+            try (PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
+                preparedStatement.setString(1, guideEmail);
+
+                try (ResultSet resultSet = preparedStatement.executeQuery()) {
+                    while (resultSet.next()) {
+                        String travelerEmail = resultSet.getString("travellerEmail");
+                        LocalDate date = resultSet.getDate("date").toLocalDate();
+                        int days = resultSet.getInt("days");
+
+                        // Create GuideBooking object and add to the list
+                        GuideBooking guideBooking =Factory.createGuideBooking(travelerEmail, date, days);
+                        guideBookings.add(guideBooking);
+                    }
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return guideBookings;
+    }
+
+    public static List<User> fetchTourGuides() {
+        List<User> tourGuides = new ArrayList<>();
+
+        try (Connection connection = DriverManager.getConnection(constants.url, constants.user, constants.password)) {
+            String sql = "SELECT * FROM Users WHERE usertype = ?";
+
+            try (PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
+                preparedStatement.setString(1, "Tour Guide");
+
+                try (ResultSet resultSet = preparedStatement.executeQuery()) {
+                    while (resultSet.next()) {
+                        String email = resultSet.getString("email");
+                        String name = resultSet.getString("name");
+                        int age = resultSet.getInt("age");
+                        // Get other columns as needed
+                        String dateOfBirth = resultSet.getString("date_of_birth");
+                        String userType = resultSet.getString("usertype");
+                        String cnic = resultSet.getString("cnic");
+                        String phoneNumber = resultSet.getString("phone_number");
+                        String password = resultSet.getString("password");
+
+                        // Create User object and add to the list
+                        User user = Factory.createTourGuide(email, name, age, dateOfBirth, userType, cnic, phoneNumber, password);
+                        tourGuides.add(user);
+                    }
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return tourGuides;
+    }
+
+    public static double getTransportationCost(int destinationId, int transportationId) {
+        double cost = -1;
+
+        try (Connection connection = DriverManager.getConnection(constants.url, constants.user, constants.password)) {
+            // Create a prepared statement with placeholders
+            String query = "SELECT cost FROM TransportationCost "
+                           + "WHERE destination_id = ? AND transportation_id = ?";
+            try (PreparedStatement preparedStatement = connection.prepareStatement(query)) {
+                // Set values for the placeholders
+                preparedStatement.setInt(1, destinationId);
+                preparedStatement.setInt(2, transportationId);
+
+                // Execute the query and retrieve the result set
+                try (ResultSet resultSet = preparedStatement.executeQuery()) {
+                    // Check if there is a result and retrieve the cost
+                    if (resultSet.next()) {
+                        cost = resultSet.getDouble("cost");
+                    }
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return cost;
+    }
 public class dbhandler {
     // Insert a new chat message into the Messages table
     public static void insertMessage(int tripId, String senderEmail, String messageText) {
@@ -214,7 +312,7 @@ public class dbhandler {
     }
 
 
-    public TravelAgency getTravelAgencyByEmail(String email) {
+    public  static TravelAgency getTravelAgencyByEmail(String email) {
     TravelAgency travelAgency = null;
 
     try {
@@ -242,7 +340,7 @@ public class dbhandler {
                 String password = resultSet.getString("password");
 
                 // Create TravelAgency object
-                travelAgency = new TravelAgency(email, name, age, dateOfBirth, userType, cnic, phoneNumber, password);
+                travelAgency = Factory.creatTravelAgency(email, name, age, dateOfBirth, userType, cnic, phoneNumber, password);
             }
         }
     } catch (SQLException e) {
@@ -303,7 +401,7 @@ public class dbhandler {
         }
     }
 
-    public User getUserByEmail(String userEmail) {
+    public static User getUserByEmail(String userEmail) {
         User user = null;
 
         System.out.println(userEmail);
@@ -341,7 +439,7 @@ public class dbhandler {
         return user;
     }
 
-    public int getPoints(String userEmail) {
+    public static int getPoints(String userEmail) {
         int points = 0;
 
         try (
@@ -366,7 +464,7 @@ public class dbhandler {
         return points;
     }
 
-    public void updatePoints(String userEmail, int newPoints) {
+    public static void updatePoints(String userEmail, int newPoints) {
             try (
                 Connection connection = DriverManager.getConnection(constants.url, constants.user, constants.password);// Obtain your connection here (e.g., DriverManager.getConnection(...));
                 PreparedStatement preparedStatement = connection.prepareStatement(
@@ -388,7 +486,7 @@ public class dbhandler {
             }
         }
 
-    public String getDestinationNameForTrip(int tripId) {
+    public static String getDestinationNameForTrip(int tripId) {
 
         
 
@@ -415,36 +513,7 @@ public class dbhandler {
         return null; // Return null if the destination is not found
     }
 
-    
-
-    public List<Payment> getPayments() {
-        List<Payment> payments = new ArrayList<>();
-
-        String query = "SELECT * FROM Payment";
-
-        try (Connection connection = DriverManager.getConnection(constants.url, constants.user, constants.password);
-             Statement statement = connection.createStatement();
-             ResultSet resultSet = statement.executeQuery(query)) {
-
-            while (resultSet.next()) {
-                int paymentId = resultSet.getInt("payment_id");
-                int bookingId = resultSet.getInt("booking_id");
-                Date paymentDate = resultSet.getDate("payment_date");
-                BigDecimal amount = resultSet.getBigDecimal("amount");
-                String paymentMethod = resultSet.getString("payment_method");
-
-                Payment payment = new Payment(paymentId, bookingId, paymentDate, amount, paymentMethod);
-                payments.add(payment);
-            }
-
-        } catch (SQLException e) {
-            e.printStackTrace(); // Handle the exception appropriately
-        }
-
-        return payments;
-    }
-
-    public List<Review> getReviewsForTravelAgency(String travelAgencyEmail) {
+    public static List<Review> getReviewsForTravelAgency(String travelAgencyEmail) {
         List<Review> reviews = new ArrayList<>();
 
         try {
@@ -474,7 +543,7 @@ public class dbhandler {
         return reviews;
     }
 
-    public List<TravelAgency> getTravelAgencies() {
+    public static List<TravelAgency> getTravelAgencies() {
         List<TravelAgency> travelAgencies = new ArrayList<>();
 
         try {
@@ -511,7 +580,7 @@ public class dbhandler {
         return travelAgencies;
     }
 
-    public List<Restaurants> getRestaurantsForItinerary(int itineraryId) {
+    public static List<Restaurants> getRestaurantsForItinerary(int itineraryId) {
         String sql = "SELECT r.restaurant_id, r.restaurant_name, r.cost, ir.scheduledTime " +
                      "FROM Restaurants r " +
                      "JOIN ItineraryRestaurants ir ON r.restaurant_id = ir.restaurant_id " +
@@ -542,7 +611,7 @@ public class dbhandler {
         return restaurantList;
     }
 
-    public List<Accomodation> getAccommodationForItinerary(int itineraryId) {
+    public static List<Accomodation> getAccommodationForItinerary(int itineraryId) {
         String sql = "SELECT a.accommodation_id, a.location, a.motel_name, a.cost, ia.check_in_date " +
                      "FROM Accommodation a " +
                      "JOIN ItineraryAccommodation ia ON a.accommodation_id = ia.accommodation_id " +
@@ -574,7 +643,7 @@ public class dbhandler {
         return accommodationList;
     }
 
-    public List<Transportation> getTransportationForItinerary(int itineraryId) {
+    public static List<Transportation> getTransportationForItinerary(int itineraryId) {
         String sql = "SELECT t.transportation_id, t.mode_of_transport, it.departure_date " +
                      "FROM Transportation t " +
                      "JOIN ItineraryTransportation it ON t.transportation_id = it.transportation_id " +
@@ -605,7 +674,7 @@ public class dbhandler {
     }
 
 
-    public List<Activity> getActivitiesForTrip(int tripId) {
+    public static List<Activity> getActivitiesForTrip(int tripId) {
         String sql = "SELECT a.activity_id, a.activity_name, a.activity_description, a.cost, a.activity_date " +
                      "FROM Activities a " +
                      "JOIN Trip t ON a.trip_id = t.trip_id " +
@@ -637,7 +706,7 @@ public class dbhandler {
         return activities;
     }
 
-    public int getItineraryIdForTrip(int tripId) {
+    public static int getItineraryIdForTrip(int tripId) {
         String sql = "SELECT itinerary_id FROM Itinerary WHERE trip_id = ?";
         int itineraryId = -1; // Default value if not found
 
@@ -659,7 +728,7 @@ public class dbhandler {
         return itineraryId;
     }
 
-    public List<TripTable> getTripDataForUser(String userEmail) {
+    public static List<TripTable> getTripDataForUser(String userEmail) {
         List<TripTable> tripDataList = new ArrayList<>();
     
         String sql = "SELECT t.trip_id AS trip_ID, d.destination_name AS destination, t.prices AS price, t.trip_date AS trip_Date, t.number_of_days AS noOfDays FROM Trip t JOIN Destinations d ON t.destination_id = d.destination_id WHERE t.user_email = ?";
@@ -690,7 +759,7 @@ public class dbhandler {
     }
     
 
-    public List<Trip> getTripsByUserEmail(String userEmail) {
+    public static List<Trip> getTripsByUserEmail(String userEmail) {
         List<Trip> trips = new ArrayList<>();
         String query = "SELECT * FROM Trip WHERE user_email = ?";
 
@@ -728,7 +797,7 @@ public class dbhandler {
     }
 
 
-    public void insertItineraryAccommodation(int itineraryId, int accommodationId, LocalDateTime checkInDateTime) {
+    public static void insertItineraryAccommodation(int itineraryId, int accommodationId, LocalDateTime checkInDateTime) {
         try (Connection connection = DriverManager.getConnection(constants.url, constants.user, constants.password)) {
             String sql = "INSERT INTO ItineraryAccommodation (itinerary_id, accommodation_id, check_in_date) VALUES (?, ?, ?)";
             try (PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
@@ -744,7 +813,7 @@ public class dbhandler {
     
     
 
-    public void insertItineraryTransportation(int transportationId, int itineraryId, LocalDateTime departureDateTime) {
+    public static void insertItineraryTransportation(int transportationId, int itineraryId, LocalDateTime departureDateTime) {
 
         System.out.println(transportationId);
         try (Connection connection = DriverManager.getConnection(constants.url, constants.user, constants.password)) {
@@ -762,7 +831,7 @@ public class dbhandler {
     
     
 
-    public void insertItineraryRestaurant(int restaurantId, int itineraryId, LocalDateTime scheduledTime) {
+    public static void insertItineraryRestaurant(int restaurantId, int itineraryId, LocalDateTime scheduledTime) {
     try (Connection connection = DriverManager.getConnection(constants.url, constants.user, constants.password)) {
         String sql = "INSERT INTO ItineraryRestaurants (restaurant_id, itinerary_id, scheduledTime) VALUES (?, ?, ?)";
         try (PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
@@ -777,7 +846,7 @@ public class dbhandler {
 }
 
 
-    public int countItinerary() {
+    public static int countItinerary() {
         int count = 0;
     
         try (Connection connection = DriverManager.getConnection(constants.url, constants.user, constants.password)) {
@@ -796,7 +865,7 @@ public class dbhandler {
     }
     
 
-    public int addItinerary(int tripId) {
+    public static int addItinerary(int tripId) {
         int generatedItineraryId = -1; // Default value if the insertion fails
     
         try (Connection connection = DriverManager.getConnection(constants.url, constants.user, constants.password)) {
@@ -821,7 +890,7 @@ public class dbhandler {
     
     
 
-    public int totalTripCount() {
+    public static int totalTripCount() {
         int tripCount = 0;
     
         try (Connection connection = DriverManager.getConnection(constants.url, constants.user, constants.password)) {
@@ -839,7 +908,7 @@ public class dbhandler {
         return tripCount;
     }
     
-    public int addTrip(String userEmail, int destinationId, LocalDate tripDate, double prices, int numberOfDays) {
+    public static int addTrip(String userEmail, int destinationId, LocalDate tripDate, double prices, int numberOfDays) {
         int generatedTripId = -1; // Default value if the insertion fails
 
         try (Connection connection = DriverManager.getConnection(constants.url, constants.user, constants.password)) {
@@ -870,7 +939,7 @@ public class dbhandler {
     }
     
 
-    public void addActivity(int tripId, String activityName, LocalDateTime activityDateTime, String activityDescription, double cost) {
+    public static void addActivity(int tripId, String activityName, LocalDateTime activityDateTime, String activityDescription, double cost) {
         try (Connection connection = DriverManager.getConnection(constants.url, constants.user, constants.password)) {
             String sql = "INSERT INTO Activities (trip_id, activity_name, activity_date, activity_description, cost) VALUES (?, ?, ?, ?, ?)";
             try (PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
@@ -887,7 +956,7 @@ public class dbhandler {
         }
     }
 
-    public int countActivities() {
+    public static int countActivities() {
         int count = 0;
     
         try (Connection connection = DriverManager.getConnection(constants.url, constants.user, constants.password)) {
@@ -905,7 +974,7 @@ public class dbhandler {
         return count;
     }
 
-    public int countAccommodations() {
+    public static int countAccommodations() {
         try {
             // Establish a connection
             Connection connection = DriverManager.getConnection(constants.url, constants.user, constants.password);
@@ -935,7 +1004,7 @@ public class dbhandler {
         return 0;
     }
 
-    public int countRestaurants(){
+    public static int countRestaurants(){
         try {
             // Establish a connection
             Connection connection = DriverManager.getConnection(constants.url, constants.user, constants.password);
@@ -965,7 +1034,7 @@ public class dbhandler {
         return 0;
     }
 
-    public void addRestaurant(int destinationId, String restaurantName, double cost) {
+    public static void addRestaurant(int destinationId, String restaurantName, double cost) {
         String sql = "INSERT INTO Restaurants (destination_id, restaurant_name, cost) VALUES (?, ?, ?)";
 
         try (
@@ -982,7 +1051,7 @@ public class dbhandler {
         }
     }
 
-    public void addAccommodation(int destinationId, String location, String motelName, double cost) {
+    public static void addAccommodation(int destinationId, String location, String motelName, double cost) {
         String query = "INSERT INTO Accommodation (destination_id, location, motel_name, cost) VALUES (?, ?, ?, ?)";
 
         try (Connection connection = DriverManager.getConnection(constants.url, constants.user, constants.password);
@@ -1001,7 +1070,7 @@ public class dbhandler {
         }
     }
 
-    public List<Restaurants> getRestaurantsForDestination(int destinationId) {
+    public static List<Restaurants> getRestaurantsForDestination(int destinationId) {
         List<Restaurants> restaurants = new ArrayList<>();
     
         try (Connection connection = DriverManager.getConnection(constants.url, constants.user, constants.password)) {
@@ -1029,7 +1098,7 @@ public class dbhandler {
     
     
 
-    public List<Accomodation> getAccommodationsForDestination(int destinationId) {
+    public static  List<Accomodation> getAccommodationsForDestination(int destinationId) {
         List<Accomodation> accommodations = new ArrayList<>();
 
         try (Connection connection = DriverManager.getConnection(constants.url, constants.user, constants.password)) {
@@ -1058,7 +1127,7 @@ public class dbhandler {
 
     
 
-    public List<Activity> getActivities() {
+    public static List<Activity> getActivities() {
         List<Activity> activities = new ArrayList<>();
     
         try (Connection connection = DriverManager.getConnection(constants.url, constants.user, constants.password)) {
@@ -1087,7 +1156,7 @@ public class dbhandler {
     
     
 
-    public List<Destination> getDestinations() {
+    public static List<Destination> getDestinations() {
         List<Destination> destinations = new ArrayList<>();
     
         try (Connection connection = DriverManager.getConnection(constants.url, constants.user, constants.password);
@@ -1109,7 +1178,7 @@ public class dbhandler {
     }
 
 
-    public String getUserType(String userEmail) {
+    public static String getUserType(String userEmail) {
         String query = "SELECT usertype FROM Users WHERE email = ?";
         
         try (Connection connection = DriverManager.getConnection(constants.url, constants.user, constants.password);
@@ -1130,7 +1199,7 @@ public class dbhandler {
         }
     }
     
-    public boolean authenticateUser(String email, String password) {
+    public static boolean authenticateUser(String email, String password) {
         String query = "SELECT * FROM users WHERE email = ? AND password = ?";
         
         try (Connection connection = DriverManager.getConnection(constants.url, constants.user, constants.password);
@@ -1165,7 +1234,7 @@ public class dbhandler {
         }
     }
     
-    public void insertUser(String email, String name, int age, String dateOfBirth, String userType, String cnic, String phoneNumber, String password) {
+    public static void insertUser(String email, String name, int age, String dateOfBirth, String userType, String cnic, String phoneNumber, String password) {
         final String INSERT_QUERY = "INSERT INTO Users (email, name, age, date_of_birth, usertype, cnic, phone_number, password) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
         
         // Check if the user already exists

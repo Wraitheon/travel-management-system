@@ -5,7 +5,6 @@ import java.io.IOException;
 import Models.dbhandler;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.Hyperlink;
 import javafx.scene.control.PasswordField;
@@ -57,12 +56,12 @@ public class LoginController {
             stage.show();
         } else {
             // Show an alert for incorrect login credentials
-            showAlert("Login Failed", "Incorrect email or password. Please try again.");
+            AlertController.showAlert("Login Failed", "Incorrect email or password. Please try again.");
         }
     }
     private String getDashBoardLink(String email){
-        dbhandler db = new dbhandler();
-         String userType = db.getUserType(email);
+       
+         String userType = dbhandler.getUserType(email);
                                          System.out.println(userType);
 
         if ("Travel Agency".equals(userType)) {
@@ -79,18 +78,12 @@ public class LoginController {
     private boolean checkCredentialsFromDatabase(String email, String password) {
         // Replace this with your actual database query logic
         // Return true if there is a match, false otherwise
-        dbhandler db = new dbhandler();
+  
 
-        return db.authenticateUser(email, password);
+        return dbhandler.authenticateUser(email, password);
     }
 
-    private void showAlert(String title, String content) {
-        Alert alert = new Alert(Alert.AlertType.ERROR);
-        alert.setTitle(title);
-        alert.setHeaderText(null);
-        alert.setContentText(content);
-        alert.showAndWait();
-    }
+  
 
     @FXML
     private void handleSignupLinkAction(ActionEvent event) throws IOException {

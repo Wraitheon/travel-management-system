@@ -39,8 +39,8 @@ public class YourTripController {
     @FXML
     private void initialize() {
         // Set up your columns (you may need to adjust these based on your data model)
-        dbhandler db = new dbhandler();
-        List<TripTable> tripList = db.getTripDataForUser(EmailController.email);
+       
+        List<TripTable> tripList = dbhandler.getTripDataForUser(EmailController.email);
     
         TableColumn<TripTable, Number> tripIdColumn = new TableColumn<>("Trip ID");
         tripIdColumn.setCellValueFactory(cellData -> cellData.getValue().trip_IDProperty());

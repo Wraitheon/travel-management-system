@@ -11,9 +11,10 @@ import javafx.stage.Stage;
 
 
 import java.time.LocalDate;
-import javafx.util.StringConverter;
+import java.time.format.DateTimeFormatter;
 
-import Models.UserService;
+import javafx.util.StringConverter;
+import Models.User;
 import Models.dbhandler;
 
 public class SignupController {
@@ -105,7 +106,7 @@ public class SignupController {
         }
 
         // Optional fields
-        LocalDate dateOfBirth = dobDatePicker.getValue();
+        LocalDate dateOfBirth = dobDatePicker.getValue() == null ? LocalDate.now() : dobDatePicker.getValue();
         Integer age = (dateOfBirth != null) ? calculateAge(dateOfBirth) : null;
         String userType = userTypeComboBox.getValue();
         String cnic = cnicField.getText();
@@ -115,8 +116,13 @@ public class SignupController {
         age = (ageField.getText().isEmpty()) ? null : age;
         dateOfBirth = (dobDatePicker.getValue() == null) ? null : dateOfBirth;
 
-        dbhandler dbH = new dbhandler();
-        dbH.insertUser(email, name, age, (dateOfBirth != null) ? dateOfBirth.toString() : null, userType, cnic, phoneNumber, password);
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+
+        // Format LocalDate to a string
+        String formattedDOB = dateOfBirth.format(formatter);
+
+        User user = Factory.createUser(email, name, age, formattedDOB, userType, cnic, phoneNumber, password);
+        user.insertToDB();
 
         NBC.Navigate(event, NavigationLink.login);
     }

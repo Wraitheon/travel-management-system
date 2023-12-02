@@ -3,6 +3,10 @@ package Controllers;
 import javafx.scene.control.Alert;
 
 public class AlertController {
+
+    private AlertController(){}
+
+    
     public static void showAlert(String title, String content) {
         Alert alert = new Alert(Alert.AlertType.ERROR);
         alert.setTitle(title);

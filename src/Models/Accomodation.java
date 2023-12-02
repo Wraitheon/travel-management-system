@@ -57,13 +57,13 @@ public class Accomodation extends ItineraryItem{
 
             return name + ", " + location + " on " +  formattedDateTime;
         } else {
-            return name + ", " + location;
+            return name + ", " + location + " | " + cost;
         }
     }
     public void addToDb(int itineraryID){
-        dbhandler db = new dbhandler();
+        
 
-        db.insertItineraryAccommodation(itineraryID, id, getDateTime());
+        dbhandler.insertItineraryAccommodation(itineraryID, id, getDateTime());
     }
     
    

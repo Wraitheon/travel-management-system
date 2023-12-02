@@ -1,7 +1,8 @@
 package Models;
 
-import java.sql.Date;
 import java.time.LocalDate;
+
+import Controllers.Factory;
 
 public class Booking {
     private String email;
@@ -42,7 +43,7 @@ public class Booking {
     }
 
     public void makePayment(double amount) {
-        payment = new Payment(amount, LocalDate.now(), "Online");
+        payment = Factory.createPayment(amount, LocalDate.now(), "Online");
     }
 
     public void addToDB(){

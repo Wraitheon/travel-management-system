@@ -64,9 +64,9 @@ public class Activity extends ItineraryItem {
         
     }
     public void addToDb(int itineraryID){
-        dbhandler db = new dbhandler();
+       
 
-        db.addActivity(itineraryID, ActivityName, getDateTime(), activityDescription, cost);
+        dbhandler.addActivity(itineraryID, ActivityName, getDateTime(), activityDescription, cost);
         }
     
 

@@ -13,8 +13,6 @@ public class Payment {
         this.date = date;
         this.method = method;
     }
-    public Payment(int paymentId, int bookingId, Date paymentDate, BigDecimal amount, String paymentMethod) {
-    }
     public double getAmmount() {
         return ammount;
     }

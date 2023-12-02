@@ -1,11 +1,13 @@
 package Controllers;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
 import Models.Accomodation;
 import Models.Destination;
 import Models.Restaurants;
+import Models.Transportation;
 import Models.dbhandler;
 import javafx.collections.FXCollections;
 import javafx.event.ActionEvent;
@@ -20,6 +22,7 @@ public class CalBudgetController {
     private List<Accomodation> accomodations;    
     private List<Destination> destinations;
 
+    private int totalCost;
     @FXML 
     private TextField daysTextField;
 
@@ -29,30 +32,46 @@ public class CalBudgetController {
 
 
     @FXML
-    private VBox dynamicComboBoxesContainer;
+    private VBox dynamicComboBoxesRestaurant;
 
     @FXML
-    private VBox dynamicLabelsContainer;
-   
+    private VBox dynamicComboBoxesDinner;
+
+    @FXML
+    private VBox dynamicComboBoxesAccomodation;
+
+    @FXML
+    private VBox dynamicComboBoxesTransportation;
     
     @FXML
-    private ComboBox<Restaurants> resComboBox;
+    private Label costLabel;
 
-    @FXML
-    private ComboBox<Accomodation> accommoComboBox;
+    private int days;
+    
+    // @FXML
+    // private ComboBox<Restaurants> resComboBox;
 
-    @FXML
-    private ComboBox<String> transportationComboBox;
-    private List<String> transportations = Arrays.asList("Air", "Coaster", "Bus", "Car");
-      
+    // @FXML
+    // private ComboBox<Accomodation> accommoComboBox;
+
+    List<ComboBox<Restaurants>> restaurantsComboxes = new ArrayList<ComboBox<Restaurants>>(); 
+    List<ComboBox<Accomodation>> accomodationComboBoxes = new ArrayList<ComboBox<Accomodation>>();    
+    List<ComboBox<Transportation>> transportationComboBoxes = new ArrayList<ComboBox<Transportation>>();
+
+
+    
+    private List<Transportation> transportations = Arrays.asList(   Factory.createTransportation(1, "Air", null),
+                                                                    Factory.createTransportation(2, "Coaster", null),
+                                                                    Factory.createTransportation(3, "Bus", null),
+                                                                    Factory.createTransportation(4, "Car", null));
+                    
   
     public void initialize() {
-        dbhandler db = new dbhandler();
+        costLabel.setText("Estimated Cost " + 0);
         // Call this method to dynamically add ComboBox elements
-        destinations = db.getDestinations();
-        //transportationComboBox.setItems(FXCollections.observableArrayList(transportations));
+        destinations = dbhandler.getDestinations();
         destinationComboBox.setItems(FXCollections.observableArrayList(destinations));
-        addDynamicComboBoxes();
+    
 
         daysTextField.setOnKeyPressed(event -> {
             if (event.getCode() == KeyCode.ENTER) {
@@ -62,40 +81,172 @@ public class CalBudgetController {
         });
     }
     private void  handleEnterKeyPress(){
-        
+        if (daysTextField.getText().equals("")){
+            return;
+        }
+
+        if (destinationComboBox.getValue() == null){
+            
+            AlertController.showAlert("Error", "Select Destination");
+
+            return;
+        }
+
+        String daysText = daysTextField.getText();
+        int days = (int) Double.parseDouble(daysText);
+         if (days > 10){
+            AlertController.showAlert("Error", "Maximum of 10 Days ALlowed");
+            return;
+        }
+        restaurantsComboxes = new ArrayList<ComboBox<Restaurants>>();
+        accomodationComboBoxes = new ArrayList<ComboBox<Accomodation>>();
+        transportationComboBoxes = new ArrayList<ComboBox<Transportation>>();
+
+        costLabel.setText("Estimated Cost " + 0);
+
+        this.days = days;
+        addDynamicComboBoxesRestaurant();
+        addDynamicComboBoxesAccomodation();
+        addDynamicComboBoxesTransportation();
     }
+
+
     @FXML
     private void handleDestinationChange(ActionEvent event){
         destination_id = destinationComboBox.getValue().getDestination_ID();
         fetchData();
-        addDynamicComboBoxes();
-        
+        costLabel.setText("Estimated Cost " + 0);
+
+        restaurantsComboxes = new ArrayList<ComboBox<Restaurants>>();
+        accomodationComboBoxes = new ArrayList<ComboBox<Accomodation>>();
+        transportationComboBoxes = new ArrayList<ComboBox<Transportation>>();
+
+        dynamicComboBoxesRestaurant.getChildren().clear();
+        dynamicComboBoxesDinner.getChildren().clear();
+        dynamicComboBoxesAccomodation.getChildren().clear();
+        dynamicComboBoxesTransportation.getChildren().clear();
         // itineraryItems = FXCollections.observableArrayList();
         // refreshListView();
         // fetchData();
     }
 
       private void fetchData(){
-        dbhandler db = new dbhandler();
-        restaurants = db.getRestaurantsForDestination(destination_id);
+       
+        restaurants = dbhandler.getRestaurantsForDestination(destination_id);
         //resComboBox.setItems(FXCollections.observableArrayList(restaurants));
-
-        accomodations = db.getAccommodationsForDestination(destination_id);
+        
+        accomodations = dbhandler.getAccommodationsForDestination(destination_id);
         //accommoComboBox.setItems(FXCollections.observableArrayList(accomodations));
     }
-    
 
-    private void addDynamicComboBoxes() {
-        // Example data for ComboBox options
-        String[] options = {"Option 1", "Option 2", "Option 3"};
-        fetchData();
-        // Create and add ComboBox elements dynamically
-        for (int i = 0; i < 3; i++) {
-            System.out.println(restaurants.size());
-            ComboBox<Restaurants> comboBox = new ComboBox<Restaurants>(FXCollections.observableArrayList(restaurants));
-            comboBox.setPromptText("Select an option");
-            dynamicComboBoxesContainer.getChildren().add(comboBox);
+
+    private void addDynamicComboBoxesAccomodation() {
+
+        if (dynamicComboBoxesAccomodation.getChildren() != null) {
+            dynamicComboBoxesAccomodation.getChildren().clear();
         }
+
+        for (int i = 0; i < days - 1; i++) { 
+            ComboBox<Accomodation> comboBox1 = new ComboBox<Accomodation>(FXCollections.observableArrayList(accomodations));   
+
+             comboBox1.valueProperty().addListener((observable, oldValue, newValue) -> {
+                System.out.println("ComboBox 1 selected: " + newValue);
+                calculateCost();
+            });
+
+            comboBox1.setPromptText("Select Motel For Night "  + (i+1));       
+            dynamicComboBoxesAccomodation.getChildren().add(comboBox1); 
+
+            accomodationComboBoxes.add(comboBox1);
+        }
+    }
+
+    private void addDynamicComboBoxesTransportation() {
+
+    if (dynamicComboBoxesTransportation.getChildren() != null) {
+        dynamicComboBoxesTransportation.getChildren().clear();
+    }
+
+    for (int i = 0; i < 2; i++) { 
+        ComboBox<Transportation> comboBox2 = new ComboBox<Transportation>(FXCollections.observableArrayList(transportations));   
+
+        comboBox2.valueProperty().addListener((observable, oldValue, newValue) -> {
+            System.out.println("ComboBox 2 selected: " + newValue);
+            calculateCost();
+        });
+        if (i==0) {
+            comboBox2.setPromptText("Select Transportation For Going ");  
+        } else {
+            comboBox2.setPromptText("Select Transportation For Return ");  
+
+        }
+        dynamicComboBoxesTransportation.getChildren().add(comboBox2); 
+
+        transportationComboBoxes.add(comboBox2);
+    }
+}
+
+
+    private void addDynamicComboBoxesRestaurant() {
+
+        if (dynamicComboBoxesRestaurant.getChildren() != null) {
+            dynamicComboBoxesRestaurant.getChildren().clear();
+            dynamicComboBoxesDinner.getChildren().clear();
+        }
+
+
+        // Example data for ComboBox options
+       
+        // Create and add ComboBox elements dynamically
+        for (int i = 0; i < days; i++) {
+            System.out.println(restaurants.size());
+            ComboBox<Restaurants> comboBox1 = new ComboBox<Restaurants>(FXCollections.observableArrayList(restaurants));        
+            ComboBox<Restaurants> comboBox2 = new ComboBox<Restaurants>(FXCollections.observableArrayList(restaurants));
+
+            comboBox1.valueProperty().addListener((observable, oldValue, newValue) -> {
+                System.out.println("ComboBox 1 selected: " + newValue);
+                calculateCost();
+            });
+
+            comboBox2.valueProperty().addListener((observable, oldValue, newValue) -> {
+                System.out.println("ComboBox 2 selected: " + newValue);
+                calculateCost();
+            });
+
+            comboBox1.setPromptText("Select BreakFast "  + (i+1));       
+            comboBox2.setPromptText("Select Dinner " + (i+1));
+
+            dynamicComboBoxesRestaurant.getChildren().add(comboBox1);            
+            dynamicComboBoxesDinner.getChildren().add(comboBox2);
+
+            restaurantsComboxes.add(comboBox1);   
+            restaurantsComboxes.add(comboBox2);
+
+
+        }
+    }
+
+    private void calculateCost() {
+        totalCost = 0;
+        for(var combox : restaurantsComboxes) {
+            if (combox.getValue() != null){
+                totalCost += combox.getValue().getCost();
+
+            }
+        }
+        for(var combox : accomodationComboBoxes) {
+            if (combox.getValue() != null){
+                totalCost += combox.getValue().getCost();
+
+            }
+        }
+        for(var combox : transportationComboBoxes) {
+            if (combox.getValue() != null){
+                totalCost += combox.getValue().getCost(destination_id);              
+            }
+        }
+        costLabel.setText("Estimated Cost " + totalCost);
+        System.out.println(totalCost);
     }
 
 

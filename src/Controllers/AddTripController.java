@@ -84,13 +84,13 @@ public class AddTripController {
     private ComboBox<String> transportationComboBox;
     
 
-    dbhandler db = new dbhandler();
+    
 
    
     public void initialize() {
     
         
-        destinations = db.getDestinations();
+        destinations = dbhandler.getDestinations();
         transportationComboBox.setItems(FXCollections.observableArrayList(transportations));
         destinationComboBox.setItems(FXCollections.observableArrayList(destinations));
     }
@@ -106,10 +106,10 @@ public class AddTripController {
     }
 
     private void fetchData(){
-        restaurants = db.getRestaurantsForDestination(destination_id);
+        restaurants = dbhandler.getRestaurantsForDestination(destination_id);
         resComboBox.setItems(FXCollections.observableArrayList(restaurants));
 
-        accomodations = db.getAccommodationsForDestination(destination_id);
+        accomodations = dbhandler.getAccommodationsForDestination(destination_id);
         accommoComboBox.setItems(FXCollections.observableArrayList(accomodations));
     }
 
@@ -145,11 +145,11 @@ public class AddTripController {
         LocalDate selectedDate = activityDatePicker.getValue();
         LocalDateTime selectedDateTime = LocalDateTime.of(selectedDate, LocalTime.of(activityHourSpinner.getValue(), activityMinuteSpinner.getValue()));
 
-        dbhandler db = new dbhandler();
+       
         String activityCostText = activityCostTextField.getText();
         double cost = Double.parseDouble(activityCostText);
 
-        ItineraryItem newItem = new Activity(db.countActivities() + 1, activityNameTextField.getText(),
+        ItineraryItem newItem = new Activity(dbhandler.countActivities() + 1, activityNameTextField.getText(),
                 activityDescriptionTextField.getText(), cost, selectedDateTime);
         newItem.setDateTime(selectedDateTime);
 
@@ -282,14 +282,14 @@ public class AddTripController {
                 return;
             }
 
-            dbhandler db = new dbhandler();
+            
             String accommodationCostText = accommodationCost.getText();
             double cost = Double.parseDouble(accommodationCostText);
 
-            ItineraryItem newItem = new Accomodation(db.countAccommodations() + 1, "",accommodationName.getText(), cost,  selectedDateTime);
+            ItineraryItem newItem = new Accomodation(dbhandler.countAccommodations() + 1, "",accommodationName.getText(), cost,  selectedDateTime);
             newItem.setDateTime(selectedDateTime);
 
-            db.addAccommodation(destination_id, accommodationLocation.getText(), accommodationName.getText(), cost);
+            dbhandler.addAccommodation(destination_id, accommodationLocation.getText(), accommodationName.getText(), cost);
             itineraryItems.add(newItem);
 
             accommodationName.setText("");
@@ -375,16 +375,16 @@ public class AddTripController {
                         return;
                     }
 
-                    dbhandler db = new dbhandler();
+                    
                     String resCostText = resCost.getText();
                     double cost = Double.parseDouble(resCostText);
                     
-                    ItineraryItem newItem = new Restaurants(db.countRestaurants()+1, selectedDateTime, resName.getText(), cost);
+                    ItineraryItem newItem = new Restaurants(dbhandler.countRestaurants()+1, selectedDateTime, resName.getText(), cost);
                      newItem.setDateTime(selectedDateTime);
 
                      
 
-                     db.addRestaurant(destination_id, resName.getText(), cost);
+                     dbhandler.addRestaurant(destination_id, resName.getText(), cost);
                      itineraryItems.add(newItem);
 
                      resName.setText("");
@@ -469,7 +469,7 @@ public class AddTripController {
         System.out.println(EmailController.email);
         List<ItineraryItem> items = new ArrayList<>(itineraryItems);
 
-        Itinerary newItinerary = new Itinerary(items);
+        Itinerary newItinerary = Factory.creatItinerary(items);
 
         
 
@@ -479,7 +479,7 @@ public class AddTripController {
         String daysText = daysTextField.getText();
         int days = (int) Double.parseDouble(daysText);
 
-        Trip newTrip = new Trip(cost, datePicker.getValue(), days, newItinerary);
+        Trip newTrip = Factory.createTrip(cost, datePicker.getValue(), days, newItinerary);
 
         newTrip.insertModelToDb(destination_id);
 

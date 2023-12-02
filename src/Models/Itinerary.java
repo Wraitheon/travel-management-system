@@ -43,10 +43,10 @@ public class Itinerary {
     
 
     public void addToDB(int trip_ID){
-        dbhandler db = new dbhandler();
+       
 
 
-        int itineraryID  = db.addItinerary(trip_ID);
+        int itineraryID  = dbhandler.addItinerary(trip_ID);
 
         
         
@@ -123,10 +123,10 @@ public class Itinerary {
     }
 
     public void fecthItineraryItems(){
-        dbhandler db = new dbhandler();
-        List<Accomodation> accomodations = db.getAccommodationForItinerary(iti_ID);
-        List<Restaurants> restaurants = db.getRestaurantsForItinerary(iti_ID);
-        List<Transportation> transportations = db.getTransportationForItinerary(iti_ID);
+
+        List<Accomodation> accomodations = dbhandler.getAccommodationForItinerary(iti_ID);
+        List<Restaurants> restaurants = dbhandler.getRestaurantsForItinerary(iti_ID);
+        List<Transportation> transportations = dbhandler.getTransportationForItinerary(iti_ID);
 
         for(var item : accomodations){
             itineraryItems.add(item);

@@ -157,7 +157,7 @@ select * from users
 select * from trip;
 select * from ItineraryRestaurants;
 select * from loyaltyprogram
-
+select * from Transportation
 select * from itinerary;
 select * from booking
 select * from payment
@@ -244,6 +244,24 @@ INSERT INTO Transportation (mode_of_transport) VALUES ('Bus');
 INSERT INTO Transportation (mode_of_transport) VALUES ('Car');
 INSERT INTO Transportation (mode_of_transport) VALUES ('Jeep');
 
+INSERT INTO TransportationCost (transportation_id, destination_id, cost) VALUES
+    (1, 1, 12000.00), -- Air to Hunza
+    (2, 1, 800.00),   -- Coaster to Hunza
+    (3, 1, 600.00),   -- Bus to Hunza
+    (4, 1, 5000.00),  -- Car to Hunza
+    (5, 1, 2500.00),  -- Jeep to Hunza
+
+    (1, 2, 10000.00), -- Air to Gilgit
+    (2, 2, 800.00),   -- Coaster to Gilgit
+    (3, 2, 600.00),   -- Bus to Gilgit
+    (4, 2, 4000.00),  -- Car to Gilgit
+    (5, 2, 2000.00),  -- Jeep to Gilgit
+
+    (1, 3, 8000.00),  -- Air to Naran
+    (2, 3, 600.00),   -- Coaster to Naran
+    (3, 3, 400.00),   -- Bus to Naran
+    (4, 3, 3000.00),  -- Car to Naran
+    (5, 3, 1500.00); 
 
 CREATE TABLE ItineraryTransportation (
 
@@ -302,27 +320,24 @@ CREATE TABLE Budget (
     FOREIGN KEY (trip_id) REFERENCES Trip(trip_id)
 );
 
-CREATE TABLE GroupTable (
-    group_id INT PRIMARY KEY AUTO_INCREMENT,
-    group_name VARCHAR(255) NOT NULL,
-    creator_user_email VARCHAR(255),
-    FOREIGN KEY (creator_user_email) REFERENCES Users(email)
-);
+CREATE TABLE GuideBokking (
+	booking_id INT PRIMARY KEY AUTO_INCREMENT,
+    guideEmail varchar(255),
+    travellerEmail varchar(255),
+    date date,
+    days int,
+	 FOREIGN KEY (guideEmail) REFERENCES Users(email),
+	  FOREIGN KEY (travellerEmail) REFERENCES Users(email)
 
-CREATE TABLE GroupMembers (
-    group_id INT,
-    member_user_email VARCHAR(255),
-    PRIMARY KEY (group_id, member_user_email),
-    FOREIGN KEY (group_id) REFERENCES GroupTable(group_id),
-    FOREIGN KEY (member_user_email) REFERENCES Users(email)
-);
+)
+
 
 CREATE TABLE Messages (
     message_id INT PRIMARY KEY AUTO_INCREMENT,
-    group_id INT,
+    trip_id INT,
     sender_user_email varchar(255),
     message_text TEXT,
     timestamp TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    FOREIGN KEY (group_id) REFERENCES GroupTable(group_id),
+    FOREIGN KEY (trip_id) REFERENCES trip(trip_id),
     FOREIGN KEY (sender_user_email) REFERENCES Users(email)
 );

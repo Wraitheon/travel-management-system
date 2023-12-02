@@ -22,6 +22,10 @@ public class Transportation extends ItineraryItem{
     public void setMode(String mode) {
         this.mode = mode;
     }
+    public int getCost(int dest_id){
+        
+        return (int) dbhandler.getTransportationCost(dest_id, id);
+    }
  
     @Override
     public String toString() {
@@ -33,14 +37,14 @@ public class Transportation extends ItineraryItem{
 
             return "Travel by " + mode + ", at " +  formattedDateTime;
         } 
-        return "Travel by " + "mode";
+        return "Travel by " + mode;
 
     }
 
     public void addToDb(int itineraryID){
-        dbhandler db = new dbhandler();
+    
 
-        db.insertItineraryTransportation(id, itineraryID, getDateTime());
+        dbhandler.insertItineraryTransportation(id, itineraryID, getDateTime());
     }
 
     // create getter setter

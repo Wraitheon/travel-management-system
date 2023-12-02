@@ -4,6 +4,7 @@ import java.time.LocalDate;
 import java.util.List;
 
 import Controllers.EmailController;
+import Controllers.Factory;
 
 public class Trip {
     private int trip_ID;
@@ -74,17 +75,15 @@ public class Trip {
     }
 
     public  String getDestination(){
-        dbhandler db = new dbhandler();
 
-        return db.getDestinationNameForTrip(trip_ID);
+        return dbhandler.getDestinationNameForTrip(trip_ID);
     }
 
 
     public void insertModelToDb(int destination_id){
 
-        dbhandler db = new dbhandler();
-
-        int trip_id = db.addTrip(EmailController.email, destination_id, trip_Date, price, noOfDays);
+        
+        int trip_id = dbhandler.addTrip(EmailController.email, destination_id, trip_Date, price, noOfDays);
 
         itinerary.addToDB(trip_id);
     }
@@ -99,18 +98,16 @@ public class Trip {
     }
 
     public void fetchItinerary(){
-        dbhandler db = new dbhandler();
 
-        itinerary = new Itinerary(db.getItineraryIdForTrip(trip_ID));
+        itinerary = Factory.creatItinerary(dbhandler.getItineraryIdForTrip(trip_ID));
         fetchActivities(trip_ID);
         itinerary.fecthItineraryItems();
 
     }
 
     private void fetchActivities(int trip_ID){
-        dbhandler db = new dbhandler();
 
-        List<Activity> list = db.getActivitiesForTrip(trip_ID);
+        List<Activity> list = dbhandler.getActivitiesForTrip(trip_ID);
 
         for(var item : list){
                     itinerary.addActivity(item);
@@ -118,8 +115,7 @@ public class Trip {
 
     }
     private TravelAgency getAgency(){
-        dbhandler db = new dbhandler();
-        List<TravelAgency> agencies = db.getTravelAgencies();
+        List<TravelAgency> agencies = dbhandler.getTravelAgencies();
 
         
         for(var agency : agencies){

@@ -88,4 +88,8 @@ public class User {
     public void setPassword(String password) {
         this.password = password;
     }
+
+    public void insertToDB(){
+        dbhandler.insertUser(email, name, age, dateOfBirth, userType, cnic, phoneNumber, password);
+    }
 }

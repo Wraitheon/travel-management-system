@@ -9,13 +9,34 @@
             fx:controller="Controllers.CalBudgetController">
 
     <ComboBox fx:id="destinationComboBox" promptText="Select Destination" onAction="#handleDestinationChange"/>
-
+    <HBox spacing="10.0" alignment="CENTER">
+        <Label text="Number of Days" />
+        <TextField fx:id="daysTextField" promptText="Enter Number of Days" styleClass="text-field-with-line" />
+        <Label fx:id="costLabel"/>
+    </HBox>
     <HBox alignment="CENTER" spacing="10">
         <!-- Other UI elements -->
         
         <!-- Placeholder for dynamic ComboBox elements -->
-        <VBox fx:id="dynamicComboBoxesContainer" spacing="5"/>
-        <VBox fx:id="dynamicLabelsContainer" spacing="5"/>
+       
+
+        <TitledPane text="Add Restaurant" expanded="false">
+            <HBox alignment="CENTER" spacing="10">
+                <VBox fx:id="dynamicComboBoxesRestaurant" spacing="5"/>
+
+                <VBox fx:id="dynamicComboBoxesDinner" spacing="5"/>
+                
+            </HBox>
+        </TitledPane>
+        <TitledPane text="Add Accomodation" expanded="false">
+            <VBox fx:id="dynamicComboBoxesAccomodation" spacing="5"/>
+            
+        </TitledPane>
+        <TitledPane text="Add Transport" expanded="false">
+            <VBox fx:id="dynamicComboBoxesTransportation" spacing="5"/>
+
+        
+        </TitledPane>
         
         <!-- Other UI elements -->
     </HBox>
