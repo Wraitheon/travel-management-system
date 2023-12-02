@@ -37,6 +37,8 @@ public class Destination {
         this.destination_ID = destination_ID;
         this.name = name;
     }
+    public Destination(String tripDestination) {
+    }
     @Override
     public String toString() {
          return name + " (ID: " + destination_ID + ")";

@@ -12,58 +12,61 @@ import java.util.List;
 
 
 public class dbhandler {
-
-    public List<Booking> getBookings() {
+    public static List<Booking> fetchBookingsFromDatabase() {
         List<Booking> bookings = new ArrayList<>();
 
-        String query = "SELECT * FROM Booking";
+        try {
+            // JDBC connection setup (replace with your actual database connection details)
+            Connection connection = DriverManager.getConnection(constants.url, constants.user, constants.password);
 
-        try (Connection connection = DriverManager.getConnection(constants.url, constants.user, constants.password);
-             Statement statement = connection.createStatement();
-             ResultSet resultSet = statement.executeQuery(query)) {
+            // Your SQL query
+            String sql = "SELECT u.name AS user_name, d.destination_name AS trip_destination, t.prices AS trip_price, " +
+                    "t.number_of_days AS trip_number_of_days, b.booking_date, p.payment_date, p.amount, p.payment_method " +
+                    "FROM Users u JOIN Trip t ON u.email = t.user_email JOIN Destinations d ON t.destination_id = d.destination_id " +
+                    "JOIN Booking b ON t.trip_id = b.trip_id JOIN Payment p ON b.booking_id = p.booking_id";
 
-            while (resultSet.next()) {
-                int bookingId = resultSet.getInt("booking_id");
-                int tripId = resultSet.getInt("trip_id");
-                String userEmail = resultSet.getString("user_email");
-                Date bookingDate = resultSet.getDate("booking_date");
+            // Create a prepared statement
+            try (PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
+                // Execute the query
+                ResultSet resultSet = preparedStatement.executeQuery();
 
-                Booking booking = new Booking(bookingId, tripId, userEmail, bookingDate);
-                bookings.add(booking);
+                // Process the result set
+                while (resultSet.next()) {
+                    // Extract data from the result set
+                    String userName = resultSet.getString("user_name");
+                    String tripDestination = resultSet.getString("trip_destination");
+                    double tripPrice = resultSet.getDouble("trip_price");
+                    int tripNumberOfDays = resultSet.getInt("trip_number_of_days");
+                    LocalDate bookingDate = resultSet.getDate("booking_date").toLocalDate();
+                    LocalDate paymentDate = resultSet.getDate("payment_date").toLocalDate();
+                    double paymentAmount = resultSet.getDouble("amount");
+                    String paymentMethod = resultSet.getString("payment_method");
+
+                    // Create instances of your classes and add them to the list
+                    User user = new User();
+                    user.setName(userName);
+                    Destination destination = new Destination(tripDestination);
+                    Trip trip = new Trip(tripNumberOfDays, paymentAmount, paymentDate, tripNumberOfDays);
+                    Payment payment = new Payment(paymentDate, paymentAmount, paymentMethod);
+
+                    Booking booking = new Booking();
+                    booking.setU_user(user);
+                    booking.setD_destination(destination);
+                    booking.setTrip_ID(trip);
+                    booking.setP_payment(payment);
+
+                    // Add the Booking instance to the list
+                    bookings.add(booking);
+
+                    // Print information about the current booking
+                    System.out.println("Fetched Booking: " + booking);
+                }
             }
-
         } catch (SQLException e) {
-            e.printStackTrace(); // Handle the exception appropriately
+            e.printStackTrace();
         }
 
         return bookings;
-    }
-
-    public List<Payment> getPayments() {
-        List<Payment> payments = new ArrayList<>();
-
-        String query = "SELECT * FROM Payment";
-
-        try (Connection connection = DriverManager.getConnection(constants.url, constants.user, constants.password);
-             Statement statement = connection.createStatement();
-             ResultSet resultSet = statement.executeQuery(query)) {
-
-            while (resultSet.next()) {
-                int paymentId = resultSet.getInt("payment_id");
-                int bookingId = resultSet.getInt("booking_id");
-                Date paymentDate = resultSet.getDate("payment_date");
-                BigDecimal amount = resultSet.getBigDecimal("amount");
-                String paymentMethod = resultSet.getString("payment_method");
-
-                Payment payment = new Payment(paymentId, bookingId, paymentDate, amount, paymentMethod);
-                payments.add(payment);
-            }
-
-        } catch (SQLException e) {
-            e.printStackTrace(); // Handle the exception appropriately
-        }
-
-        return payments;
     }
 
     public List<Review> getReviewsForTravelAgency(String travelAgencyEmail) {
