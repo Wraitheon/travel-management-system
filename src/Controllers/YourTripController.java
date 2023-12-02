@@ -58,6 +58,8 @@ public class YourTripController {
         noOfDaysColumn.setCellValueFactory(cellData -> cellData.getValue().noOfDaysProperty());
     
         tripTableView.getColumns().addAll(tripIdColumn, destinationColumn, priceColumn, tripDateColumn, noOfDaysColumn);
+        tripTableView.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY_FLEX_LAST_COLUMN);
+
     
         //Set the data to the table
         tripTableView.setItems(FXCollections.observableArrayList(tripList));
@@ -139,6 +141,7 @@ public class YourTripController {
     @FXML
     private void handleAbout(ActionEvent event) {
         // Handle "About" button action
+        NBC.Navigate(event, NavigationLink.agencyAbout);
     }
 }
 

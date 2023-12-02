@@ -63,6 +63,45 @@ public class dbhandler {
     }
 
 
+
+    public TravelAgency getTravelAgencyByEmail(String email) {
+    TravelAgency travelAgency = null;
+
+    try {
+        // Open connection
+        Connection connection = DriverManager.getConnection(constants.url, constants.user, constants.password);
+
+        // SQL query to fetch a Travel Agency by email
+        String sql = "SELECT * FROM Users WHERE usertype = 'Travel Agency' AND email = ? LIMIT 1";
+
+        try (PreparedStatement statement = connection.prepareStatement(sql)) {
+            // Set the email parameter
+            statement.setString(1, email);
+
+            // Execute the query
+            ResultSet resultSet = statement.executeQuery();
+
+            // Process the result set
+            if (resultSet.next()) {
+                String name = resultSet.getString("name");
+                int age = resultSet.getInt("age");
+                String dateOfBirth = resultSet.getString("date_of_birth");
+                String userType = resultSet.getString("usertype");
+                String cnic = resultSet.getString("cnic");
+                String phoneNumber = resultSet.getString("phone_number");
+                String password = resultSet.getString("password");
+
+                // Create TravelAgency object
+                travelAgency = new TravelAgency(email, name, age, dateOfBirth, userType, cnic, phoneNumber, password);
+            }
+        }
+    } catch (SQLException e) {
+        e.printStackTrace(); // Handle the exception appropriately
+    }
+
+    return travelAgency;
+}
+
     public static void insertPayment(int bookingId, LocalDate paymentDate, double amount, String paymentMethod) {
         try (Connection connection = DriverManager.getConnection(constants.url, constants.user, constants.password)) {
             String sql = "INSERT INTO Payment (booking_id, payment_date, amount, payment_method) VALUES (?, ?, ?, ?)";

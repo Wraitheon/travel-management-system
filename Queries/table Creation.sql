@@ -119,9 +119,10 @@ select * from review
 select * from users
 select * from trip;
 select * from ItineraryRestaurants;
+select * from loyaltyprogram
 
 select * from itinerary;
-
+select * from booking
 select * from ItineraryAccommodation;
 select * from activities;
 
@@ -259,8 +260,6 @@ CREATE TABLE Budget (
     transportation_cost DECIMAL(10, 2),
     activities_cost DECIMAL(10, 2),
     restaurant_cost DECIMAL(10, 2),
-    other_expenses DECIMAL(10, 2),
-    total_budget DECIMAL(10, 2),
     FOREIGN KEY (user_email) REFERENCES Users(email),
     FOREIGN KEY (trip_id) REFERENCES Trip(trip_id)
 );

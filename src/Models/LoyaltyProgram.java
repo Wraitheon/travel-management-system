@@ -22,12 +22,14 @@ public class LoyaltyProgram {
 
     private void updateDB(String email){
         dbhandler db = new dbhandler();
+        System.out.println(points);
 
         db.updatePoints(email, points);
     }
 
     public void addPoints(int points, String email) {
         this.points += points;
+        
         updateDB(email); 
     }
 

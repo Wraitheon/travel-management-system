@@ -21,6 +21,7 @@ public class Traveller extends User{
    }
 
    public void addPoints(int points){
+     System.out.println(points);
         loyaltyPoints.addPoints(points, getEmail());
    }
 

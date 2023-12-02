@@ -128,13 +128,14 @@ ListView {
 /* Customize the appearance of the items in the ListView */
 #itineraryListView .list-cell {
     -fx-padding: 5 10; /* Set padding for each cell */
-    -fx-border-color: rgb(115, 223, 223); /* Set border color */
+    -fx-border-color: rgb(181, 207, 240); /* Set border color */
     -fx-border-width: 0 0 1 0; /* Set bottom border only */
-    -fx-background-color: rgb(170, 205, 209); /* Set background color for each cell */
+    -fx-background-color: rgb(181, 207, 240); /* Set background color for each cell */
     
     /* Center-align and make the text bold */
     -fx-alignment: center; 
     -fx-font-weight: bold;
+    -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.2), 10, 0, 0, 1);
 }
 
 /* Style selected cells */
@@ -151,5 +152,44 @@ ListView {
     -fx-border-color: #0078d4; /* Set border color for focused cells */
 }
 
+/* Sample CSS file with styling for TableView rows */
+.table-row-cell {
+    -fx-background-color: white;
+    -fx-border-color: #ddd;
+    -fx-border-width: 1px;
+    -fx-border-radius: 8px;
+    -fx-padding: 10px;
+    -fx-background-radius: 8px;
+    -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.2), 10, 0, 0, 1);
+}
 
+.table-row-cell:hover {
+    -fx-background-color: rgb(109, 146, 194);
+}
+
+
+.table-row-cell:selected {
+    -fx-background-color: #3498db; /* Set the background color for the selected row */
+    -fx-text-fill: white; /* Set the text color for the selected row */
+}
+
+.table-view .column-header-background:selected {
+    -fx-background-color: #3498db; /* Set the background color for the selected column header */
+    -fx-text-fill: white; /* Set the text color for the selected column header */
+}
+
+.table-view .column:selected {
+    -fx-background-color: #83b1cf; /* Set the background color for the selected column */
+    -fx-text-fill: white; /* Set the text color for the selected column */
+}
+
+.table-view .column-header {
+    -fx-font-size: 14;
+    -fx-font-weight: bold;
+    -fx-padding: 5 10; /* Adjust padding as needed */
+    -fx-background-color: rgb(109, 146, 194); /* Set the background color */
+    -fx-text-fill: #9c3636; /* Set the text color */
+    -fx-border-width: 0; /* Remove the border */
+    -fx-background-radius: 10; /* Make it more bubbly */
+}
 

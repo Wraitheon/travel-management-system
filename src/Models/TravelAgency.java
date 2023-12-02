@@ -7,17 +7,28 @@ public class TravelAgency extends User {
     private List<Trip> trips;
    
 
-    private int rating;
+    
 
     public TravelAgency(String email, String name, int age, String dateOfBirth, String userType, String cnic,
             String phoneNumber, String password) {
         super(email, name, age, dateOfBirth, userType, cnic, phoneNumber, password);
         
-        dbhandler db = new dbhandler();
+            
+        fetchReviews();
+        fetchTrips();
+       
+        
+    }
 
-        rating = 0;
-        trips = db.getTripsByUserEmail(getEmail());
+    public void fetchTrips(){
+        dbhandler db = new dbhandler();
+         trips = db.getTripsByUserEmail(getEmail());
+    }
+
+    public void fetchReviews(){
+        dbhandler db = new dbhandler();
         reviews = db.getReviewsForTravelAgency(getEmail());
+
         
     }
 

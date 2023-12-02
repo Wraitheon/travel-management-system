@@ -87,6 +87,8 @@ public class BookTripController implements Initializable {
         newBooking.makePayment(amount);
         newBooking.addToDB();
 
+        traveller.addPoints(5);
+
         AlertController.showConfirmation("Succesful", "Trip as been booked Successfully");
         NavBarController NBC = new NavBarController();
 

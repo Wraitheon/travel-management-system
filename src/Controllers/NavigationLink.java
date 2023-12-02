@@ -5,7 +5,10 @@ public class NavigationLink {
     public static String agencyDashboard = "/Screens/TravelAgency/agencyDashBoard.fxml"; 
     public static String addTrip = "/Screens/TravelAgency/addtrip.fxml"; 
     public static String yourTrip = "/Screens/TravelAgency/yourTrip.fxml"; 
-    public static String tripDetails = "/Screens/TravelAgency/tripDetails.fxml"; 
+    public static String tripDetails = "/Screens/TravelAgency/tripDetails.fxml";    
+    public static String agencyAbout = "/Screens/TravelAgency/agencyAbout.fxml"; 
+
+
 
 
    

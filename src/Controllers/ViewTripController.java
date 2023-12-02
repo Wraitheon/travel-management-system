@@ -62,6 +62,9 @@ public class ViewTripController {
         tripDateColumn.setCellValueFactory(cellData -> cellData.getValue().trip_DateProperty());
         noOfDaysColumn.setCellValueFactory(cellData -> cellData.getValue().noOfDaysProperty().asObject());
 
+                allTripTableView.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY_FLEX_LAST_COLUMN);
+
+
         populateTable();
 
          allTripTableView.setOnMouseClicked(event -> {
@@ -114,6 +117,8 @@ public class ViewTripController {
         } 
         
         allTripTableView.setItems(FXCollections.observableArrayList(allTrips));
+
+
         
     }
 

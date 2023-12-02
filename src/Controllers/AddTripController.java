@@ -493,40 +493,42 @@ public class AddTripController {
 
     //------------------------------------------------------------------------------------------------------
 
-    NavBarController NBC = new NavBarController();
-    @FXML
-    private void handleYourTrips(ActionEvent event) {
-        // Handle "Your Trips" button action
-        NBC.Navigate(event, NavigationLink.yourTrip);
-    }
-
     
-    @FXML
-    private void handleAddTrips(ActionEvent event) {
-        // Handle "Add Trips" button action
+       // Add necessary methods and logic for your controller
+       NavBarController NBC = new NavBarController();
+       @FXML
+       private void handleYourTrips(ActionEvent event) {
+           // Handle "Your Trips" button action
+           NBC.Navigate(event, NavigationLink.yourTrip);
+       }
+   
        
-       NBC.Navigate(event, NavigationLink.addTrip);
-        
-    }
-
-     @FXML
-    private void handleHome(ActionEvent event) {
-        // Handle "Add Trips" button action
-       
-        NBC.Navigate(event, NavigationLink.agencyDashboard);
-
-        
-    }
-
-    @FXML
-    private void handleBookings(ActionEvent event) {
-        // Handle "Bookings" button action
-    }
-
-    @FXML
-    private void handleAbout(ActionEvent event) {
-        // Handle "About" button action
-    }
-
+       @FXML
+       private void handleAddTrips(ActionEvent event) {
+           // Handle "Add Trips" button action
+          
+          NBC.Navigate(event, NavigationLink.addTrip);
+           
+       }
+   
+        @FXML
+       private void handleHome(ActionEvent event) {
+           // Handle "Add Trips" button action
+          
+           NBC.Navigate(event, NavigationLink.agencyDashboard);
+   
+           
+       }
+   
+       @FXML
+       private void handleBookings(ActionEvent event) {
+           // Handle "Bookings" button action
+       }
+   
+       @FXML
+       private void handleAbout(ActionEvent event) {
+           // Handle "About" button action
+           NBC.Navigate(event, NavigationLink.agencyAbout);
+       }
     // Other methods...
 }
