@@ -68,7 +68,7 @@ public class TouristDashBoardController implements Initializable{
 
      @FXML
     private void handleChat(ActionEvent event) {
-        NBC.Navigate(event, NavigationLink.touristReview);    
+        NBC.Navigate(event, NavigationLink.chat);    
     }
 
      @FXML

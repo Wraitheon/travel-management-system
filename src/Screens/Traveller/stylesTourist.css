@@ -171,3 +171,14 @@ ListView {
 
 
 
+.list-cell {
+    -fx-background-color: rgb(125, 232, 101);
+    -fx-padding: 10px;
+    -fx-background-radius: 10px;
+    -fx-background-insets: 5px;
+}
+
+/* You may want to style alternating rows differently for better readability */
+.list-cell:odd {
+    -fx-background-color: #ffe4c15e;
+}

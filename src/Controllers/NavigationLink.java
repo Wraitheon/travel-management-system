@@ -32,13 +32,6 @@ public class NavigationLink {
     public static String touristViewTrips = "/Screens/Traveller/viewTrips.fxml";
     public static String touristTripDetails = "/Screens/Traveller/tripDetailsTourist.fxml";
     public static String touristBookTrip = "/Screens/Traveller/bookTrip.fxml";   
-     public static String budget = "/Screens/Traveller/calBudget.fxml";
-
-
-
-
-
-    
-
-
+    public static String budget = "/Screens/Traveller/calBudget.fxml";
+    public static String chat = "/Screens/Traveller/chatwindow.fxml";
 }
