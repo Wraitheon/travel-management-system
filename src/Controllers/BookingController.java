@@ -4,7 +4,6 @@ import javafx.fxml.FXML;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
-import javafx.scene.control.cell.TextFieldTableCell;
 import javafx.util.converter.BigDecimalStringConverter;
 
 import java.math.BigDecimal;
@@ -12,6 +11,7 @@ import java.util.List;
 
 import Models.Booking;
 import Models.Payment;
+import Models.BookingTable;
 import Models.dbhandler;
 
 public class BookingController {
@@ -32,38 +32,60 @@ public class BookingController {
     private TableColumn<Booking, String> bookingDateColumn;
 
     @FXML
-    private TableView<Payment> paymentTableView;
+    private TableView<BookingTable> paymentTableView;
 
     @FXML
-    private TableColumn<Payment, Integer> paymentIdColumn;
+    private TableColumn<BookingTable, String> userNameColumn;
 
     @FXML
-    private TableColumn<Payment, Integer> bookingIdPaymentColumn;
+    private TableColumn<BookingTable, String> tripDestinationColumn;
 
     @FXML
-    private TableColumn<Payment, String> paymentDateColumn;
+    private TableColumn<BookingTable, BigDecimal> tripPriceColumn;
 
     @FXML
-    private TableColumn<Payment, BigDecimal> amountColumn;
+    private TableColumn<BookingTable, Integer> tripNumberOfDaysColumn;
 
     @FXML
-    private TableColumn<Payment, String> paymentMethodColumn;
+    private TableColumn<BookingTable, String> bookingDatePaymentTableColumn;
+
+    @FXML
+    private TableColumn<BookingTable, String> paymentDateColumn;
+
+    @FXML
+    private TableColumn<BookingTable, BigDecimal> amountColumn;
+
+    @FXML
+    private TableColumn<BookingTable, String> paymentMethodColumn;
+
+    @FXML
+    private TableColumn<BookingTable, BigDecimal> discountColumn;
+
+    @FXML
+    private TableColumn<BookingTable, BigDecimal> remainingPriceColumn;
 
     private TableColumn<Booking, Integer> paymentBookingIdColumn;
 
+    private List<BookingTable> bookingTableList;
+
     @FXML
     private void initialize() {
-        // Initialize columns (assuming you have defined them in FXML)
-        bookingIdColumn.setCellValueFactory(new PropertyValueFactory<>("bookingId"));
-        tripIdColumn.setCellValueFactory(new PropertyValueFactory<>("tripId"));
-        userEmailColumn.setCellValueFactory(new PropertyValueFactory<>("userEmail"));
-        bookingDateColumn.setCellValueFactory(new PropertyValueFactory<>("bookingDate"));
 
-        paymentIdColumn.setCellValueFactory(new PropertyValueFactory<>("paymentId"));
-        paymentBookingIdColumn.setCellValueFactory(new PropertyValueFactory<>("bookingId"));
+        bookingTableList = dbhandler.getBookingTableData();
+
+        userNameColumn.setCellValueFactory(new PropertyValueFactory<>("userName"));
+        tripDestinationColumn.setCellValueFactory(new PropertyValueFactory<>("tripDestination"));
+        tripPriceColumn.setCellValueFactory(new PropertyValueFactory<>("tripPrice"));
+        tripNumberOfDaysColumn.setCellValueFactory(new PropertyValueFactory<>("tripNumberOfDays"));
+        bookingDatePaymentTableColumn.setCellValueFactory(new PropertyValueFactory<>("bookingDate"));
         paymentDateColumn.setCellValueFactory(new PropertyValueFactory<>("paymentDate"));
         amountColumn.setCellValueFactory(new PropertyValueFactory<>("amount"));
         paymentMethodColumn.setCellValueFactory(new PropertyValueFactory<>("paymentMethod"));
-    }
+        discountColumn.setCellValueFactory(new PropertyValueFactory<>("discount"));
+        remainingPriceColumn.setCellValueFactory(new PropertyValueFactory<>("remainingPrice"));
 
+        // Set the items in the paymentTableView
+        paymentTableView.getItems().addAll(bookingTableList);
+        paymentTableView.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY_FLEX_LAST_COLUMN);
+    }
 }

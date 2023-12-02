@@ -33,5 +33,4 @@ public class Traveller extends User{
         super(email, name, age, dateOfBirth, userType, cnic, phoneNumber, password);
         //TODO Auto-generated constructor stub
     }
-    
 }
