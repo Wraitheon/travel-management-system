@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.cell.PropertyValueFactory?>
+<?import javafx.scene.control.cell.TextFieldTableCell?>
+<?import javafx.scene.control.cell.ChoiceBoxTableCell?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.text.Font?>
+
+<VBox alignment="CENTER" stylesheets="@stylesTA.css" fx:id="root" xmlns="http://javafx.com/javafx"
+            xmlns:fx="http://javafx.com/fxml"
+            fx:controller="Controllers.AgencyBookingController">
+
+    <TableView fx:id="paymentTableView" prefWidth="800" prefHeight="400">
+        <columns>
+            <TableColumn fx:id="userNameColumn" text="User Name"/>
+            <TableColumn fx:id="tripDestinationColumn" text="Trip Destination"/>
+            <TableColumn fx:id="tripPriceColumn" text="Trip Price"/>
+            <TableColumn fx:id="tripNumberOfDaysColumn" text="Number of Days"/>
+            <TableColumn fx:id="bookingDatePaymentTableColumn" text="Booking Date"/>
+            <TableColumn fx:id="paymentDateColumn" text="Payment Date"/>
+            <TableColumn fx:id="amountColumn" text="Amount"/>
+            <TableColumn fx:id="paymentMethodColumn" text="Payment Method"/>
+            <TableColumn fx:id="discountColumn" text="Discount"/>
+            <TableColumn fx:id="remainingPriceColumn" text="Remaining Amount"/>
+        </columns>
+    </TableView>
+
+    <VBox alignment="BOTTOM_CENTER" id="button-container">
+        <HBox spacing="2">
+            <!-- Your Trips Button -->
+            <Button text="Home" onAction="#handleHome" id="button-large" />
+            <Button text="Your Trips" onAction="#handleYourTrips" id="button-large" />
+
+            <!-- Add Trips Button -->
+            <Button text="Add Trips" onAction="#handleAddTrips" id="button-large" />
+
+            <!-- Bookings Button -->
+            <Button text="Bookings" onAction="#handleBookings" id="button-large" />
+
+            <!-- About Button -->
+            <Button text="About" onAction="#handleAbout" id="button-large" />
+        </HBox>
+    </VBox>
+</VBox>

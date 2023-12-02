@@ -12,6 +12,61 @@ import java.util.List;
 
 
 public class dbhandler {
+    public static List<BookingTable> getAgencyBookingTableData(String email) {
+        List<BookingTable> bookingTableList = new ArrayList<>();
+
+        String query = "SELECT " +
+                "u.name AS user_name, " +
+                "d.destination_name AS trip_destination, " +
+                "t.prices AS trip_price, " +
+                "t.number_of_days AS trip_number_of_days, " +
+                "b.booking_date, " +
+                "p.payment_date, " +
+                "p.amount, " +
+                "p.payment_method, " +
+                "b.discount_amount, " +
+                "(t.prices - p.amount - b.discount_amount) AS remaining_amount " +
+                "FROM " +
+                "Users u " +
+                "JOIN Booking b ON u.email =  b.user_email " +
+                "JOIN Trip t ON t.trip_id = b.trip_id " +
+                "JOIN Destinations d ON t.destination_id = d.destination_id " +
+                "JOIN Payment p ON b.booking_id = p.booking_id " +
+                "WHERE t.user_email = ?";
+
+        try (Connection connection = DriverManager.getConnection(constants.url, constants.user, constants.password);
+             PreparedStatement preparedStatement = connection.prepareStatement(query)) {
+
+            // set the email as a parameter for the query
+            preparedStatement.setString(1, email);
+
+            try (ResultSet resultSet = preparedStatement.executeQuery()) {
+                while (resultSet.next()) {
+                    // Extract data from the result set
+                    String userName = resultSet.getString("user_name");
+                    String tripDestination = resultSet.getString("trip_destination");
+                    BigDecimal tripPrice = resultSet.getBigDecimal("trip_price");
+                    int tripNumberOfDays = resultSet.getInt("trip_number_of_days");
+                    Date bookingDate = resultSet.getDate("booking_date");
+                    Date paymentDate = resultSet.getDate("payment_date");
+                    BigDecimal amount = resultSet.getBigDecimal("amount");
+                    String paymentMethod = resultSet.getString("payment_method");
+                    BigDecimal discount = resultSet.getBigDecimal("discount_amount");
+                    BigDecimal remainingPrice = resultSet.getBigDecimal("remaining_amount");
+
+                    // Assuming you have a constructor in BookingTable class to initialize the object
+                    BookingTable bookingTable = new BookingTable(userName, tripDestination, tripPrice, tripNumberOfDays, bookingDate, paymentDate, amount, paymentMethod, discount, remainingPrice);
+                    bookingTableList.add(bookingTable);
+                }
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace(); // Handle the exception appropriately
+        }
+
+        return bookingTableList;
+    }
+
     public static List<BookingTable> getBookingTableData(String email) {
         List<BookingTable> bookingTableList = new ArrayList<>();
 
