@@ -45,7 +45,7 @@ public class TouristDashBoardController implements Initializable{
 
     @FXML
     private void handleCalBudget(ActionEvent event) {
-        //NBC.Navigate(event, NavigationLink.touristViewTrips);    
+       NBC.Navigate(event, NavigationLink.budget);    
     }
      @FXML
     private void handleBookTourGuide(ActionEvent event) {

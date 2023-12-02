@@ -73,6 +73,43 @@ CREATE TABLE Review (
     FOREIGN KEY (reviewed_user_email) REFERENCES Users(email)
 );
 
+SELECT
+    u.name AS user_name,
+    d.destination_name AS trip_destination,
+    t.prices AS trip_price,
+    t.number_of_days AS trip_number_of_days,
+    b.booking_date,
+    p.payment_date,
+    p.amount,
+    p.payment_method,
+    b.discount_amount,
+    (t.prices - p.amount - b.discount_amount) AS remaining_amount
+FROM
+    Users u
+JOIN Booking b ON u.email =  b.user_email
+JOIN Trip t ON t.trip_id = b.trip_id
+JOIN Destinations d ON t.destination_id = d.destination_id
+JOIN Payment p ON b.booking_id = p.booking_id
+where t.user_email = "riyan@gg.com";
+
+SELECT
+    u.name AS user_name,
+    d.destination_name AS trip_destination,
+    t.prices AS trip_price,
+    t.number_of_days AS trip_number_of_days,
+    b.booking_date,
+    p.payment_date,
+    p.amount,
+    p.payment_method,
+    b.discount_amount,
+    (t.prices - p.amount - b.discount_amount) AS remaining_amount
+FROM
+    Users u
+JOIN Trip t ON u.email = t.user_email
+JOIN Destinations d ON t.destination_id = d.destination_id
+JOIN Booking b ON t.trip_id = b.trip_id
+JOIN Payment p ON b.booking_id = p.booking_id
+where b.user_email = "meow@nu.edu.com";
 
 
 
@@ -123,6 +160,7 @@ select * from loyaltyprogram
 
 select * from itinerary;
 select * from booking
+select * from payment
 select * from ItineraryAccommodation;
 select * from activities;
 
