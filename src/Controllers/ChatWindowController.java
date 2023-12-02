@@ -26,7 +26,7 @@ public class ChatWindowController {
     @FXML
     private ComboBox<Integer> tripComboBox;
 
-    private final dbhandler dbHandler = new dbhandler();
+ 
 
     @FXML
     private void initialize() {

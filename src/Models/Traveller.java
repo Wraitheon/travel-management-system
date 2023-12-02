@@ -39,8 +39,8 @@ public class Traveller extends User{
     }
 
     public void fetchBooking(){
-        dbhandler db = new dbhandler();
-        bookings = db.getBookings(getEmail());
+        
+        bookings = dbhandler.getBookings(getEmail());
     }
 
      public List<Booking> getBookings() {

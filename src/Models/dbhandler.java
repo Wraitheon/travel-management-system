@@ -105,7 +105,7 @@ public class dbhandler {
 
         return cost;
     }
-public class dbhandler {
+
     // Insert a new chat message into the Messages table
     public static void insertMessage(int tripId, String senderEmail, String messageText) {
         try (Connection connection = DriverManager.getConnection(constants.url, constants.user, constants.password)) {
@@ -172,7 +172,7 @@ public class dbhandler {
     }
 
 
-    public List<Booking> getBookings(String userEmail) {
+    public static List<Booking> getBookings(String userEmail) {
         List<Booking> bookings = new ArrayList<>();
     
         String sql = "SELECT * FROM Booking WHERE user_email = ?";
