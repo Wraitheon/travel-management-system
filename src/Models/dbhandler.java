@@ -7,11 +7,102 @@ import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 
-
-
-
-
 public class dbhandler {
+    // Insert a new chat message into the Messages table
+    public static void insertMessage(int tripId, String senderEmail, String messageText) {
+        try (Connection connection = DriverManager.getConnection(constants.url, constants.user, constants.password)) {
+            String sql = "INSERT INTO Messages (trip_id, sender_user_email, message_text) VALUES (?, ?, ?)";
+
+            try (PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
+                preparedStatement.setInt(1, tripId);
+                preparedStatement.setString(2, senderEmail);
+                preparedStatement.setString(3, messageText);
+
+                preparedStatement.executeUpdate();
+            }
+        } catch (SQLException e) {
+            e.printStackTrace(); // Handle the exception appropriately in your application
+        }
+    }
+
+    // Assuming that the insertChatMessage method in your dbHandler class looks like this
+    public static void insertChatMessage(int tripId, String senderEmail, String messageText) {
+        try (Connection connection = DriverManager.getConnection(constants.url, constants.user, constants.password)) {
+            String sql = "INSERT INTO Messages (trip_id, sender_user_email, message_text) VALUES (?, ?, ?)";
+
+            try (PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
+                preparedStatement.setInt(1, tripId);
+                preparedStatement.setString(2, senderEmail);
+                preparedStatement.setString(3, messageText);
+
+                preparedStatement.executeUpdate();
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    // Retrieve all chat messages for a given trip from the Messages table
+    public static List<ChatMessage> getChatMessagesForTrip(int tripID) {
+        List<ChatMessage> messages = new ArrayList<>();
+
+        try (Connection connection = DriverManager.getConnection(constants.url, constants.user, constants.password)) {
+            String query = "SELECT * FROM Messages WHERE trip_id = ?";
+
+            try (PreparedStatement preparedStatement = connection.prepareStatement(query)) {
+                preparedStatement.setInt(1, tripID);
+
+                try (ResultSet resultSet = preparedStatement.executeQuery()) {
+                    while (resultSet.next()) {
+                        int messageID = resultSet.getInt("message_id");
+                        String senderEmail = resultSet.getString("sender_user_email");
+                        String messageText = resultSet.getString("message_text");
+                        Timestamp timestamp = resultSet.getTimestamp("timestamp");
+
+                        // Create ChatMessage objects and add them to the list
+                        ChatMessage message = new ChatMessage(messageID, senderEmail, messageText, timestamp);
+                        messages.add(message);
+                    }
+                }
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace(); // Handle the exception appropriately in your application
+        }
+
+        return messages;
+    }
+
+
+    public List<Booking> getBookings(String userEmail) {
+        List<Booking> bookings = new ArrayList<>();
+    
+        String sql = "SELECT * FROM Booking WHERE user_email = ?";
+    
+        try (Connection connection = DriverManager.getConnection(constants.url, constants.user, constants.password);
+             PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
+    
+            preparedStatement.setString(1, userEmail);
+    
+            try (ResultSet resultSet = preparedStatement.executeQuery()) {
+                while (resultSet.next()) {
+                    String email = resultSet.getString("user_email");
+                    LocalDate date = resultSet.getDate("booking_date").toLocalDate();
+                    int tripId = resultSet.getInt("trip_ID");
+                    double discount = resultSet.getDouble("discount_amount");
+    
+                    Booking booking = new Booking(email, date, tripId, discount);
+                    bookings.add(booking);
+                }
+            }
+    
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    
+        return bookings;
+    }
+    
     public static List<BookingTable> getAgencyBookingTableData(String email) {
         List<BookingTable> bookingTableList = new ArrayList<>();
 
