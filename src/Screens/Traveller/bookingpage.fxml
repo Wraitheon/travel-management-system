@@ -8,6 +8,10 @@
 <?import javafx.scene.control.cell.PropertyValueFactory?>
 <?import javafx.scene.control.cell.TextFieldTableCell?>
 <?import javafx.scene.control.cell.ChoiceBoxTableCell?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.text.Font?>
 
 <VBox alignment="CENTER" stylesheets="@stylesTourist.css" fx:id="root" xmlns="http://javafx.com/javafx"
             xmlns:fx="http://javafx.com/fxml"
@@ -27,4 +31,21 @@
             <TableColumn fx:id="remainingPriceColumn" text="Remaining Amount"/>
         </columns>
     </TableView>
+
+    <VBox alignment="BOTTOM_CENTER" id="button-container">
+        <HBox spacing="2">
+            <Button text="Home" onAction="#handleHome" id="button-large" />
+
+
+            <Button text="View Trip" onAction="#handleViewTrips" id="button-large" />
+            
+            <Button text="Calculate Budget" onAction="#handleCalBudget" id="button-large" />
+
+            <Button text="Booking Tour Guide" onAction="#handleBookTourGuide" id="button-large" />
+
+            <Button text="Booking" onAction="#handleBooking" id="button-large" />
+
+            <Button text="Add Review" onAction="#handleReview" id="button-large" />
+        </HBox>
+    </VBox>
 </VBox>

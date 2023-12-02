@@ -12,7 +12,7 @@ import java.util.List;
 
 
 public class dbhandler {
-    public static List<BookingTable> getBookingTableData() {
+    public static List<BookingTable> getBookingTableData(String email) {
         List<BookingTable> bookingTableList = new ArrayList<>();
 
         String query = "SELECT " +
@@ -31,12 +31,17 @@ public class dbhandler {
                 "JOIN Trip t ON u.email = t.user_email " +
                 "JOIN Destinations d ON t.destination_id = d.destination_id " +
                 "JOIN Booking b ON t.trip_id = b.trip_id " +
-                "JOIN Payment p ON b.booking_id = p.booking_id";
+                "JOIN Payment p ON b.booking_id = p.booking_id " + 
+                "WHERE b.user_email = ?";
 
         try (Connection connection = DriverManager.getConnection(constants.url, constants.user, constants.password);
              Statement statement = connection.createStatement();
              ResultSet resultSet = statement.executeQuery(query)) {
 
+            // set the email as a parameter for db
+            PreparedStatement preparedStatement = connection.prepareStatement(query);
+            preparedStatement.setString(1, email);
+            
             while (resultSet.next()) {
                 // You need to adjust the column names based on your actual database schema
                 String userName = resultSet.getString("user_name");

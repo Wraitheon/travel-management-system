@@ -1,5 +1,6 @@
 package Controllers;
 
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
@@ -67,11 +68,12 @@ public class BookingController {
     private TableColumn<Booking, Integer> paymentBookingIdColumn;
 
     private List<BookingTable> bookingTableList;
+    NavBarController NBC = new NavBarController();
 
     @FXML
     private void initialize() {
 
-        bookingTableList = dbhandler.getBookingTableData();
+        bookingTableList = dbhandler.getBookingTableData(EmailController.email);
 
         userNameColumn.setCellValueFactory(new PropertyValueFactory<>("userName"));
         tripDestinationColumn.setCellValueFactory(new PropertyValueFactory<>("tripDestination"));
@@ -88,4 +90,32 @@ public class BookingController {
         paymentTableView.getItems().addAll(bookingTableList);
         paymentTableView.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY_FLEX_LAST_COLUMN);
     }
+
+    @FXML
+    private void handleViewTrips(ActionEvent event) {
+        // NBC.Navigate(event, NavigationLink.touristViewTrips);    
+    }
+
+     @FXML
+    private void handleHome(ActionEvent event) {
+        NBC.Navigate(event, NavigationLink.touristDashboard);    
+    }
+
+    @FXML
+    private void handleCalBudget(ActionEvent event) {
+        //NBC.Navigate(event, NavigationLink.touristViewTrips);    
+    }
+     @FXML
+    private void handleBookTourGuide(ActionEvent event) {
+        //NBC.Navigate(event, NavigationLink.touristViewTrips);    
+    }
+     @FXML
+    private void handleBooking(ActionEvent event) {
+        //NBC.Navigate(event, NavigationLink.touristViewTrips);    
+    }
+
+
+    @FXML
+    private void handleReview(ActionEvent event) {
+        NBC.Navigate(event, NavigationLink.touristReview);    }
 }
