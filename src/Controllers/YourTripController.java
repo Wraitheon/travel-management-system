@@ -109,25 +109,20 @@ public class YourTripController {
 
     // Add necessary methods and logic for your controller
      NavBarController NBC = new NavBarController();
-    @FXML
+     @FXML
     private void handleYourTrips(ActionEvent event) {
-        // Handle "Your Trips" button action
         NBC.Navigate(event, NavigationLink.yourTrip);
     }
 
     
     @FXML
     private void handleAddTrips(ActionEvent event) {
-        // Handle "Add Trips" button action
-       
        NBC.Navigate(event, NavigationLink.addTrip);
         
     }
 
      @FXML
     private void handleHome(ActionEvent event) {
-        // Handle "Add Trips" button action
-       
         NBC.Navigate(event, NavigationLink.agencyDashboard);
 
         
@@ -135,7 +130,7 @@ public class YourTripController {
 
     @FXML
     private void handleBookings(ActionEvent event) {
-        // Handle "Bookings" button action
+        NBC.Navigate(event, NavigationLink.agencyBooking);
     }
 
     @FXML

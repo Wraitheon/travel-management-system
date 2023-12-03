@@ -34,8 +34,7 @@ public class AgencyDashBoardController implements Initializable {
     //     titleLabel.setText("Hello from JavaFX Controller!");
     // }
 
-    @FXML
-    private Button gotToAddTrip;
+    
 
     NavBarController NBC = new NavBarController();
     @FXML

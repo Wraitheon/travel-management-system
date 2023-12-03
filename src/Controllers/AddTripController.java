@@ -497,38 +497,33 @@ public class AddTripController {
        // Add necessary methods and logic for your controller
        NavBarController NBC = new NavBarController();
        @FXML
-       private void handleYourTrips(ActionEvent event) {
-           // Handle "Your Trips" button action
-           NBC.Navigate(event, NavigationLink.yourTrip);
-       }
-   
-       
-       @FXML
-       private void handleAddTrips(ActionEvent event) {
-           // Handle "Add Trips" button action
-          
-          NBC.Navigate(event, NavigationLink.addTrip);
-           
-       }
-   
-        @FXML
-       private void handleHome(ActionEvent event) {
-           // Handle "Add Trips" button action
-          
-           NBC.Navigate(event, NavigationLink.agencyDashboard);
-   
-           
-       }
-   
-       @FXML
-       private void handleBookings(ActionEvent event) {
-           // Handle "Bookings" button action
-       }
-   
-       @FXML
-       private void handleAbout(ActionEvent event) {
-           // Handle "About" button action
-           NBC.Navigate(event, NavigationLink.agencyAbout);
-       }
+    private void handleYourTrips(ActionEvent event) {
+        NBC.Navigate(event, NavigationLink.yourTrip);
+    }
+
+    
+    @FXML
+    private void handleAddTrips(ActionEvent event) {
+       NBC.Navigate(event, NavigationLink.addTrip);
+        
+    }
+
+     @FXML
+    private void handleHome(ActionEvent event) {
+        NBC.Navigate(event, NavigationLink.agencyDashboard);
+
+        
+    }
+
+    @FXML
+    private void handleBookings(ActionEvent event) {
+        NBC.Navigate(event, NavigationLink.agencyBooking);
+    }
+
+    @FXML
+    private void handleAbout(ActionEvent event) {
+        // Handle "About" button action
+        NBC.Navigate(event, NavigationLink.agencyAbout);
+    }
     // Other methods...
 }

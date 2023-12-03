@@ -1,5 +1,6 @@
 package Controllers;
 
+import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
@@ -7,7 +8,10 @@ import javafx.scene.control.ComboBox;
 import javafx.scene.control.ListView;
 import javafx.scene.control.TextArea;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Timer;
+import java.util.TimerTask;
 
 import Models.ChatCellFactory;
 import Models.ChatMessage;
@@ -31,34 +35,33 @@ public class ChatWindowController {
 
     @FXML
     private void initialize() {
-        chatListView.setCellFactory(param -> new ChatCellFactory());
+        //chatListView.setCellFactory(param -> new ChatCellFactory());
 
         // Populate the ComboBox with trip IDs
         populateTripComboBox();
+
+        startListeningForChatChanges();
 
         // Set listener for ComboBox selection change
         tripComboBox.setOnAction(e -> handleComboBoxSelection());
     }
 
-    @FXML
-    private void sendMessage() {
-        String messageText = messageTextArea.getText().trim();
-        Integer selectedTripID = tripComboBox.getValue();
-        String senderEmail = EmailController.email;
+    public void startListeningForChatChanges() {
+        // Initial check for existing chat messages
 
-        if (selectedTripID != null && !messageText.isEmpty()) {
-            // Insert the message into the database
-            dbhandler.insertChatMessage(selectedTripID, senderEmail, messageText);
-
-            // Update the UI by querying the database for all messages for the selected trip
-            updateChatListView(selectedTripID);
-
-            // Clear the message text area
-            messageTextArea.clear();
-        }
+        // Schedule a task to periodically check for new chat messages
+        Timer timer = new Timer(true);
+        timer.scheduleAtFixedRate(new TimerTask() {
+            @Override
+            public void run() {
+                if (tripComboBox.getValue()!= null) {
+                    Platform.runLater(() -> updateChatListView(tripComboBox.getValue()));
+                }
+            }
+        }, 0, 1000); // Check every 5 seconds (adjust the interval as needed)
     }
 
-    private void populateTripComboBox() {
+     private void populateTripComboBox() {
         TouristDashBoardController.traveller.fetchBooking();
         List<Integer> tripIDs = TouristDashBoardController.traveller.getTripIDs();
         tripComboBox.getItems().addAll(tripIDs);
@@ -76,12 +79,35 @@ public class ChatWindowController {
         }
     }
 
+    @FXML
+    private void sendMessage() {
+        String messageText = messageTextArea.getText().trim();
+        Integer selectedTripID = tripComboBox.getValue();
+        String senderEmail = EmailController.email;
+
+        if (selectedTripID != null && !messageText.isEmpty()) {
+            // Insert the message into the database
+            dbhandler.insertChatMessage(selectedTripID, senderEmail, messageText);
+
+            // Update the UI by querying the database for all messages for the selected trip
+            // updateChatListView(selectedTripID);
+
+            // Clear the message text area
+            messageTextArea.clear();
+        }
+    }
+    
+    private List<ChatMessage> messages = new ArrayList<ChatMessage>();
     private void updateChatListView(int tripID) {
         // Query the database to get all messages for the selected trip
-        List<ChatMessage> messages = dbhandler.getChatMessagesForTrip(tripID);
-
+        List<ChatMessage> newMessages = dbhandler.getChatMessagesForTrip(tripID);
+       
+            messages = new ArrayList<ChatMessage>(newMessages);
+            chatListView.getItems().setAll(messages);
+            chatListView.scrollTo(messages.size()-1);
+        
         // Update the chatListView
-        chatListView.getItems().setAll(messages);
+       
     }
 
     NavBarController NBC = new NavBarController();

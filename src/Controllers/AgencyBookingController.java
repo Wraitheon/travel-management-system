@@ -100,11 +100,14 @@ public class AgencyBookingController {
     @FXML
     private void handleAddTrips(ActionEvent event) {
        NBC.Navigate(event, NavigationLink.addTrip);
+        
     }
 
      @FXML
     private void handleHome(ActionEvent event) {
         NBC.Navigate(event, NavigationLink.agencyDashboard);
+
+        
     }
 
     @FXML
@@ -114,6 +117,7 @@ public class AgencyBookingController {
 
     @FXML
     private void handleAbout(ActionEvent event) {
+        // Handle "About" button action
         NBC.Navigate(event, NavigationLink.agencyAbout);
     }
 }
