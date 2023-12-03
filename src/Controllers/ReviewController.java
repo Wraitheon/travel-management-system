@@ -78,9 +78,10 @@ public class ReviewController {
         }
     }
 
+ 
     @FXML
     private void handleViewTrips(ActionEvent event) {
-        // NBC.Navigate(event, NavigationLink.touristViewTrips);    
+        NBC.Navigate(event, NavigationLink.touristViewTrips);    
     }
 
      @FXML
@@ -90,19 +91,34 @@ public class ReviewController {
 
     @FXML
     private void handleCalBudget(ActionEvent event) {
-        //NBC.Navigate(event, NavigationLink.touristViewTrips);    
+       NBC.Navigate(event, NavigationLink.budget);    
     }
      @FXML
     private void handleBookTourGuide(ActionEvent event) {
-        //NBC.Navigate(event, NavigationLink.touristViewTrips);    
+         NBC.Navigate(event, NavigationLink.bookGuide);      
     }
      @FXML
     private void handleBooking(ActionEvent event) {
-        //NBC.Navigate(event, NavigationLink.touristViewTrips);    
+        NBC.Navigate(event, NavigationLink.touristBookings);    
     }
 
 
     @FXML
     private void handleReview(ActionEvent event) {
-        NBC.Navigate(event, NavigationLink.touristReview);    }
+        NBC.Navigate(event, NavigationLink.touristReview);    
+    }
+     @FXML
+    private void handleLocal(ActionEvent event) {
+        NBC.Navigate(event, NavigationLink.localRecommendation);    
+    }
+
+     @FXML
+    private void handleChat(ActionEvent event) {
+        NBC.Navigate(event, NavigationLink.chat);    
+    }
+
+     @FXML
+    private void handleGuideBooking(ActionEvent event) {
+        NBC.Navigate(event, NavigationLink.guideBookings);    
+    }
 }

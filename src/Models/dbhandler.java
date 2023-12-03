@@ -8,6 +8,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import Controllers.Factory;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 
 
 
@@ -17,6 +19,82 @@ public class dbhandler {
 
     private dbhandler() {}
 
+    public static ObservableList<String> getLandmarksForDestination(int destination_id) {
+        ObservableList<String> landmarks = FXCollections.observableArrayList();
+
+        try (Connection connection = DriverManager.getConnection(constants.url, constants.user, constants.password)) {
+            String sql = "SELECT landmark_name FROM Landmarks WHERE destination_id = ?";
+
+            try (PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
+                preparedStatement.setInt(1, destination_id);
+
+                try (ResultSet resultSet = preparedStatement.executeQuery()) {
+                    while (resultSet.next()) {
+                        String landmarkName = resultSet.getString("landmark_name");
+                        landmarks.add(landmarkName);
+                    }
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return landmarks;
+    }
+
+    public static Boolean insertGuideBooking(String guideEmail, String travellerEmail, LocalDate date, int days) {
+        try (Connection connection = DriverManager.getConnection(constants.url, constants.user, constants.password)) {
+            String sql = "INSERT INTO GuideBooking (guideEmail, travellerEmail, date, days) VALUES (?, ?, ?, ?)";
+
+            try (PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
+                preparedStatement.setString(1, guideEmail);
+                preparedStatement.setString(2, travellerEmail);
+                preparedStatement.setDate(3, Date.valueOf(date));
+                preparedStatement.setInt(4, days);
+
+                int rowsAffected = preparedStatement.executeUpdate();
+
+                if (rowsAffected > 0) {
+                    System.out.println("GuideBooking inserted successfully.");
+                } else {
+                    System.out.println("Failed to insert GuideBooking.");
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return false;
+        }
+        return true;
+    }
+
+    public static List<GuideBooking> fetchGuideBookingsForTraveller(String travelerEmail) {
+        List<GuideBooking> guideBookings = new ArrayList<>();
+
+        try (Connection connection = DriverManager.getConnection(constants.url, constants.user, constants.password)) {
+            String sql = "SELECT * FROM GuideBooking WHERE travellerEmail = ?";
+
+            try (PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
+                preparedStatement.setString(1, travelerEmail);
+
+                try (ResultSet resultSet = preparedStatement.executeQuery()) {
+                    while (resultSet.next()) {
+                        String guideEmail = resultSet.getString("guideEmail");
+                        LocalDate date = resultSet.getDate("date").toLocalDate();
+                        int days = resultSet.getInt("days");
+
+                        // Create GuideBooking object and add to the list
+                        GuideBooking guideBooking = new GuideBooking(guideEmail, date, days);
+                        guideBookings.add(guideBooking);
+                    }
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return guideBookings;
+    }
+    
     public static List<GuideBooking> fetchGuideBookings(String guideEmail) {
         List<GuideBooking> guideBookings = new ArrayList<>();
 

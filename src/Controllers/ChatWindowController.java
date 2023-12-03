@@ -1,5 +1,6 @@
 package Controllers;
 
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
@@ -81,5 +82,49 @@ public class ChatWindowController {
 
         // Update the chatListView
         chatListView.getItems().setAll(messages);
+    }
+
+    NavBarController NBC = new NavBarController();
+    @FXML
+    private void handleViewTrips(ActionEvent event) {
+        NBC.Navigate(event, NavigationLink.touristViewTrips);    
+    }
+
+     @FXML
+    private void handleHome(ActionEvent event) {
+        NBC.Navigate(event, NavigationLink.touristDashboard);    
+    }
+
+    @FXML
+    private void handleCalBudget(ActionEvent event) {
+       NBC.Navigate(event, NavigationLink.budget);    
+    }
+     @FXML
+    private void handleBookTourGuide(ActionEvent event) {
+         NBC.Navigate(event, NavigationLink.bookGuide);      
+    }
+     @FXML
+    private void handleBooking(ActionEvent event) {
+        NBC.Navigate(event, NavigationLink.touristBookings);    
+    }
+
+
+    @FXML
+    private void handleReview(ActionEvent event) {
+        NBC.Navigate(event, NavigationLink.touristReview);    
+    }
+     @FXML
+    private void handleLocal(ActionEvent event) {
+        NBC.Navigate(event, NavigationLink.localRecommendation);    
+    }
+
+     @FXML
+    private void handleChat(ActionEvent event) {
+        NBC.Navigate(event, NavigationLink.chat);    
+    }
+
+     @FXML
+    private void handleGuideBooking(ActionEvent event) {
+        NBC.Navigate(event, NavigationLink.guideBookings);    
     }
 }

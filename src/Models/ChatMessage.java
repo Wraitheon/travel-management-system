@@ -51,10 +51,17 @@ public class ChatMessage {
 
     @Override
     public String toString() {
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
-        LocalDateTime localDateTime = time.toLocalDateTime(); // Convert to LocalDateTime
-        String formattedTimestamp = localDateTime.format(formatter);
-        return senderEmail + " -> " + message + " (" + formattedTimestamp + ")";
+        return "ChatMessage [senderEmail=" + senderEmail + ", message=" + message + ", time=" + time + "]";
     }
+
+    // @Override
+    // public String toString() {
+    //     DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+    //     LocalDateTime localDateTime = time.toLocalDateTime(); // Convert to LocalDateTime
+    //     String formattedTimestamp = localDateTime.format(formatter);
+
+        
+    //     return senderEmail + " -> " + message + " (" + formattedTimestamp + ")";
+    // }
 
 }

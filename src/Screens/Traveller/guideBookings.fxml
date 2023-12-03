@@ -1,29 +1,29 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.cell.PropertyValueFactory?>
+<?import javafx.scene.control.cell.TextFieldTableCell?>
+<?import javafx.scene.control.cell.ChoiceBoxTableCell?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.text.Font?>
 
-<VBox alignment="CENTER" stylesheets="@stylesTourist.css" fx:id="root" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controllers.ViewTripController" >
+<VBox alignment="CENTER" stylesheets="@stylesTourist.css" fx:id="root" xmlns="http://javafx.com/javafx"
+            xmlns:fx="http://javafx.com/fxml"
+            fx:controller="Controllers.GuideBookingsController">
 
-    
-
-    <Label text="View Trips" style="-fx-font-size: 20; -fx-font-weight: bold;" />
-
-    <ComboBox fx:id="destinationComboBox" promptText="Select Destination" onAction="#handleDestinationChange"/> 
-
-     <TableView fx:id="allTripTableView" layoutX="20.0" layoutY="60.0" prefHeight="320.0" prefWidth="560.0">
+    <TableView fx:id="bookingTableView" prefWidth="800" prefHeight="400">
         <columns>
-            <TableColumn fx:id="tripIdColumn" prefWidth="75.0" text="Trip ID" />
-            <TableColumn fx:id="travelAgencyNameColumn" prefWidth="150.0" text="Travel Agency Name" />
-            <TableColumn fx:id="priceColumn" prefWidth="75.0" text="Price" />
-            <TableColumn fx:id="tripDateColumn" prefWidth="150.0" text="Trip Date" />
-            <TableColumn fx:id="noOfDaysColumn" prefWidth="75.0" text="Number of Days" />
+            
         </columns>
     </TableView>
-    
-    <VBox alignment="BOTTOM_CENTER" id="button-container">
+
+     <VBox alignment="BOTTOM_CENTER" id="button-container">
         <HBox spacing="2">
             <Button text="Home" onAction="#handleHome" id="button-large" />
 
@@ -48,4 +48,3 @@
         </HBox>
     </VBox>
 </VBox>
-

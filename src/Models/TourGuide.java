@@ -36,6 +36,10 @@ public class TourGuide extends User{
         return true;
     }
 
+    public Boolean book(String userEmail, LocalDate date, int days){
+        return dbhandler.insertGuideBooking(getEmail(), userEmail, date, days);
+    }
+
     // @Override
     // public String toString() {
     //     return Name;

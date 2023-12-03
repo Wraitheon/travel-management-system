@@ -50,6 +50,24 @@ INSERT INTO Destinations (destination_name) VALUES
     ('Gilgit'),
     ('Naran');
 
+-- For Hunza
+INSERT INTO Landmarks (destination_id, landmark_name) VALUES
+    (1, 'Attabad Lake'),
+    (1, 'Karimabad Fort'),
+    (1, 'Eagle''s Nest');
+
+-- For Gilgit
+INSERT INTO Landmarks (destination_id, landmark_name) VALUES
+    (2, 'Gilgit River'),
+    (2, 'Shangrila Resort'),
+    (2, 'Fairy Meadows');
+
+-- For Naran
+INSERT INTO Landmarks (destination_id, landmark_name) VALUES
+    (3, 'Saif-ul-Mulook Lake'),
+    (3, 'Shogran'),
+    (3, 'Babusar Top');
+
 
 CREATE TABLE Trip (
     trip_id INT PRIMARY KEY AUTO_INCREMENT,
@@ -289,7 +307,6 @@ Create TABLE TransportationCost (
 
 
 CREATE TABLE Landmarks (
-    landmark_id INT PRIMARY KEY AUTO_INCREMENT,
     destination_id INT,
     landmark_name VARCHAR(255) NOT NULL,
     FOREIGN KEY (destination_id) REFERENCES Destinations(destination_id)
@@ -320,7 +337,7 @@ CREATE TABLE Budget (
     FOREIGN KEY (trip_id) REFERENCES Trip(trip_id)
 );
 
-CREATE TABLE GuideBokking (
+CREATE TABLE GuideBooking (
 	booking_id INT PRIMARY KEY AUTO_INCREMENT,
     guideEmail varchar(255),
     travellerEmail varchar(255),

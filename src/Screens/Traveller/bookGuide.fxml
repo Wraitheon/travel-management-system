@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import java.time.*?>
+
+<VBox alignment="CENTER" stylesheets="@stylesTourist.css" fx:id="root" xmlns:fx="http://javafx.com/fxml" spacing="10" fx:controller="Controllers.BookGuideController">
+
+    <HBox alignment="CENTER">
+        <Label text="Select Date:" />
+        <DatePicker fx:id="datePicker" />
+    </HBox>
+
+    <HBox alignment="CENTER">
+        <Label text="Number of Days:" />
+        <Spinner fx:id="daysSpinner" min="0" max="10" initialValue="1"/>
+    </HBox>
+     <Button text="Book Guide" onAction="#handleBook"/>
+    <TableView fx:id="tourGuideTable" prefHeight="400.0" prefWidth="600.0">
+        <columns>
+        
+        </columns>
+    </TableView>
+    <!-- Add additional UI elements as needed -->
+
+     <VBox alignment="BOTTOM_CENTER" id="button-container">
+        <HBox spacing="2">
+            <Button text="Home" onAction="#handleHome" id="button-large" />
+
+
+            <Button text="View Trip" onAction="#handleViewTrips" id="button-large" />
+            
+            <Button text="Calculate Budget" onAction="#handleCalBudget" id="button-large" />
+
+            <Button text="Book Tour Guide" onAction="#handleBookTourGuide" id="button-large" />
+
+            <Button text="Booking" onAction="#handleBooking" id="button-large" />
+
+            <Button text="Add Review" onAction="#handleReview" id="button-large" />
+        </HBox>
+        <HBox alignment="CENTER" spacing="2">
+            <Button text="Local Recommendation" onAction="#handleLocal" id="button-large" />
+
+            <Button text="Chat" onAction="#handleChat" id="button-large" />
+            
+            <Button text="Guide Booking" onAction="#handleGuideBooking" id="button-large" />
+
+        </HBox>
+    </VBox>
+
+</VBox>

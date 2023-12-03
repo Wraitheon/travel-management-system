@@ -59,7 +59,7 @@ Hyperlink:hover {
 
 
 #root {
-    -fx-background-color: #f0f0f0;
+    -fx-background-color: rgb(170, 177, 177);
 }
 
 #label-title {
@@ -71,7 +71,14 @@ Hyperlink:hover {
     -fx-font-size: 18;
     -fx-min-width: 120;
     -fx-min-height: 60;
+    -fx-background-radius: 5;
+    -fx-effect: dropshadow(three-pass-box, rgba(0, 0, 0, 0.3), 5, 0, 0, 1); /* Adjust values as needed */
 }
+
+#button-large:hover {
+    -fx-background-color: rgb(109, 146, 194);
+}
+
 
 /* stylesTA.css */
 
@@ -94,7 +101,7 @@ ListView {
 }
 
 #itineraryListView {
-    -fx-background-color: rgb(181, 207, 240); /* Set the background color */
+    -fx-background-color: rgb(170, 177, 177) /* Set the background color */
 }
 
 #itineraryListView .list-cell {
@@ -181,4 +188,10 @@ ListView {
 /* You may want to style alternating rows differently for better readability */
 .list-cell:odd {
     -fx-background-color: #ffe4c15e;
+}
+
+
+
+.main-vbox {
+    -fx-alignment: center; /* Center align the content */
 }

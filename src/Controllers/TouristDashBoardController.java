@@ -49,7 +49,7 @@ public class TouristDashBoardController implements Initializable{
     }
      @FXML
     private void handleBookTourGuide(ActionEvent event) {
-        //NBC.Navigate(event, NavigationLink.touristViewTrips);    
+         NBC.Navigate(event, NavigationLink.bookGuide);      
     }
      @FXML
     private void handleBooking(ActionEvent event) {
@@ -63,7 +63,7 @@ public class TouristDashBoardController implements Initializable{
     }
      @FXML
     private void handleLocal(ActionEvent event) {
-        NBC.Navigate(event, NavigationLink.touristReview);    
+        NBC.Navigate(event, NavigationLink.localRecommendation);    
     }
 
      @FXML
@@ -73,7 +73,7 @@ public class TouristDashBoardController implements Initializable{
 
      @FXML
     private void handleGuideBooking(ActionEvent event) {
-        NBC.Navigate(event, NavigationLink.touristReview);    
+        NBC.Navigate(event, NavigationLink.guideBookings);    
     }
 
 

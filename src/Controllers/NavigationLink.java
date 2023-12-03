@@ -36,6 +36,10 @@ public class NavigationLink {
     public static String budget = "/Screens/Traveller/calBudget.fxml";
     public static String bookGuide = "/Screens/Traveller/bookGuide.fxml";    
     public static String chat = "/Screens/Traveller/chatwindow.fxml";
+    public static String guideBookings = "/Screens/Traveller/guideBookings.fxml";
+    public static String localRecommendation = "/Screens/Traveller/localRecommendations.fxml";
+
+
 
 
 
