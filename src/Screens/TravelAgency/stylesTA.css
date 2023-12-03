@@ -59,7 +59,7 @@ Hyperlink:hover {
 
 
 #root {
-    -fx-background-color: #f0f0f0;
+    -fx-background-color: rgb(170, 177, 177);
 }
 
 #label-title {
@@ -71,7 +71,14 @@ Hyperlink:hover {
     -fx-font-size: 18;
     -fx-min-width: 120;
     -fx-min-height: 60;
+    -fx-background-radius: 5;
+    -fx-effect: dropshadow(three-pass-box, rgba(0, 0, 0, 0.3), 5, 0, 0, 1); /* Adjust values as needed */
 }
+
+#button-large:hover {
+    -fx-background-color: rgb(109, 146, 194);
+}
+
 
 /* stylesTA.css */
 
@@ -93,39 +100,10 @@ ListView {
     -fx-control-inner-background-alt: white;
 }
 
-.text-field-with-line {
-    -fx-background-color: transparent;
-    -fx-background-insets: 0, 0, 1, 0;
-    -fx-background-radius: 0, 0, 0, 0;
-    -fx-padding: 0.333333em 0.666667em 0.416667em 0.666667em; /* 4 8 5 8 */
-
-    -fx-text-fill: -fx-text-base-color;
-    -fx-font-size: 12px;
-
-    -fx-border-color: -fx-text-box-border;
-    -fx-border-width: 0 0 1 0;
-    -fx-border-insets: 0 0 1 0;
-    -fx-border-radius: 0 0 0 0;
-}
-
-.text-field-with-line:focused {
-    -fx-border-color: blue;
-    -fx-border-insets: 0, 0;
-    -fx-border-radius: 0, 0;
-}
-
-.text-field-with-line:disabled {
-    -fx-opacity: 1.0;
-}
-
-.text-field-with-line .prompt-text {
-    -fx-font-size: 12px;
-}
 #itineraryListView {
-    -fx-background-color: rgb(181, 207, 240); /* Set the background color */
+    -fx-background-color: rgb(170, 177, 177) /* Set the background color */
 }
 
-/* Customize the appearance of the items in the ListView */
 #itineraryListView .list-cell {
     -fx-padding: 5 10; /* Set padding for each cell */
     -fx-border-color: rgb(181, 207, 240); /* Set border color */
@@ -136,6 +114,7 @@ ListView {
     -fx-alignment: center; 
     -fx-font-weight: bold;
     -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.2), 10, 0, 0, 1);
+
 }
 
 /* Style selected cells */
@@ -150,6 +129,10 @@ ListView {
     -fx-background-radius: 0; /* Remove background radius for focused cells */
     -fx-border-width: 0 0 1 0; /* Set bottom border only for focused cells */
     -fx-border-color: #0078d4; /* Set border color for focused cells */
+}
+
+.main-vbox {
+    -fx-alignment: center; /* Center align the content */
 }
 
 /* Sample CSS file with styling for TableView rows */
@@ -193,3 +176,22 @@ ListView {
     -fx-background-radius: 10; /* Make it more bubbly */
 }
 
+
+
+.list-cell {
+    -fx-background-color: rgb(125, 232, 101);
+    -fx-padding: 10px;
+    -fx-background-radius: 10px;
+    -fx-background-insets: 5px;
+}
+
+/* You may want to style alternating rows differently for better readability */
+.list-cell:odd {
+    -fx-background-color: #ffe4c15e;
+}
+
+
+
+.main-vbox {
+    -fx-alignment: center; /* Center align the content */
+}
