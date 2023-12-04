@@ -36,6 +36,8 @@ public class Traveller extends User{
             String phoneNumber, String password) {
         super(email, name, age, dateOfBirth, userType, cnic, phoneNumber, password);
         //TODO Auto-generated constructor stub
+        loyaltyPoints = Factory.createLoyaltyProgram(0);
+        bookings = null;
     }
 
     public void fetchBooking(){

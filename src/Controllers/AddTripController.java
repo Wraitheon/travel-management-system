@@ -422,6 +422,13 @@ public class AddTripController {
     }
 
     private Boolean checkDate(LocalDate date){
+        
+        if (daysTextField.getText().equals("")){
+            showAlert("Error", "Number of days missing, Kindly Enter a numebr of days");
+
+            return true;
+        }
+
          String daysText = daysTextField.getText();
         int days = (int) Double.parseDouble(daysText);
 
@@ -451,17 +458,18 @@ public class AddTripController {
     @FXML
     private void handleAddTripToDB(ActionEvent event){
 
-        if (datePicker.getValue().isBefore(LocalDate.now())){
-            showAlert("Error", "Trip cannot be in past");
-
-            return;
-        }
-
+       
         if (datePicker.getValue() == null || "".equals(costTextField.getText()) || "".equals(daysTextField.getText())) {
             showAlert("Error", "Information is missing");
 
             return;
         }
+         if (datePicker.getValue().isBefore(LocalDate.now())){
+            showAlert("Error", "Trip cannot be in past");
+
+            return;
+        }
+
         if (destination_id == 0){
                         showAlert("Error", "Destination is missing");
                         return;

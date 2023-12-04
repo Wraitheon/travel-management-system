@@ -15,7 +15,14 @@ public class Trip {
     private LocalDate trip_Date;
     private int noOfDays;
     private Itinerary itinerary;
+    private List<ChatMessage> chatMessages;
     
+    public List<ChatMessage> getChatMessages() {
+        return chatMessages;
+    }
+    public void setChatMessages(List<ChatMessage> chatMessages) {
+        this.chatMessages = chatMessages;
+    }
     public Itinerary getItinerary() {
         return itinerary;
     }
