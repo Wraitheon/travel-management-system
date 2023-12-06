@@ -104,7 +104,7 @@ public class ChatWindowController {
        
             messages = new ArrayList<ChatMessage>(newMessages);
             chatListView.getItems().setAll(messages);
-            chatListView.scrollTo(messages.size()-1);
+            chatListView.scrollTo(messages.size());
         
         // Update the chatListView
        

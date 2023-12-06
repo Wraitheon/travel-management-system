@@ -1,10 +1,19 @@
 package Models;
 
+import java.time.LocalDateTime;
 import java.util.*;
+
+import Controllers.Factory;
 
 public class Itinerary {
     private List<ItineraryItem> itineraryItems;
     private int iti_ID;
+
+    Itinerary(){
+        itineraryItems = new ArrayList<ItineraryItem>();
+        iti_ID = 0;
+    }
+
     public Itinerary(List<ItineraryItem> itineraryItems, int iti_ID) {
         this.itineraryItems = itineraryItems;
         this.iti_ID = iti_ID;
@@ -42,7 +51,7 @@ public class Itinerary {
     }
     
 
-    public void addToDB(int trip_ID){
+    public void finaliseItinerary(int trip_ID){
        
 
 
@@ -52,15 +61,30 @@ public class Itinerary {
         
         for(var item : itineraryItems) {
             if (item instanceof Activity){
-                item.addToDb(trip_ID);
+                item.finalizeItem(trip_ID);
 
             } else {
-                item.addToDb(itineraryID);
+                item.finalizeItem(itineraryID);
 
             }
         }
         
 
+    }
+
+    public List<ItineraryItem> fetchItineraryItems(int destination_id){
+        List<ItineraryItem> items = new ArrayList<ItineraryItem>();
+        items.addAll(dbhandler.getRestaurantsForDestination(destination_id));
+        items.addAll(dbhandler.getAccommodationsForDestination(destination_id));
+        return items;
+    }
+
+
+    public void addItineraryItem(int id, LocalDateTime time, String type){
+
+        ItineraryItem itineraryItem = Factory.createItineraryItem(id, time,type);
+
+        itineraryItems.add(itineraryItem);
     }
 
     private List<Restaurants> getRestaurants(){

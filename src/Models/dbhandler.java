@@ -19,6 +19,84 @@ public class dbhandler {
 
     private dbhandler() {}
 
+    public static Transportation getTransportationById(int transportationId) {
+        Transportation transportation = null;
+
+        try (Connection connection = DriverManager.getConnection(constants.url, constants.user, constants.password)) {
+            String sql = "SELECT * FROM Transportation WHERE transportation_id = ?";
+            try (PreparedStatement statement = connection.prepareStatement(sql)) {
+                statement.setInt(1, transportationId);
+
+                try (ResultSet resultSet = statement.executeQuery()) {
+                    if (resultSet.next()) {
+                        String mode = resultSet.getString("mode_of_transport");
+
+                        // Assuming you have a constructor in your Transportation class
+                        // that takes parameters (id, mode, dateTime)
+                        transportation = new Transportation(transportationId, mode, null);
+                    }
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace(); // Handle the exception according to your application's needs
+        }
+
+        return transportation;
+    }
+
+    public static Accomodation getAccommodationById(int accommodationId) {
+        Accomodation accommodation = null;
+
+        try (Connection connection = DriverManager.getConnection(constants.url, constants.user, constants.password)) {
+            String sql = "SELECT * FROM Accommodation WHERE accommodation_id = ?";
+            try (PreparedStatement statement = connection.prepareStatement(sql)) {
+                statement.setInt(1, accommodationId);
+
+                try (ResultSet resultSet = statement.executeQuery()) {
+                    if (resultSet.next()) {
+                        int id = resultSet.getInt("destination_id");
+                        String location = resultSet.getString("location");
+                        String motelName = resultSet.getString("motel_name");
+                        double cost = resultSet.getDouble("cost");
+
+                        // Assuming you have a constructor in your Accommodation class
+                        // that takes parameters (id, location, motelName, cost, dateTime)
+                        accommodation = new Accomodation(id, location, motelName, cost, null);
+                    }
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace(); // Handle the exception according to your application's needs
+        }
+
+        return accommodation;
+    }
+
+
+    public static Restaurants getRestaurantById(int restaurantId) {
+        Restaurants restaurant = null;
+
+        try (Connection connection = DriverManager.getConnection(constants.url, constants.user, constants.password)) {
+            String sql = "SELECT * FROM Restaurants WHERE restaurant_id = ?";
+            try (PreparedStatement statement = connection.prepareStatement(sql)) {
+                statement.setInt(1, restaurantId);
+
+                try (ResultSet resultSet = statement.executeQuery()) {
+                    if (resultSet.next()) {
+                        String name = resultSet.getString("restaurant_name");
+                        double cost = resultSet.getDouble("cost");
+
+                        restaurant = new Restaurants(restaurantId, null, name, cost);
+                    }
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace(); // Handle the exception according to your application's needs
+        }
+
+        return restaurant;
+    }
+
     public static ObservableList<String> getLandmarksForDestination(int destination_id) {
         ObservableList<String> landmarks = FXCollections.observableArrayList();
 

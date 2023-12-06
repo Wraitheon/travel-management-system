@@ -9,6 +9,8 @@ public class ItineraryItem {
         return dateTime;
     }
 
+    
+
     public void setDateTime(LocalDateTime  dateTime) {
         this.dateTime = dateTime;
     }
@@ -18,7 +20,7 @@ public class ItineraryItem {
     }
     //getter setter
 
-    public void addToDb(int itineraryID){
+    public void finalizeItem(int itineraryID){
     
     }
 

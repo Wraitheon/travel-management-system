@@ -21,13 +21,7 @@ import Models.Trip;
 import Models.Activity;
 import Models.Itinerary;
 import Models.ItineraryItem;
-
-
-
-
-
-
-
+import Models.OdysseyHub;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -35,16 +29,7 @@ import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.stage.Stage;
 
-public class AddTripController {
-
-
-
-    // @FXML
-    // private Label titleLabel;
-
-
-
-    
+public class AddTripController {    
     
     @FXML
     private DatePicker datePicker;
@@ -71,28 +56,22 @@ public class AddTripController {
     // You might want to initialize the ListView with an ObservableList
     private ObservableList<ItineraryItem> itineraryItems = FXCollections.observableArrayList();
 
-
-    private  List<Destination> destinations;
     private int destination_id = 0;
 
-    private List<Restaurants> restaurants;
-    private List<Accomodation> accomodations;
     
-    private List<String> transportations = Arrays.asList("Air", "Coaster", "Bus", "Car", "Jeep");
     
     @FXML
     private ComboBox<String> transportationComboBox;
     
-
+    List<String> transportations = Arrays.asList("Air", "Coaster", "Bus", "Car", "Jeep");
     
-
+    //fecth iti list
+    //update iti list
+    //add act
    
     public void initialize() {
-    
-        
-        destinations = dbhandler.getDestinations();
         transportationComboBox.setItems(FXCollections.observableArrayList(transportations));
-        destinationComboBox.setItems(FXCollections.observableArrayList(destinations));
+        destinationComboBox.setItems(FXCollections.observableArrayList(OdysseyHub.getSystem().fetchDestinations()));
     }
 
     @FXML
@@ -106,10 +85,21 @@ public class AddTripController {
     }
 
     private void fetchData(){
-        restaurants = dbhandler.getRestaurantsForDestination(destination_id);
+
+        List<ItineraryItem> list = OdysseyHub.getSystem().fetchItineraryItems(destination_id);
+
+        List<Restaurants> restaurants = new ArrayList<Restaurants>();
+        List<Accomodation> accomodations = new ArrayList<Accomodation>();
+        for(var item: list){
+            if (item instanceof Restaurants){
+                restaurants.add((Restaurants)item);
+            } else {
+                accomodations.add((Accomodation)item);
+            }
+        }
+
         resComboBox.setItems(FXCollections.observableArrayList(restaurants));
 
-        accomodations = dbhandler.getAccommodationsForDestination(destination_id);
         accommoComboBox.setItems(FXCollections.observableArrayList(accomodations));
     }
 
@@ -134,11 +124,11 @@ public class AddTripController {
             return;
         }
          if (destination_id == 0) {
-            showAlert("Error", "Destination is missing");
+            AlertController.showAlert("Error", "Destination is missing");
             return;
         }
          if ("".equals(activityNameTextField.getText()) || activityCostTextField.getText().equals("")) {
-            showAlert("Error", "Information is missing");
+            AlertController.showAlert("Error", "Information is missing");
             return;
         }
     
@@ -149,16 +139,12 @@ public class AddTripController {
         String activityCostText = activityCostTextField.getText();
         double cost = Double.parseDouble(activityCostText);
 
-        ItineraryItem newItem = new Activity(dbhandler.countActivities() + 1, activityNameTextField.getText(),
-                activityDescriptionTextField.getText(), cost, selectedDateTime);
-        newItem.setDateTime(selectedDateTime);
+        OdysseyHub.getSystem().addActivity(activityNameTextField.getText(),
+        activityDescriptionTextField.getText(), cost, selectedDateTime);
 
-        itineraryItems.add(newItem);
 
-        activityNameTextField.setText("");
-        activityDescriptionTextField.setText("");
-        activityCostTextField.setText("");
-        fetchData();
+
+       itineraryItems = FXCollections.observableArrayList(OdysseyHub.getSystem().getItineraryItems());
         
     
         activityDatePicker.setValue(LocalDate.now());
@@ -181,7 +167,7 @@ public class AddTripController {
     @FXML
     private void handleAddTransportation(ActionEvent event){
         if (destination_id == 0){
-                showAlert("Error", "Destination is missing");
+                AlertController.showAlert("Error", "Destination is missing");
                 return;
             }
         if (checkDate(transportationDatePicker.getValue())){
@@ -191,12 +177,9 @@ public class AddTripController {
                 LocalDate selectedDate = transportationDatePicker.getValue();
         LocalDateTime selectedDateTime = LocalDateTime.of(selectedDate, LocalTime.of(transportationHourSpinner.getValue(), transportationMinuteSpinner.getValue()));
 
-        ItineraryItem newItem = new Transportation(transportations.indexOf(transportationComboBox.getValue()) + 1, transportationComboBox.getValue(), null);
+        OdysseyHub.getSystem().add_itineraryItems(transportations.indexOf(transportationComboBox.getValue()) + 1, selectedDateTime, "transportation");
 
-            newItem.setDateTime(selectedDateTime);
-            System.out.println(newItem.getDateTime());
-
-            itineraryItems.add(newItem);
+            itineraryItems = FXCollections.observableArrayList(OdysseyHub.getSystem().getItineraryItems());
 
             refreshListView();
 
@@ -204,25 +187,10 @@ public class AddTripController {
 
     //---------------------------------Accommodation---------------------------------------------------
 
-    @FXML
-    private Label l3;
 
-    @FXML
-    private Label l4;
-
-    @FXML
-    private Label l5;
 
     @FXML
     private DatePicker accommodationDatePicker;
-
-    @FXML
-    private TextField accommodationName;
-    @FXML
-    private TextField accommodationLocation;
-
-    @FXML
-    private TextField accommodationCost;
 
     @FXML
     private Spinner<Integer> accommodationHourSpinner;
@@ -231,26 +199,7 @@ public class AddTripController {
     private Spinner<Integer> accommodationMinuteSpinner;
 
     @FXML
-    private void handleAccommodationChange(ActionEvent event) {
-        if (accommoComboBox.getValue() != null) {
-            l3.setVisible(false);
-            l4.setVisible(false);
-            l5.setVisible(false);
-
-            accommodationName.setVisible(false);
-            accommodationCost.setVisible(false);
-            accommodationLocation.setVisible(false);
-        } else {
-            l3.setVisible(true);
-            l4.setVisible(true);
-            l5.setVisible(true);
-
-            accommodationName.setVisible(true);
-            accommodationCost.setVisible(true);
-            accommodationLocation.setVisible(true);
-
-        }
-    }
+    private void handleAccommodationChange(ActionEvent event) {}
 
     @FXML
     private void handleAddAccommodation(ActionEvent event) {
@@ -266,59 +215,24 @@ public class AddTripController {
         if (accommoComboBox.getValue() != null) {
             System.out.println(accommoComboBox.getValue());
 
-            ItineraryItem newItem = new Accomodation(accommoComboBox.getValue().getId(), accommoComboBox.getValue().getLocation(), accommoComboBox.getValue().getName(), accommoComboBox.getValue().getCost(), null);
+            OdysseyHub.getSystem().add_itineraryItems(accommoComboBox.getValue().getId(), selectedDateTime, "accommodation");
 
-            newItem.setDateTime(selectedDateTime);
-            System.out.println(newItem.getDateTime());
-
-            itineraryItems.add(newItem);
-        } else {
-            if (destination_id == 0){
-                showAlert("Error", "Destination is missing");
-                return;
-            }
-            if ("".equals(accommodationName.getText()) || accommodationCost.getText().equals("")) {
-                showAlert("Error", "Information is missing");
-                return;
-            }
-
-            
-            String accommodationCostText = accommodationCost.getText();
-            double cost = Double.parseDouble(accommodationCostText);
-
-            ItineraryItem newItem = new Accomodation(dbhandler.countAccommodations() + 1, "",accommodationName.getText(), cost,  selectedDateTime);
-            newItem.setDateTime(selectedDateTime);
-
-            dbhandler.addAccommodation(destination_id, accommodationLocation.getText(), accommodationName.getText(), cost);
-            itineraryItems.add(newItem);
-
-            accommodationName.setText("");
-            accommodationCost.setText("");
-            accommodationLocation.setText("");
-            fetchData();
+           itineraryItems = FXCollections.observableArrayList(OdysseyHub.getSystem().getItineraryItems());
         }
+       
 
         accommodationDatePicker.setValue(LocalDate.now());
-
         refreshListView();
     }
    
 
     //--------------------------------Restaurant-----------------------------------------------------------
 
-    @FXML 
-    private Label l1;
 
-    @FXML 
-    private Label l2;
 
     @FXML
     private DatePicker resdatePicker;
 
-    @FXML
-    private TextField resName;
-    @FXML
-    private TextField resCost;
     @FXML
     private Spinner<Integer> hourSpinner;
     @FXML
@@ -328,21 +242,7 @@ public class AddTripController {
 
 
      @FXML
-    private void handleResChange(ActionEvent event) {
-
-        if (resComboBox.getValue() != null) {
-            l1.setVisible(false);
-            l2.setVisible(false);
-            resName.setVisible(false);
-            resCost.setVisible(false);
-        } else {
-             l1.setVisible(true);
-            l2.setVisible(true);
-            resName.setVisible(true);
-            resCost.setVisible(true);
-        }
-        // Handle "Your Trips" button action
-    }
+    private void handleResChange(ActionEvent event) { }
 
      @FXML
     private void handleAddRestaurant(ActionEvent event) {
@@ -357,40 +257,12 @@ public class AddTripController {
                 if (resComboBox.getValue() != null){
                     System.out.println(resComboBox.getValue());
 
-                    ItineraryItem newItem = new Restaurants(resComboBox.getValue().getRestaurant_id(), null, resComboBox.getValue().getName(), resComboBox.getValue().getCost());
+                    OdysseyHub.getSystem().add_itineraryItems(resComboBox.getValue().getRestaurant_id(), selectedDateTime, "restaurant");
 
 
-                    newItem.setDateTime(selectedDateTime);
-                    System.out.println(newItem.getDateTime());
 
-                    itineraryItems.add(newItem);
-                } else {
-                    if (destination_id == 0){
-                        showAlert("Error", "Destination is missing");
-                        return;
-                    }
-                    if ("".equals( resName.getText()) || resCost.getText().equals("")){
-                        showAlert("Error", "Information is missing");
-
-                        return;
-                    }
-
-                    
-                    String resCostText = resCost.getText();
-                    double cost = Double.parseDouble(resCostText);
-                    
-                    ItineraryItem newItem = new Restaurants(dbhandler.countRestaurants()+1, selectedDateTime, resName.getText(), cost);
-                     newItem.setDateTime(selectedDateTime);
-
-                     
-
-                     dbhandler.addRestaurant(destination_id, resName.getText(), cost);
-                     itineraryItems.add(newItem);
-
-                     resName.setText("");
-                     resCost.setText("");
-                     fetchData();
-                }
+                    itineraryItems = FXCollections.observableArrayList(OdysseyHub.getSystem().getItineraryItems());
+                } 
                 resdatePicker.setValue(LocalDate.now());
 
             refreshListView();
@@ -407,6 +279,7 @@ public class AddTripController {
         if (selectedIndex >= 0) {
             // Remove the selected item
             itineraryItems.remove(selectedIndex);
+            OdysseyHub.getSystem().setItineraryItems(itineraryItems);
         } else {
             // No item selected, show an alert or perform other actions
             System.out.println("No item selected.");
@@ -422,66 +295,64 @@ public class AddTripController {
     }
 
     private Boolean checkDate(LocalDate date){
-         String daysText = daysTextField.getText();
-        int days = (int) Double.parseDouble(daysText);
+        
+        if (daysTextField.getText().equals("")){
+            AlertController.showAlert("Error", "Number of days missing, Kindly Enter a numebr of days");
 
-        if (date == null || datePicker.getValue() ==null) {
-            showAlert("Date not Selected", "Kindly Enter a date");
-            return true;
-        } else if (date.isAfter(datePicker.getValue().plusDays(days))|| date.isBefore(datePicker.getValue())) {
-            showAlert("Irrelevant Date", "Kindly Enter a date with in Trip dates");
             return true;
         }
 
+        String daysText = daysTextField.getText();
+        int days = (int) Double.parseDouble(daysText);
+
+        if (date == null || datePicker.getValue() ==null) {
+            AlertController.showAlert("Date not Selected", "Kindly Enter a date");
+            return true;
+        } else if (date.isAfter(datePicker.getValue().plusDays(days))|| date.isBefore(datePicker.getValue())) {
+            AlertController.showAlert("Irrelevant Date", "Kindly Enter a date with in Trip dates");
+            return true;
+        }
 
         return false;
-
-
     }
 
-    private void showAlert(String title, String content) {
-        Alert alert = new Alert(Alert.AlertType.ERROR);
-        alert.setTitle(title);
-        alert.setHeaderText(null);
-        alert.setContentText(content);
-        alert.showAndWait();
-    }
+   
     // ----------------------ADD TRip To DB --------------------------------
 
     @FXML
     private void handleAddTripToDB(ActionEvent event){
 
-        if (datePicker.getValue().isBefore(LocalDate.now())){
-            showAlert("Error", "Trip cannot be in past");
-
-            return;
-        }
-
+        //----------------------Checks ----------------------------------
+       
         if (datePicker.getValue() == null || "".equals(costTextField.getText()) || "".equals(daysTextField.getText())) {
-            showAlert("Error", "Information is missing");
+            AlertController.showAlert("Error", "Information is missing");
 
             return;
         }
+         if (datePicker.getValue().isBefore(LocalDate.now())){
+            AlertController.showAlert("Error", "Trip cannot be in past");
+
+            return;
+        }
+
         if (destination_id == 0){
-                        showAlert("Error", "Destination is missing");
+                        AlertController.showAlert("Error", "Destination is missing");
                         return;
         }
+
+
         System.out.println(EmailController.email);
-        List<ItineraryItem> items = new ArrayList<>(itineraryItems);
-
-        Itinerary newItinerary = Factory.creatItinerary(items);
-
         
-
         String costText = costTextField.getText();
         double cost = Double.parseDouble(costText);
 
         String daysText = daysTextField.getText();
         int days = (int) Double.parseDouble(daysText);
 
-        Trip newTrip = Factory.createTrip(cost, datePicker.getValue(), days, newItinerary);
 
-        newTrip.insertModelToDb(destination_id);
+        //System call
+        OdysseyHub.getSystem().finaliseTrip(datePicker.getValue(), days, cost);
+
 
         AlertController.showConfirmation("SuccessFul", "YourTrip has been added SuccessFully");
 

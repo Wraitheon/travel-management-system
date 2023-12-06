@@ -13,7 +13,14 @@ public class Accomodation extends ItineraryItem{
 
     private double cost;
 
- 
+    public Accomodation(int id, LocalDateTime time){
+        super(time);
+        this.id = id;
+        Accomodation acc = dbhandler.getAccommodationById(id);
+        location = acc.location;
+        name = acc.name;
+        cost = acc.cost;
+    }
     public Accomodation(int id, String location, String name, double cost, LocalDateTime  dateTime) {
         super(dateTime);
         this.id = id;
@@ -60,7 +67,7 @@ public class Accomodation extends ItineraryItem{
             return name + ", " + location + " | " + cost;
         }
     }
-    public void addToDb(int itineraryID){
+    public void finalizeItem(int itineraryID){
         
 
         dbhandler.insertItineraryAccommodation(itineraryID, id, getDateTime());

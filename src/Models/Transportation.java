@@ -13,6 +13,12 @@ public class Transportation extends ItineraryItem{
         this.mode = mode;
         this.id = id;
     }
+
+    public Transportation(int id, LocalDateTime dateTime){
+        super(dateTime);
+        this.id = id;
+        mode = dbhandler.getTransportationById(id).mode;
+    }
     public String getMode() {
         return mode;
     }
@@ -41,7 +47,7 @@ public class Transportation extends ItineraryItem{
 
     }
 
-    public void addToDb(int itineraryID){
+    public void finalizeItem(int itineraryID){
     
 
         dbhandler.insertItineraryTransportation(id, itineraryID, getDateTime());

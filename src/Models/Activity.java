@@ -15,7 +15,11 @@ public class Activity extends ItineraryItem {
     public Activity(int id,String activityName, String activityDescription, double cost, LocalDateTime  dateTime) {
         super(dateTime);
         ActivityName = activityName;
-        this.id = id;
+        if (id == -1){
+            this.id = dbhandler.countActivities()+1;
+        } else {
+            this.id = id;
+        }
         this.activityDescription = activityDescription;
         this.cost = cost;
     }
@@ -63,7 +67,7 @@ public class Activity extends ItineraryItem {
         
         
     }
-    public void addToDb(int itineraryID){
+    public void finalizeItem(int itineraryID){
        
 
         dbhandler.addActivity(itineraryID, ActivityName, getDateTime(), activityDescription, cost);

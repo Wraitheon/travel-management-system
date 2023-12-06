@@ -55,6 +55,22 @@ public class Factory {
     public static GuideBooking createGuideBooking(String email, LocalDate date, int days){
         return new GuideBooking(email, date, days);
     }
-    
+
+    public static Activity createActivity(String n, String d, double c, LocalDateTime t){
+        return new Activity(-1, n, d, c, t);
+    }
+
+
+    public static ItineraryItem createItineraryItem(int id, LocalDateTime time, String type){
+        if (type.equals("accommodation")){
+            return new Accomodation(id, time);
+        } else if 
+           ( type.equals("restaurant")){
+                return new Restaurants(id, time);
+            
+        } else {
+            return new Transportation(id, time);
+        }
+    }    
 
 }

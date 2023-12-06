@@ -47,15 +47,15 @@
     <TitledPane text="Add Restaurant" expanded="false">
         <VBox spacing="5"  alignment="CENTER">
 
-            <ComboBox fx:id="resComboBox" promptText="Add New Restaurant Below Or Select" onAction="#handleResChange" />
-            <HBox spacing="10" alignment="CENTER">
+            <ComboBox fx:id="resComboBox" promptText="Select Restaurant" onAction="#handleResChange" />
+            <!-- <HBox spacing="10" alignment="CENTER">
                 <Label fx:id = "l1"  text="Restaurant Name" />
                 <TextField fx:id="resName" promptText="Enter Name" styleClass="text-field-with-line" />
             </HBox>
             <HBox spacing="10" alignment="CENTER">
                 <Label fx:id = "l2" text="Cost per Meal" />
                 <TextField fx:id="resCost" promptText="Enter Cost" styleClass="text-field-with-line" />
-            </HBox>
+            </HBox> -->
 
             <HBox spacing="10" alignment="CENTER">
                 <Label  text="Date and Time for Meal:" />
@@ -73,8 +73,8 @@
     <TitledPane text="Add Accomodation" expanded="false">
         <VBox spacing="5" alignment="CENTER">
                 
-            <ComboBox fx:id="accommoComboBox" promptText="Add New Accommodation Below Or Select" onAction="#handleAccommodationChange" />
-            <HBox spacing="10" alignment="CENTER">
+            <ComboBox fx:id="accommoComboBox" promptText="Select Accomodation" onAction="#handleAccommodationChange" />
+            <!-- <HBox spacing="10" alignment="CENTER">
                 <Label fx:id="l5" text="Location" />
                 <TextField fx:id="accommodationLocation" promptText="Enter Location" styleClass="text-field-with-line" />
             </HBox>
@@ -85,7 +85,7 @@
             <HBox spacing="10" alignment="CENTER">
                 <Label fx:id="l4" text="Cost per Night" />
                 <TextField fx:id="accommodationCost" promptText="Enter Cost" styleClass="text-field-with-line" />
-            </HBox>
+            </HBox> -->
             <HBox spacing="10" alignment="CENTER">
                 <Label text="Date and Time for Stay:" />
                 <DatePicker fx:id="accommodationDatePicker" promptText="Select Date" />
@@ -101,7 +101,7 @@
         <VBox spacing="5" alignment="CENTER">
             <ComboBox fx:id="transportationComboBox" promptText="Select transportation" onAction="#handleAccommodationChange" />
             <HBox spacing="10" alignment="CENTER">
-                <Label text="Date and Time for Stay:" />
+                <Label text="Date and Time:" />
                 <DatePicker fx:id="transportationDatePicker" promptText="Select Date" />
                 <Spinner fx:id="transportationHourSpinner" min="0" max="23" initialValue="12" />
                 <Spinner fx:id="transportationMinuteSpinner" min="0" max="59" initialValue="0" />

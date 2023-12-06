@@ -1,6 +1,7 @@
 package Models;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.List;
 
 import Controllers.EmailController;
@@ -15,7 +16,14 @@ public class Trip {
     private LocalDate trip_Date;
     private int noOfDays;
     private Itinerary itinerary;
+    private List<ChatMessage> chatMessages;
     
+    public List<ChatMessage> getChatMessages() {
+        return chatMessages;
+    }
+    public void setChatMessages(List<ChatMessage> chatMessages) {
+        this.chatMessages = chatMessages;
+    }
     public Itinerary getItinerary() {
         return itinerary;
     }
@@ -61,12 +69,21 @@ public class Trip {
         noOfDays = n0OfDays;
     }
 
+    public Trip(int destination_id){
+        this.destination_id = destination_id;
 
+        itinerary = new Itinerary();
+
+    }
     public Trip(double price, LocalDate trip_Date, int noOfDays, Itinerary itinerary) {
         this.price = price;
         this.trip_Date = trip_Date;
         this.noOfDays = noOfDays;
         this.itinerary = itinerary;
+    }
+
+    public void addItineraryItem(int id, LocalDateTime time, String type){
+        itinerary.addItineraryItem(id, time, type);
     }
 
 
@@ -79,13 +96,35 @@ public class Trip {
         return dbhandler.getDestinationNameForTrip(trip_ID);
     }
 
+    public List<ItineraryItem> fetchItineraryItems(int destination_id) {
+        return itinerary.fetchItineraryItems(destination_id);
+    }
 
-    public void insertModelToDb(int destination_id){
 
-        
+    public List<ItineraryItem> getItineraryItems(){
+        return itinerary.getItineraryItems();
+    }
+
+    public void setItineraryItems(List<ItineraryItem> items){
+        itinerary.setItineraryItems(items);
+    }
+
+
+    public void finaliseTrip(LocalDate Date, int days, double cost){
+
+        setData(Date, days, cost);
         int trip_id = dbhandler.addTrip(EmailController.email, destination_id, trip_Date, price, noOfDays);
 
-        itinerary.addToDB(trip_id);
+        itinerary.finaliseItinerary(trip_id);
+    }
+
+    private void setData(LocalDate Date, int days, double cost){
+        this.price = cost;
+        this.trip_Date = Date;
+        this.noOfDays = days;
+    }
+    public void addActivity(Activity act){
+        itinerary.addActivity(act);
     }
 
 
