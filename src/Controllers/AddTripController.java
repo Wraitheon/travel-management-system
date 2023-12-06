@@ -334,7 +334,6 @@ public class AddTripController {
 
             return;
         }
-
         if (destination_id == 0){
                         AlertController.showAlert("Error", "Destination is missing");
                         return;
